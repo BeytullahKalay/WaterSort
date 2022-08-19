@@ -536,3 +536,17 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   timeToRotate: 3
+  fillAmounts:
+  - -0.5
+  - -0.29
+  - -0.08
+  - -0.13
+  - 0.34
+  rotationValues:
+  - 54
+  - 71
+  - 83
+  - 90
+  numberOfColorsInBottle: 2
+  topColor: {r: 0, g: 0, b: 0, a: 0}
+  numberOfTopColorLayers: 1

@@ -16,9 +16,20 @@ public class BottleController : MonoBehaviour
    public AnimationCurve RotationSpeedMultiplier;
 
    public float timeToRotate = 1f;
+   public float[] fillAmounts;
+   public float[] rotationValues;
+
+   private int rotationIndex = 0;
+
+   [Range(0,4)]
+   public int numberOfColorsInBottle = 4;
+
+   public Color topColor;
+   public int numberOfTopColorLayers = 1;
 
    private void Start()
    {
+      bottleMaskSR.material.SetFloat("_FillAmount",fillAmounts[numberOfColorsInBottle]);
       UpdateColorsOnShader();
    }
 
@@ -51,8 +62,13 @@ public class BottleController : MonoBehaviour
 
          transform.eulerAngles = new Vector3(0, 0, angleValue);
          bottleMaskSR.material.SetFloat("_SARM",ScaleAndRotationMultiplierCurve.Evaluate(angleValue));
-         bottleMaskSR.material.SetFloat("_FillAmount",FillAmountCurve.Evaluate(angleValue));
+         //bottleMaskSR.material.SetFloat("_FillAmount",FillAmountCurve.Evaluate(angleValue));
 
+         if (fillAmounts[numberOfColorsInBottle] > FillAmountCurve.Evaluate(angleValue))
+         {
+            bottleMaskSR.material.SetFloat("_FillAmount",FillAmountCurve.Evaluate(angleValue));
+         }
+         
          t += Time.deltaTime * RotationSpeedMultiplier.Evaluate(angleValue);
 
          yield return new WaitForEndOfFrame();
