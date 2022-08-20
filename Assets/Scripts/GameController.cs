@@ -18,52 +18,50 @@ public class GameController : MonoBehaviour
 
             if (hit.collider.GetComponent<BottleController>() == null) return;
 
-            
+            if (hit.collider.GetComponent<BottleController>().bottleIsLocked) return;
 
-            if (!hit.collider.GetComponent<BottleController>().bottleIsLocked)
+
+            if (FirstBottle == null)
             {
-                if (FirstBottle == null)
+                if (hit.collider.GetComponent<BottleController>().IsBottleEmpty()) return;
+                if (hit.collider.GetComponent<BottleController>().bottleUnderWaterPouring) return;
+
+
+                FirstBottle = hit.collider.GetComponent<BottleController>();
+                FirstBottle.OnSelected();
+            }
+            else
+            {
+                if (FirstBottle == hit.collider.GetComponent<BottleController>())
                 {
-                    if (hit.collider.GetComponent<BottleController>().IsBottleEmpty()) return;
-                    if (hit.collider.GetComponent<BottleController>().bottleUnderWaterPouring) return;
-
-
-                    FirstBottle = hit.collider.GetComponent<BottleController>();
-                    FirstBottle.OnSelected();
+                    FirstBottle.OnSelectionCanceled();
+                    FirstBottle = null;
                 }
                 else
                 {
-                    if (FirstBottle == hit.collider.GetComponent<BottleController>())
+                    if (hit.collider.GetComponent<BottleController>().numberOfColorsInBottle >= 4)
                     {
                         FirstBottle.OnSelectionCanceled();
+                        return;
+                    }
+
+                    SecondBottle = hit.collider.GetComponent<BottleController>();
+
+                    FirstBottle.bottleControllerRef = SecondBottle;
+
+                    FirstBottle.UpdateTopColorValues();
+                    SecondBottle.UpdateTopColorValues();
+
+                    if (SecondBottle.FillBottleCheck(FirstBottle.topColor))
+                    {
+                        FirstBottle.StartColorTransfer();
                         FirstBottle = null;
+                        SecondBottle = null;
                     }
                     else
                     {
-                        if (hit.collider.GetComponent<BottleController>().numberOfColorsInBottle >= 4)
-                        {
-                            FirstBottle.OnSelectionCanceled();
-                            return;
-                        }
-                        
-                        SecondBottle = hit.collider.GetComponent<BottleController>();
-
-                        FirstBottle.bottleControllerRef = SecondBottle;
-                        
-                        FirstBottle.UpdateTopColorValues();
-                        SecondBottle.UpdateTopColorValues();
-
-                        if (SecondBottle.FillBottleCheck(FirstBottle.topColor))
-                        {
-                            FirstBottle.StartColorTransfer();
-                            FirstBottle = null;
-                            SecondBottle = null;
-                        }
-                        else
-                        {
-                            FirstBottle = null;
-                            SecondBottle = null;  
-                        }
+                        FirstBottle = null;
+                        SecondBottle = null;
                     }
                 }
             }
