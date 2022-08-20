@@ -14,21 +14,40 @@ public class GameController : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            if (hit.collider != null && hit.collider.GetComponent<BottleController>() != null)
+            if (hit.collider == null) return;
+
+            if (hit.collider.GetComponent<BottleController>() == null) return;
+
+            
+
+            if (!hit.collider.GetComponent<BottleController>().bottleIsLocked)
             {
                 if (FirstBottle == null)
                 {
+                    if (hit.collider.GetComponent<BottleController>().IsBottleEmpty()) return;
+                    if (hit.collider.GetComponent<BottleController>().bottleUnderWaterPouring) return;
+
+
                     FirstBottle = hit.collider.GetComponent<BottleController>();
+                    FirstBottle.OnSelected();
                 }
                 else
                 {
                     if (FirstBottle == hit.collider.GetComponent<BottleController>())
                     {
+                        FirstBottle.OnSelectionCanceled();
                         FirstBottle = null;
                     }
                     else
                     {
+                        if (hit.collider.GetComponent<BottleController>().numberOfColorsInBottle >= 4)
+                        {
+                            FirstBottle.OnSelectionCanceled();
+                            return;
+                        }
+                        
                         SecondBottle = hit.collider.GetComponent<BottleController>();
+
                         FirstBottle.bottleControllerRef = SecondBottle;
                         
                         FirstBottle.UpdateTopColorValues();
