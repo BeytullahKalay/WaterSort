@@ -628,7 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottleColors:
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
-  - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
+  - {r: 0.14509805, g: 0.83137256, b: 0.7050874, a: 1}
   - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
   - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
   bottleMaskSR: {fileID: 1495550288}
@@ -761,7 +761,7 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  numberOfColorsInBottle: 1
+  numberOfColorsInBottle: 3
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayers: 1
   bottleControllerRef: {fileID: 0}
@@ -769,6 +769,7 @@ MonoBehaviour:
   rightRotationPoint: {fileID: 1580875305}
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
+  bottleUnderWaterPouring: 0
 --- !u!212 &763983026
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1007,7 +1008,7 @@ MonoBehaviour:
   bottleColors:
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
-  - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
+  - {r: 0.37668794, g: 0.83137256, b: 0.14509805, a: 1}
   - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
   bottleMaskSR: {fileID: 1460622090}
   ScaleAndRotationMultiplierCurve:
@@ -1139,7 +1140,7 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  numberOfColorsInBottle: 1
+  numberOfColorsInBottle: 3
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayers: 1
   bottleControllerRef: {fileID: 0}
@@ -1147,6 +1148,7 @@ MonoBehaviour:
   rightRotationPoint: {fileID: 460778332}
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
+  bottleUnderWaterPouring: 0
 --- !u!212 &888050302
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1560,6 +1562,7 @@ MonoBehaviour:
   rightRotationPoint: {fileID: 608062013}
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
+  bottleUnderWaterPouring: 0
 --- !u!61 &1181982732
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2115,8 +2118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottleColors:
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
-  - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
-  - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
+  - {r: 0.14509805, g: 0.83137256, b: 0.7050874, a: 1}
+  - {r: 0.37668794, g: 0.83137256, b: 0.14509805, a: 1}
   - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
   bottleMaskSR: {fileID: 214862818}
   ScaleAndRotationMultiplierCurve:
@@ -2248,7 +2251,7 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  numberOfColorsInBottle: 1
+  numberOfColorsInBottle: 2
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayers: 1
   bottleControllerRef: {fileID: 0}
@@ -2256,6 +2259,7 @@ MonoBehaviour:
   rightRotationPoint: {fileID: 1141303946}
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
+  bottleUnderWaterPouring: 0
 --- !u!212 &1855240159
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2383,7 +2387,7 @@ MonoBehaviour:
   bottleColors:
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
-  - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
+  - {r: 0.37668794, g: 0.83137256, b: 0.14509805, a: 1}
   - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
   bottleMaskSR: {fileID: 383964041}
   ScaleAndRotationMultiplierCurve:
@@ -2515,7 +2519,7 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  numberOfColorsInBottle: 1
+  numberOfColorsInBottle: 4
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayers: 1
   bottleControllerRef: {fileID: 0}
@@ -2523,6 +2527,7 @@ MonoBehaviour:
   rightRotationPoint: {fileID: 1296337372}
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
+  bottleUnderWaterPouring: 0
 --- !u!212 &1871896643
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2651,7 +2656,7 @@ MonoBehaviour:
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
   - {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
   - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
-  - {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
+  - {r: 0.37668794, g: 0.83137256, b: 0.14509805, a: 1}
   bottleMaskSR: {fileID: 786994367}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
@@ -2782,7 +2787,7 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  numberOfColorsInBottle: 1
+  numberOfColorsInBottle: 3
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayers: 1
   bottleControllerRef: {fileID: 0}
@@ -2790,6 +2795,7 @@ MonoBehaviour:
   rightRotationPoint: {fileID: 1386878850}
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
+  bottleUnderWaterPouring: 0
 --- !u!212 &2122731365
 SpriteRenderer:
   m_ObjectHideFlags: 0
