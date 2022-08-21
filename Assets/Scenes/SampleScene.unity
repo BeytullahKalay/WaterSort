@@ -749,7 +749,7 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeToRotate: 1.5
+  timeToRotate: 1
   fillAmounts:
   - -0.5
   - -0.29
@@ -770,6 +770,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
   bottleUnderWaterPouring: 0
+  preRotateAngle: 5
 --- !u!212 &763983026
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1128,7 +1129,7 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeToRotate: 1.5
+  timeToRotate: 1
   fillAmounts:
   - -0.5
   - -0.29
@@ -1149,6 +1150,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
   bottleUnderWaterPouring: 0
+  preRotateAngle: 5
 --- !u!212 &888050302
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1542,7 +1544,7 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeToRotate: 1.5
+  timeToRotate: 1
   fillAmounts:
   - -0.5
   - -0.29
@@ -1563,6 +1565,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
   bottleUnderWaterPouring: 0
+  preRotateAngle: 5
 --- !u!61 &1181982732
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1986,7 +1989,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -2239,7 +2242,7 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeToRotate: 1.5
+  timeToRotate: 1
   fillAmounts:
   - -0.5
   - -0.29
@@ -2260,6 +2263,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
   bottleUnderWaterPouring: 0
+  preRotateAngle: 5
 --- !u!212 &1855240159
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2507,7 +2511,7 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeToRotate: 1.5
+  timeToRotate: 1
   fillAmounts:
   - -0.5
   - -0.29
@@ -2528,6 +2532,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
   bottleUnderWaterPouring: 0
+  preRotateAngle: 5
 --- !u!212 &1871896643
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2775,7 +2780,7 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeToRotate: 1.5
+  timeToRotate: 1
   fillAmounts:
   - -0.5
   - -0.29
@@ -2796,6 +2801,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   bottleIsLocked: 0
   bottleUnderWaterPouring: 0
+  preRotateAngle: 5
 --- !u!212 &2122731365
 SpriteRenderer:
   m_ObjectHideFlags: 0

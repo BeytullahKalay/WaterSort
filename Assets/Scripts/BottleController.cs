@@ -43,6 +43,8 @@ public class BottleController : MonoBehaviour
     public bool bottleIsLocked;
     public bool bottleUnderWaterPouring;
 
+    public float preRotateAngle = 5f;
+
     private void Start()
     {
         bottleMaskSR.material.SetFloat("_FillAmount", fillAmounts[numberOfColorsInBottle]);
@@ -176,6 +178,7 @@ public class BottleController : MonoBehaviour
 
             t += Time.deltaTime * RotationSpeedMultiplier.Evaluate(angleValue);
             lastAngeValue = angleValue;
+            
             yield return new WaitForEndOfFrame();
         }
 
@@ -326,6 +329,12 @@ public class BottleController : MonoBehaviour
         transform.DOMoveY(originalPosition.y + .5f, .25f);
     }
 
+    public void CallPreRotateBottleCoRoutine()
+    {
+        ChoseRotationPointAndDirection();
+        transform.DORotate(Vector3.forward * preRotateAngle * -directionMultiplier, .25f);
+    }
+
     public void OnSelectionCanceled()
     {
         transform.DOMove(originalPosition, .25f);
@@ -335,5 +344,6 @@ public class BottleController : MonoBehaviour
     {
         return numberOfColorsInBottle <= 0;
     }
+    
     
 }

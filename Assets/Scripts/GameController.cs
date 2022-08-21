@@ -42,12 +42,29 @@ public class GameController : MonoBehaviour
                     if (hit.collider.GetComponent<BottleController>().numberOfColorsInBottle >= 4)
                     {
                         FirstBottle.OnSelectionCanceled();
+                        FirstBottle = null;
+                        SecondBottle = null;
+
+                        print("second bottle full!");
+                        return;
+                    }
+
+                    if (hit.collider.GetComponent<BottleController>().topColor != FirstBottle.topColor &&
+                        hit.collider.GetComponent<BottleController>().numberOfColorsInBottle > 0)
+                    {
+                        FirstBottle.OnSelectionCanceled();
+                        FirstBottle = null;
+                        SecondBottle = null;
+
+                        print("top colors not matching!");
                         return;
                     }
 
                     SecondBottle = hit.collider.GetComponent<BottleController>();
 
                     FirstBottle.bottleControllerRef = SecondBottle;
+
+                    FirstBottle.CallPreRotateBottleCoRoutine();
 
                     FirstBottle.UpdateTopColorValues();
                     SecondBottle.UpdateTopColorValues();
