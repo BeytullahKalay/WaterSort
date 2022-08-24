@@ -2165,8 +2165,8 @@ MonoBehaviour:
   MoveBottleDuration: 1
   RotateBottleDuration: 1
   PreRotateDuration: 0.25
-  PreRotateAmount: 0
-  BottlePouringDistanceIncreasor: 0.1
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
   IsBottleInAction: 0
 --- !u!61 &1419597841
 BoxCollider2D:
@@ -2524,8 +2524,8 @@ MonoBehaviour:
   MoveBottleDuration: 1
   RotateBottleDuration: 1
   PreRotateDuration: 0.25
-  PreRotateAmount: 0
-  BottlePouringDistanceIncreasor: 0.1
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
   IsBottleInAction: 0
 --- !u!61 &1489463482
 BoxCollider2D:
@@ -2853,8 +2853,8 @@ MonoBehaviour:
   MoveBottleDuration: 1
   RotateBottleDuration: 1
   PreRotateDuration: 0.25
-  PreRotateAmount: 0
-  BottlePouringDistanceIncreasor: 0.1
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
   IsBottleInAction: 0
 --- !u!61 &1525458168
 BoxCollider2D:

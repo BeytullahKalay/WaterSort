@@ -239,22 +239,14 @@ public class MyBottleControllerTest : MonoBehaviour
 
         DOTween.To(() => angle, x => angle = x, directionMultiplier * PreRotateAmount, PreRotateDuration).SetEase(Ease.OutQuart).OnUpdate(() =>
         {
-            
-            //TODO: puring value is 0 for now
-            
-            // BottleMaskSR.material.SetFloat("_FillAmount", FillAmountCurve.Evaluate(angle));
-            // BottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angle));
-            
-
             transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
-
             lastAngeValue = angle;
         });
     }
 
     private void RotateBottle()
     {
-        float angle = PreRotateAmount;
+        float angle = 0;
         float lastAngeValue = 0;
             
         DOTween.To(() => angle, x => angle = x, directionMultiplier * RotationValues[rotationIndex],
@@ -279,10 +271,15 @@ public class MyBottleControllerTest : MonoBehaviour
 
                 BottleControllerRef.FillUp(FillAmountCurve.Evaluate(lastAngeValue) - FillAmountCurve.Evaluate(angle));
             }
-
-            transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
-            lastAngeValue = angle;
             
+            
+            if(Mathf.Abs(transform.rotation.eulerAngles.z % 270) < 90)
+            {
+                transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
+            }
+
+            lastAngeValue = angle;
+
             BottleControllerRef.BottleIsLocked = true;
         }).OnComplete(() =>
         {
