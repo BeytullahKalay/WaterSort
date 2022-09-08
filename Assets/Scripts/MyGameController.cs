@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Packages.Rider.Editor.UnitTesting;
+using UnityEngine;
 
-public class MyGameControllerTest : MonoBehaviour
+public class MyGameController : MonoBehaviour
 {
-    public MyBottleControllerTest FirstBottle;
-    public MyBottleControllerTest SecondBottle;
+    public MyBottleController FirstBottle;
+    public MyBottleController SecondBottle;
 
-    private void Update()
+    private async void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -16,28 +19,42 @@ public class MyGameControllerTest : MonoBehaviour
 
             if (hit.collider == null) return;
 
-            if (hit.collider.GetComponent<MyBottleControllerTest>() == null) return;
+            if (hit.collider.GetComponent<MyBottleController>() == null) return;
 
-            if (hit.collider.GetComponent<MyBottleControllerTest>().BottleIsLocked) return;
-
+            var bottleController = hit.collider.GetComponent<MyBottleController>();
+            
 
             if (FirstBottle == null)
             {
-                if (hit.collider.GetComponent<MyBottleControllerTest>().IsBottleEmpty()) return;
+                if (bottleController.IsBottleEmpty()) return;
 
-                FirstBottle = hit.collider.GetComponent<MyBottleControllerTest>();
+                if (bottleController.BottleIsLocked)
+                {
+                    bottleController.SpeedUpActions();
+                    print(bottleController.OnSpeedUp + " bbb");
+
+                    // while (bottleController.MyTask)
+                    // {
+                    //     print("here");
+                    //     await Task.Yield();
+                    // }
+                    
+                    
+                }
+
+                FirstBottle = bottleController;
                 FirstBottle.OnSelected();
             }
             else
             {
-                if (FirstBottle == hit.collider.GetComponent<MyBottleControllerTest>())
+                if (FirstBottle == bottleController)
                 {
                     FirstBottle.OnSelectionCanceled();
                     FirstBottle = null;
                 }
                 else
                 {
-                    if (hit.collider.GetComponent<MyBottleControllerTest>().NumberOfColorsInBottle >= 4)
+                    if (bottleController.NumberOfColorsInBottle >= 4)
                     {
                         FirstBottle.OnSelectionCanceled();
                         FirstBottle = null;
@@ -47,8 +64,8 @@ public class MyGameControllerTest : MonoBehaviour
                         return;
                     }
 
-                    if (hit.collider.GetComponent<MyBottleControllerTest>().TopColor != FirstBottle.TopColor &&
-                        hit.collider.GetComponent<MyBottleControllerTest>().NumberOfColorsInBottle > 0)
+                    if (bottleController.TopColor != FirstBottle.TopColor &&
+                        bottleController.NumberOfColorsInBottle > 0)
                     {
                         FirstBottle.OnSelectionCanceled();
                         FirstBottle = null;
@@ -58,12 +75,12 @@ public class MyGameControllerTest : MonoBehaviour
                         return;
                     }
 
-                    SecondBottle = hit.collider.GetComponent<MyBottleControllerTest>();
+                    SecondBottle = bottleController;
 
                     FirstBottle.BottleControllerRef = SecondBottle;
-                    
-                    FirstBottle.UpdateTopColorValues();
-                    SecondBottle.UpdateTopColorValues();
+                    SecondBottle.BottleControllerRef = FirstBottle;
+
+                    SecondBottle.ActionBottles.Add(FirstBottle);
 
                     if (SecondBottle.FillBottleCheck(FirstBottle.TopColor))
                     {

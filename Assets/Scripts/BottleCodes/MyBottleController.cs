@@ -1,7 +1,9 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
-public class MyBottleControllerTest : MonoBehaviour
+public class MyBottleController : MonoBehaviour
 {
     [Header("Bottle Sprite Renderer")] public SpriteRenderer BottleMaskSR;
 
@@ -27,7 +29,7 @@ public class MyBottleControllerTest : MonoBehaviour
     private float directionMultiplier = 1;
 
 
-    [Header("Transfer Values")] public MyBottleControllerTest BottleControllerRef;
+    [Header("Transfer Values")] public MyBottleController BottleControllerRef;
     public Transform LeftRotationPoint;
     public Transform RightRotationPoint;
     private Transform _chosenRotationPoint;
@@ -44,8 +46,16 @@ public class MyBottleControllerTest : MonoBehaviour
     public float PreRotateAmount = 15f;
     public float BottlePouringDistanceIncreasor = .25f;
 
-    [Space(10)] public bool IsBottleInAction = false;
+    [Header("Speed Up Values")] [SerializeField]
+    private float speedMultiplier = 10f;
 
+    public List<MyBottleController> ActionBottles = new List<MyBottleController>();
+    private Tween _moveTween;
+    private Tween _rotateBottle;
+    private Tween _preRotate;
+    private Tween _rotateBottleBack;
+    public bool OnSpeedUp;
+    //public Task MyTask;
 
     private void Start()
     {
@@ -63,7 +73,7 @@ public class MyBottleControllerTest : MonoBehaviour
         BottleMaskSR.material.SetColor("_C4", BottleColors[3]);
     }
 
-    public void UpdateTopColorValues()
+    private void UpdateTopColorValues()
     {
         if (NumberOfColorsInBottle != 0)
         {
@@ -126,7 +136,7 @@ public class MyBottleControllerTest : MonoBehaviour
     {
         return NumberOfColorsInBottle <= 0;
     }
-    
+
     public bool FillBottleCheck(Color colorToCheck)
     {
         if (NumberOfColorsInBottle == 0)
@@ -152,7 +162,7 @@ public class MyBottleControllerTest : MonoBehaviour
             }
         }
     }
-    
+
     public void StartColorTransfer()
     {
         // chose rotation point and direction
@@ -179,11 +189,11 @@ public class MyBottleControllerTest : MonoBehaviour
 
         // call move bottle
         MoveBottle();
-        
+
         // call pre rotate bottle
         PreRotateBottle();
     }
-    
+
     private void ChoseRotationPointAndDirection()
     {
         if (transform.position.x > BottleControllerRef.transform.position.x)
@@ -201,35 +211,44 @@ public class MyBottleControllerTest : MonoBehaviour
 
     private void MoveBottle()
     {
-        IsBottleInAction = true;
-        Tween moveTween;
-
         // if chosen position is left go right
         if (_chosenRotationPoint == LeftRotationPoint)
         {
             Vector3 movePos = BottleControllerRef.RightRotationPoint.position;
             movePos.x += BottlePouringDistanceIncreasor;
-            moveTween = transform.DOMove(movePos, MoveBottleDuration);
+            _moveTween = transform.DOMove(movePos, MoveBottleDuration);
         }
         else // if chose position is right go left
         {
             Vector3 movePos = BottleControllerRef.LeftRotationPoint.position;
             movePos.x -= BottlePouringDistanceIncreasor;
-            moveTween = transform.DOMove(movePos, MoveBottleDuration);
+            _moveTween = transform.DOMove(movePos, MoveBottleDuration);
         }
 
         // set line renderer start and end color
         LineRenderer.startColor = TopColor;
         LineRenderer.endColor = TopColor;
-        
+
         // decrease number of colors in first bottle
         NumberOfColorsInBottle -= _numberOfColorsToTransfer;
-        
+
         // increase number of colors in seconds bottle
         BottleControllerRef.NumberOfColorsInBottle += _numberOfColorsToTransfer;
 
         // lock seconds bottle while action and on completed call rotate bottle
-        moveTween.OnStart(BottleControllerRef.UpdateTopColorValues).OnUpdate(() => { BottleControllerRef.BottleIsLocked = true; }).OnComplete(RotateBottle);
+        _moveTween.OnStart(() =>
+            {
+                CheckSpeedUp(_moveTween);
+
+                BottleControllerRef.UpdateTopColorValues();
+            }).SetUpdate(true)
+            .OnUpdate(() => { BottleControllerRef.BottleIsLocked = true; }).OnComplete(RotateBottle);
+    }
+
+    private void CheckSpeedUp(Tween comingTween)
+    {
+        if (OnSpeedUp)
+            comingTween.timeScale = speedMultiplier;
     }
 
     private void PreRotateBottle() // Do pre-rotation on direction
@@ -237,20 +256,21 @@ public class MyBottleControllerTest : MonoBehaviour
         float angle = 0;
         float lastAngeValue = 0;
 
-        DOTween.To(() => angle, x => angle = x, directionMultiplier * PreRotateAmount, PreRotateDuration).SetEase(Ease.OutQuart).OnUpdate(() =>
-        {
-            transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
-            lastAngeValue = angle;
-        });
+        _preRotate = DOTween.To(() => angle, x => angle = x, directionMultiplier * PreRotateAmount, PreRotateDuration)
+            .SetEase(Ease.OutQuart).SetUpdate(true).OnUpdate(() =>
+            {
+                transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
+                lastAngeValue = angle;
+            });
     }
 
     private void RotateBottle()
     {
         float angle = 0;
         float lastAngeValue = 0;
-            
-        DOTween.To(() => angle, x => angle = x, directionMultiplier * RotationValues[rotationIndex],
-            RotateBottleDuration).OnUpdate(() =>
+
+        _rotateBottle = DOTween.To(() => angle, x => angle = x, directionMultiplier * RotationValues[rotationIndex],
+            RotateBottleDuration).SetUpdate(true).OnStart(() => CheckSpeedUp(_rotateBottle)).OnUpdate(() =>
         {
             if (FillAmounts[NumberOfColorsInBottle + _numberOfColorsToTransfer] >
                 FillAmountCurve.Evaluate(angle) + 0.005f)
@@ -271,9 +291,9 @@ public class MyBottleControllerTest : MonoBehaviour
 
                 BottleControllerRef.FillUp(FillAmountCurve.Evaluate(lastAngeValue) - FillAmountCurve.Evaluate(angle));
             }
-            
-            
-            if(Mathf.Abs(transform.rotation.eulerAngles.z % 270) < 90)
+
+
+            if (Mathf.Abs(transform.rotation.eulerAngles.z % 270) < 90)
             {
                 transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
             }
@@ -288,32 +308,30 @@ public class MyBottleControllerTest : MonoBehaviour
             BottleMaskSR.material.SetFloat("_FillAmount", FillAmountCurve.Evaluate(angle));
 
             LineRenderer.enabled = false;
-
-            UpdateColorsOnShader();
             UpdateTopColorValues();
-
-            print("Start RotateBottle Back and position");
             RotateBottleBackAndMoveOriginalPosition();
-
         });
     }
 
     private void RotateBottleBackAndMoveOriginalPosition()
     {
-        transform.DOMove(originalPosition, MoveBottleDuration).OnComplete(() => { IsBottleInAction = false;});
+        transform.DOMove(originalPosition, MoveBottleDuration);
         transform.DORotate(Vector3.zero, RotateBottleDuration);
 
         var angle = 0;
-        DOTween.To(() =>angle, x => angle = x, 1, RotateBottleDuration).OnUpdate(() =>
-        {
-            BottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angle));
-        });
+        _rotateBottleBack = DOTween.To(() => angle, x => angle = x, 1, RotateBottleDuration)
+            .OnStart(() => CheckSpeedUp(_rotateBottleBack)).OnUpdate(() =>
+            {
+                BottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angle));
+            }).OnComplete(()=> OnSpeedUp = false);
 
-        
+        //MyTask = _rotateBottleBack.AsyncWaitForCompletion();
+
 
         transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
         BottleMaskSR.sortingOrder -= 2;
         BottleControllerRef.BottleIsLocked = false;
+        BottleControllerRef.ActionBottles.Remove(this);
     }
 
     private void FillUp(float fillAmountToAdd)
@@ -325,6 +343,42 @@ public class MyBottleControllerTest : MonoBehaviour
     {
         rotationIndex = 3 - (NumberOfColorsInBottle -
                              Mathf.Min(numberOfEmptySpacesInSecondBottle, NumberOfTopColorLayers));
+    }
+
+    public void SpeedUpActions()
+    {
+        foreach (var bottle in ActionBottles)
+        {
+          bottle.SpeedUp();
+        }
+    }
+
+    private async Task SpeedUp()
+    {
+        OnSpeedUp = true;
+
+
+        if (_preRotate != null)
+        {
+            _preRotate.timeScale = speedMultiplier;
+        }
+
+        if (_moveTween != null)
+            _moveTween.timeScale = speedMultiplier;
+
+        if (_rotateBottle != null)
+            _rotateBottle.timeScale = speedMultiplier;
+
+        if (_rotateBottleBack != null)
+            _rotateBottleBack.timeScale = speedMultiplier;
+
+        //MyTask = _rotateBottleBack?.AsyncWaitForCompletion();
+
+        // while (MyTask != null && !MyTask.IsCompleted)
+        // {
+        //     await Task.Yield();
+        // }
         
+        print(OnSpeedUp);
     }
 }
