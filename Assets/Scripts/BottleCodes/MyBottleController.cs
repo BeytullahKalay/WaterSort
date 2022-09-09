@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -320,13 +321,16 @@ public class MyBottleController : MonoBehaviour
 
         var angle = 0;
         _rotateBottleBack = DOTween.To(() => angle, x => angle = x, 1, RotateBottleDuration)
-            .OnStart(() => CheckSpeedUp(_rotateBottleBack)).OnUpdate(() =>
+            .OnStart(() =>
+            {
+                CheckSpeedUp(_rotateBottleBack);
+            }).OnUpdate(() =>
             {
                 BottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angle));
-            }).OnComplete(()=> OnSpeedUp = false);
-
-        //MyTask = _rotateBottleBack.AsyncWaitForCompletion();
-
+            }).OnComplete(() =>
+            {
+                OnSpeedUp = false;
+            });
 
         transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
         BottleMaskSR.sortingOrder -= 2;
@@ -345,40 +349,54 @@ public class MyBottleController : MonoBehaviour
                              Mathf.Min(numberOfEmptySpacesInSecondBottle, NumberOfTopColorLayers));
     }
 
-    public void SpeedUpActions()
+    public async Task SpeedUpActions()
     {
-        foreach (var bottle in ActionBottles)
+        var tasks = new Task[ActionBottles.Count];
+
+        for (int i = 0; i < ActionBottles.Count; i++)
         {
-          bottle.SpeedUp();
+            tasks[i] = ActionBottles[i].SpeedUp();
         }
+
+        await Task.WhenAll(tasks);
+
+        SetSpeedToNormalSpeed();
     }
 
     private async Task SpeedUp()
     {
         OnSpeedUp = true;
 
-
-        if (_preRotate != null)
+        while (OnSpeedUp)
         {
-            _preRotate.timeScale = speedMultiplier;
+            if (_preRotate != null)
+                _preRotate.timeScale = speedMultiplier;
+
+            if (_moveTween != null)
+                _moveTween.timeScale = speedMultiplier;
+
+            if (_rotateBottle != null)
+                _rotateBottle.timeScale = speedMultiplier;
+
+            if (_rotateBottleBack != null)
+                _rotateBottleBack.timeScale = speedMultiplier;
+            
+            await Task.Yield();
         }
+    }
+
+    private void SetSpeedToNormalSpeed()
+    {
+        if (_preRotate != null)
+            _preRotate.timeScale = 1f;
 
         if (_moveTween != null)
-            _moveTween.timeScale = speedMultiplier;
+            _moveTween.timeScale = 1f;
 
         if (_rotateBottle != null)
-            _rotateBottle.timeScale = speedMultiplier;
+            _rotateBottle.timeScale = 1f;
 
         if (_rotateBottleBack != null)
-            _rotateBottleBack.timeScale = speedMultiplier;
-
-        //MyTask = _rotateBottleBack?.AsyncWaitForCompletion();
-
-        // while (MyTask != null && !MyTask.IsCompleted)
-        // {
-        //     await Task.Yield();
-        // }
-        
-        print(OnSpeedUp);
+            _rotateBottleBack.timeScale = 1f;
     }
 }
