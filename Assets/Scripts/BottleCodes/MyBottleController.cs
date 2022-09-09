@@ -15,7 +15,7 @@ public class MyBottleController : MonoBehaviour
     public Color TopColor;
     public float[] FillAmounts;
     public float[] RotationValues;
-    public int NumberOfTopColorLayers = 0;
+    [HideInInspector]public int NumberOfTopColorLayers = 0;
     private int rotationIndex = 0;
 
 
@@ -278,7 +278,7 @@ public class MyBottleController : MonoBehaviour
                 {
                     // set line position
                     LineRenderer.SetPosition(0, _chosenRotationPoint.position);
-                    LineRenderer.SetPosition(1, _chosenRotationPoint.position - Vector3.up * 1.35f);
+                    LineRenderer.SetPosition(1, _chosenRotationPoint.position - Vector3.up * 1.175f);
 
                     // enable line renderer
                     LineRenderer.enabled = true;

@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5515774976861772799}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1, y: 0.79999995, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.675, y: 0.8625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5515774977336827028}
@@ -245,13 +245,14 @@ MonoBehaviour:
   RightRotationPoint: {fileID: 5515774978242214548}
   LineRenderer: {fileID: 0}
   BottleIsLocked: 0
-  MoveBottleDuration: 0.75
+  MoveBottleDuration: 0.5
   RotateBottleDuration: 0.75
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
   speedMultiplier: 5
   ActionBottles: []
+  OnSpeedUp: 0
 --- !u!1 &5515774977336827027
 GameObject:
   m_ObjectHideFlags: 0

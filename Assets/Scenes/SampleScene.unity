@@ -138,12 +138,12 @@ PrefabInstance:
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.75
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.79999995
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
@@ -204,6 +204,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bottle (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
@@ -523,7 +528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &611168692
 Transform:
   m_ObjectHideFlags: 0
@@ -571,6 +576,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8cd17dc3aefddc46bcd4708a62259d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberOfBottlesCreate: 8
+  bottleLineMax: 6
+  bottleStartPosX: 0.2
+  bottleDistanceX: 0.12
+  bottleStartPosY: 0.68
+  bottleDistanceY: 0.4
+  bottle: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
+  lineRenderer: {fileID: 1707376599}
 --- !u!4 &940977538
 Transform:
   m_ObjectHideFlags: 0
@@ -601,12 +614,12 @@ PrefabInstance:
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.25
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
@@ -667,6 +680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bottle (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
@@ -872,7 +890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1628094921321208, guid: a809ce50862434f5aa5e115fc62cbd1a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4221070932754246, guid: a809ce50862434f5aa5e115fc62cbd1a, type: 3}
       propertyPath: m_RootOrder
@@ -1109,12 +1127,12 @@ PrefabInstance:
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: -1.25
       objectReference: {fileID: 0}
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.79999995
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5515774976861772784, guid: 3867749598f4af04d8e29fb86f168040,
         type: 3}
