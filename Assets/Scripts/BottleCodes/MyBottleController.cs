@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -56,7 +55,6 @@ public class MyBottleController : MonoBehaviour
     private Tween _preRotate;
     private Tween _rotateBottleBack;
     public bool OnSpeedUp;
-    //public Task MyTask;
 
     private void Start()
     {
@@ -361,6 +359,8 @@ public class MyBottleController : MonoBehaviour
         await Task.WhenAll(tasks);
 
         SetSpeedToNormalSpeed();
+        
+        BottleMaskSR.material.SetFloat("_FillAmount", FillAmounts[NumberOfColorsInBottle]);
     }
 
     private async Task SpeedUp()

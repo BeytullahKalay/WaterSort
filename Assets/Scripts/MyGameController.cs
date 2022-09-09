@@ -30,13 +30,7 @@ public class MyGameController : MonoBehaviour
 
                 if (bottleController.BottleIsLocked)
                 {
-                    print("icinde");
-
-                    //bottleController.OnSpeedUp = true;
-
                     await bottleController.SpeedUpActions();
-                    
-                    print("disinda");
                 }
 
                 FirstBottle = bottleController;
