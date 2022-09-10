@@ -576,9 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8cd17dc3aefddc46bcd4708a62259d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfBottlesCreate: 8
-  bottleLineMax: 6
-  bottleStartPosX: 0.2
+  numberOfBottlesCreate: 11
   bottleDistanceX: 0.12
   bottleStartPosY: 0.68
   bottleDistanceY: 0.4

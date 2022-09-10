@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class LevelMaker : MonoBehaviour
 {
-    [SerializeField] private int numberOfBottlesCreate = 4;
-    
-    [SerializeField] private int bottleLineMax = 6;
-    [SerializeField] [Range(0, 1)] private float bottleStartPosX = .1f;
-    [SerializeField] [Range(0, 1)] private float bottleDistanceX = .01f;
+    [SerializeField] [Range(4, 12)] private int numberOfBottlesCreate = 4;
 
+    [SerializeField] [Range(0, 1)] private float bottleDistanceX = .01f;
     [SerializeField] [Range(0, 1)] private float bottleStartPosY = .75f;
     [SerializeField] [Range(0, 1)] private float bottleDistanceY = .01f;
+
+    private int bottleLineMax = 6;
+
 
     [SerializeField] private GameObject bottle;
 
     [Space(10)] [SerializeField] private LineRenderer lineRenderer;
 
     private int _createdBottles;
-    private int _maxBottleCount = 12;
 
     private GameObject _levelParent;
     private GameObject _line1;
@@ -40,34 +39,39 @@ public class LevelMaker : MonoBehaviour
     }
 
 
-    private void CreateBottles(int num)
+    private void CreateBottles(float num)
     {
-        for (int i = 0; i < Mathf.Min(_maxBottleCount,num); i++)
+        for (int i = 0; i < num; i++)
         {
             _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
             _obj.GetComponent<MyBottleController>().LineRenderer = lineRenderer;
 
-            Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(
-                bottleStartPosX + _createdBottles % bottleLineMax * bottleDistanceX,
-                bottleStartPosY - bottleDistanceY * Mathf.Floor(_createdBottles / bottleLineMax)));
+            var posA = new Vector3(_createdBottles % (num / 2) * bottleDistanceX,
+                bottleStartPosY - bottleDistanceY * Mathf.Floor(_createdBottles / (num / 2)), 0);
+
+            Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
             pos.z = 0;
 
             _obj.transform.position = pos;
 
-            _obj.transform.SetParent(_createdBottles < bottleLineMax ? _line1.transform : _line2.transform);
+            _obj.transform.SetParent(_createdBottles < (num / 2) ? _line1.transform : _line2.transform);
 
             _createdBottles++;
-
-            print("Created");
         }
+
+        AlignBottles();
     }
 
+    private void AlignBottles()
+    {
+        var line1Right = _line1.transform.GetChild(_line1.transform.childCount - 1);
+        var rightOfScreen = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+        var distanceToRight = Mathf.Abs(rightOfScreen - line1Right.transform.position.x);
 
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         CreateBottles();
-    //     }
-    // }
+
+        var x = Mathf.Abs(distanceToRight / 2);
+        var newParentPos = _line1.transform.parent.position;
+        newParentPos.x = x;
+        _line1.transform.parent.position = newParentPos;
+    }
 }
