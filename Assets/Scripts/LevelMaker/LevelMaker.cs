@@ -15,12 +15,16 @@ public class LevelMaker : MonoBehaviour
 
     [Space(10)] [SerializeField] private LineRenderer lineRenderer;
 
+    [Header("Color Database")] [SerializeField] private Colors _colorsdb;
+    
     private int _createdBottles;
 
     private GameObject _levelParent;
     private GameObject _line1;
     private GameObject _line2;
     private GameObject _obj;
+
+
 
 
     private void Start()
@@ -45,6 +49,12 @@ public class LevelMaker : MonoBehaviour
         {
             _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
             _obj.GetComponent<MyBottleController>().LineRenderer = lineRenderer;
+
+            for (int j = 0; j < _obj.GetComponent<MyBottleController>().BottleColors.Length; j++)
+            {
+                //_obj.GetComponent<MyBottleController>().BottleColors[j] = _colorsdb.GetColor("Violet");
+                _obj.GetComponent<MyBottleController>().BottleColors[j] = _colorsdb.GetRandomColor();
+            }
 
             var posA = new Vector3(_createdBottles % (num / 2) * bottleDistanceX,
                 bottleStartPosY - bottleDistanceY * Mathf.Floor(_createdBottles / (num / 2)), 0);
