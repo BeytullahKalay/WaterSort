@@ -14,15 +14,6 @@ public class Colors : ScriptableObject
     
     public List<Entry> colors = new List<Entry>();
 
-    public Color GetColor(string name) 
-    { 
-        var entry = colors.Find(c => c.name == name);
-        if (entry != null) {
-            return entry.color;
-        }
-        return Color.white;
-    }
-
     public Color GetRandomColor()
     {
         return colors[Random.Range(0, colors.Count)].color;

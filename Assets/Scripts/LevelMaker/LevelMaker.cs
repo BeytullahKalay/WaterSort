@@ -1,14 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelMaker : MonoBehaviour
 {
-    [SerializeField] [Range(4, 12)] private int numberOfBottlesCreate = 4;
-
+    [Header("Bottle Sorting Values")]
     [SerializeField] [Range(0, 1)] private float bottleDistanceX = .01f;
     [SerializeField] [Range(0, 1)] private float bottleStartPosY = .75f;
     [SerializeField] [Range(0, 1)] private float bottleDistanceY = .01f;
 
-    private int bottleLineMax = 6;
 
 
     [SerializeField] private GameObject bottle;
@@ -16,8 +15,16 @@ public class LevelMaker : MonoBehaviour
     [Space(10)] [SerializeField] private LineRenderer lineRenderer;
 
     [Header("Color Database")] [SerializeField] private Colors _colorsdb;
-    
+
+    [Header("Level Maker")]
+    [SerializeField] private int numberOfColorsToCreate = 2;
+    [SerializeField] private List<Color> selectedColors = new List<Color>();
+    private List<int> _selectedColorsAmounts = new List<int>();
+
     private int _createdBottles;
+    private int _bottleLineMax = 6;
+    private int _numberOfBottlesCreate;
+    private int _totalWaterCount;
 
     private GameObject _levelParent;
     private GameObject _line1;
@@ -29,9 +36,41 @@ public class LevelMaker : MonoBehaviour
 
     private void Start()
     {
+        SelectColorsToCreate();
+
+        SetColorsAmountArray();
+
+        _totalWaterCount = selectedColors.Count * 4;
+
+        RandomizeNumberOfBottle();
+        
         CreateLevelParentAndLineObjects();
 
-        CreateBottles(numberOfBottlesCreate);
+        CreateBottles(_numberOfBottlesCreate);
+    }
+
+    private void SetColorsAmountArray()
+    {
+        for (int i = 0; i < selectedColors.Count; i++)
+        {
+            _selectedColorsAmounts.Add(0);
+        }
+    }
+
+    private void RandomizeNumberOfBottle()
+    {
+        _numberOfBottlesCreate = Random.Range(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
+    }
+
+    private void SelectColorsToCreate()
+    {
+        while (selectedColors.Count < numberOfColorsToCreate)
+        {
+            var selectedColor = _colorsdb.GetRandomColor();
+            
+            if (!selectedColors.Contains(selectedColor))
+                selectedColors.Add(selectedColor);
+        }
     }
 
     private void CreateLevelParentAndLineObjects()
@@ -48,12 +87,26 @@ public class LevelMaker : MonoBehaviour
         for (int i = 0; i < num; i++)
         {
             _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
-            _obj.GetComponent<MyBottleController>().LineRenderer = lineRenderer;
 
-            for (int j = 0; j < _obj.GetComponent<MyBottleController>().BottleColors.Length; j++)
+            var objBottleControllerScript = _obj.GetComponent<MyBottleController>();
+            
+            objBottleControllerScript.LineRenderer = lineRenderer;
+
+            if (_totalWaterCount >= 4)
             {
-                //_obj.GetComponent<MyBottleController>().BottleColors[j] = _colorsdb.GetColor("Violet");
-                _obj.GetComponent<MyBottleController>().BottleColors[j] = _colorsdb.GetRandomColor();
+                objBottleControllerScript.NumberOfColorsInBottle = 4;
+                _totalWaterCount -= 4;
+            }
+            else
+            {
+                objBottleControllerScript.NumberOfColorsInBottle = 0; 
+            }
+            
+
+
+            for (int j = 0; j < objBottleControllerScript.BottleColors.Length; j++)
+            {
+                objBottleControllerScript.BottleColors[j] = GetColorFromList();
             }
 
             var posA = new Vector3(_createdBottles % (num / 2) * bottleDistanceX,
@@ -83,5 +136,38 @@ public class LevelMaker : MonoBehaviour
         var newParentPos = _line1.transform.parent.position;
         newParentPos.x = x;
         _line1.transform.parent.position = newParentPos;
+    }
+
+    private Color GetColorFromList()
+    {
+        // int randomColorIndex = Random.Range(0, selectedColors.Count);
+        //
+        // while (_selectedColorsAmounts[randomColorIndex] >= 4)
+        // {
+        //     randomColorIndex = Random.Range(0, selectedColors.Count);
+        // }
+        //
+        // var c = selectedColors[randomColorIndex];
+        //
+        // _selectedColorsAmounts[randomColorIndex]++;
+        //
+        // return c;
+        
+        int randomColorIndex = Random.Range(0, selectedColors.Count);
+        
+        // print("in");
+        //
+        // while (_selectedColorsAmounts[randomColorIndex] >= 4)
+        // {
+        //     randomColorIndex = Random.Range(0, selectedColors.Count);
+        // }
+        //
+        // print("out");
+
+
+        _selectedColorsAmounts[randomColorIndex] += 1;
+
+
+        return selectedColors[randomColorIndex];
     }
 }
