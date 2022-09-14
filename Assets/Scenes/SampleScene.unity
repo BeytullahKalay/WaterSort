@@ -582,7 +582,7 @@ MonoBehaviour:
   bottle: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
   lineRenderer: {fileID: 1707376599}
   _colorsdb: {fileID: 11400000, guid: 6d91ca5085b4a0046bbe54b4e5ab3429, type: 2}
-  numberOfColorsToCreate: 3
+  numberOfColorsToCreate: 5
   selectedColors: []
 --- !u!4 &940977538
 Transform:

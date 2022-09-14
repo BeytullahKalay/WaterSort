@@ -19,7 +19,7 @@ public class LevelMaker : MonoBehaviour
     [Header("Level Maker")]
     [SerializeField] private int numberOfColorsToCreate = 2;
     [SerializeField] private List<Color> selectedColors = new List<Color>();
-    private List<int> _selectedColorsAmounts = new List<int>();
+    private List<MyColors> _myColorsList = new List<MyColors>();
 
     private int _createdBottles;
     private int _bottleLineMax = 6;
@@ -38,7 +38,7 @@ public class LevelMaker : MonoBehaviour
     {
         SelectColorsToCreate();
 
-        SetColorsAmountArray();
+        CreateColorObjects();
 
         _totalWaterCount = selectedColors.Count * 4;
 
@@ -47,14 +47,6 @@ public class LevelMaker : MonoBehaviour
         CreateLevelParentAndLineObjects();
 
         CreateBottles(_numberOfBottlesCreate);
-    }
-
-    private void SetColorsAmountArray()
-    {
-        for (int i = 0; i < selectedColors.Count; i++)
-        {
-            _selectedColorsAmounts.Add(0);
-        }
     }
 
     private void RandomizeNumberOfBottle()
@@ -70,6 +62,15 @@ public class LevelMaker : MonoBehaviour
             
             if (!selectedColors.Contains(selectedColor))
                 selectedColors.Add(selectedColor);
+        }
+    }
+
+    private void CreateColorObjects()
+    {
+        foreach (var color in selectedColors)
+        {
+            MyColors colorObj = new MyColors(color);
+            _myColorsList.Add(colorObj);
         }
     }
 
@@ -140,34 +141,41 @@ public class LevelMaker : MonoBehaviour
 
     private Color GetColorFromList()
     {
-        // int randomColorIndex = Random.Range(0, selectedColors.Count);
-        //
-        // while (_selectedColorsAmounts[randomColorIndex] >= 4)
-        // {
-        //     randomColorIndex = Random.Range(0, selectedColors.Count);
-        // }
-        //
-        // var c = selectedColors[randomColorIndex];
-        //
-        // _selectedColorsAmounts[randomColorIndex]++;
-        //
-        // return c;
+        if (_myColorsList.Count > 0)
+        {
+            int randomColorIndex = Random.Range(0, _myColorsList.Count);
+
+            var color = _myColorsList[randomColorIndex].Color;
+
+            _myColorsList[randomColorIndex].Amount++;
         
-        int randomColorIndex = Random.Range(0, selectedColors.Count);
-        
-        // print("in");
-        //
-        // while (_selectedColorsAmounts[randomColorIndex] >= 4)
-        // {
-        //     randomColorIndex = Random.Range(0, selectedColors.Count);
-        // }
-        //
-        // print("out");
+            if (_myColorsList[randomColorIndex].MoreThan4())
+            {
+                _myColorsList.RemoveAt(randomColorIndex);
+            }
 
+            return color;
+        }
+        else
+        {
+            return Color.black;
+        }
+    }
+}
 
-        _selectedColorsAmounts[randomColorIndex] += 1;
+public class MyColors
+{
+    public Color Color;
+    public int Amount = 0;
 
+    public MyColors(Color color)
+    {
+        this.Color = color;
+        this.Amount = 0;
+    }
 
-        return selectedColors[randomColorIndex];
+    public bool MoreThan4()
+    {
+        return Amount >= 4;
     }
 }
