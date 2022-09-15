@@ -21,7 +21,13 @@ MonoBehaviour:
     color: {r: 0.14509805, g: 0.83137256, b: 0.7050874, a: 1}
   - name: Green
     color: {r: 0.37668794, g: 0.83137256, b: 0.14509805, a: 1}
-  - name: "L\u0130ghtGreen"
+  - name: LightGreen
     color: {r: 0.83137256, g: 0.14509805, b: 0.7120212, a: 1}
   - name: Yellow
     color: {r: 1, g: 0.84357387, b: 0, a: 1}
+  - name: Gray
+    color: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
+  - name: Orange
+    color: {r: 1, g: 0.5513562, b: 0, a: 1}
+  - name: DarkBlue
+    color: {r: 0, g: 0.07855177, b: 1, a: 1}
