@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DG.Tweening;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class BottleController : MonoBehaviour
@@ -12,13 +11,14 @@ public class BottleController : MonoBehaviour
 
     [Header("Bottle Values")] [Range(0, 4)]
     public int NumberOfColorsInBottle = 4;
-
     public Color[] BottleColors;
     public Color TopColor;
     public float[] FillAmounts;
     public float[] RotationValues;
-    [HideInInspector] public int NumberOfTopColorLayers = 0;
+    public int NumberOfTopColorLayers = 0;
     private int rotationIndex = 0;
+    public bool BottleSorted;
+    private int _topColorLayerAmountHolder;
 
 
     [Header("Animation Curves")] public AnimationCurve ScaleAndRotationMultiplierCurve;
@@ -41,7 +41,6 @@ public class BottleController : MonoBehaviour
 
 
     [Header("Locker Values")] public bool BottleIsLocked;
-    //private bool _bottleSorted;
     private IEnumerator _coroutine;
 
     [Header("Animation Values")] public float MoveBottleDuration = 5f;
@@ -52,7 +51,6 @@ public class BottleController : MonoBehaviour
 
     [Header("Speed Up Values")] [SerializeField]
     private float speedMultiplier = 10f;
-
     public List<BottleController> ActionBottles = new List<BottleController>();
     private Tween _moveTween;
     private Tween _rotateBottle;
@@ -69,6 +67,13 @@ public class BottleController : MonoBehaviour
         UpdateTopColorValues(); // setting Top Color values
     }
 
+    public void UpdateAfterUndo()
+    {
+        BottleMaskSR.material.SetFloat("_FillAmount", FillAmounts[NumberOfColorsInBottle]);
+        UpdateColorsOnShader(); // setting colors
+        UpdateTopColorValues(); // setting Top Color values
+    }
+
     private void UpdateColorsOnShader()
     {
         BottleMaskSR.material.SetColor("_C1", BottleColors[0]);
@@ -79,6 +84,7 @@ public class BottleController : MonoBehaviour
 
     private void UpdateTopColorValues()
     {
+        BottleSorted = false;
         if (NumberOfColorsInBottle != 0)
         {
             NumberOfTopColorLayers = 1;
@@ -95,9 +101,8 @@ public class BottleController : MonoBehaviour
                         {
                             NumberOfTopColorLayers = 4;
                             print("Bottle Sorted!");
-                            Destroy(GetComponent<Collider2D>());
-                            //_bottleSorted = true;
-                             StartCoroutine(_coroutine);
+                            BottleSorted = true;
+                            StartCoroutine(_coroutine);
                         }
                     }
                 }
@@ -336,6 +341,7 @@ public class BottleController : MonoBehaviour
             {
                 GetComponent<BoxCollider2D>().enabled = true;
                 OnSpeedUp = false;
+                EventManager.AddMoveToList(this, BottleControllerRef, _numberOfColorsToTransfer);
             });
 
         transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
@@ -408,14 +414,6 @@ public class BottleController : MonoBehaviour
             _rotateBottleBack.timeScale = 1f;
     }
 
-    // private void Update()
-    // {
-    //     if (_bottleSorted && ActionBottles.Count == 0)
-    //     {
-    //         
-    //     }
-    // }
-
     private IEnumerator CheckIsBottleSorted_Co()
     {
         while (true)
@@ -426,7 +424,7 @@ public class BottleController : MonoBehaviour
                     transform.position + new Vector3(0, .25f, -1),
                     GameManager.Instance.ConfettiParticle.transform.rotation);
                 Destroy(particleFX, 3);
-                Destroy(this);
+                //Destroy(this);
                 EventManager.CheckIsLevelCompleted();
                 StopCoroutine(_coroutine);
             }

@@ -5,6 +5,24 @@ public class ActionController : MonoBehaviour
     public BottleController FirstBottle;
     public BottleController SecondBottle;
 
+    private void OnEnable()
+    {
+        EventManager.UndoLastMove += CancelSelection;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.UndoLastMove -= CancelSelection;
+    }
+
+    private void CancelSelection()
+    {
+        if (FirstBottle == null) return;
+
+        FirstBottle.OnSelectionCanceled();
+        FirstBottle = null;
+    }
+
     private async void Update()
     {
         if (Input.GetMouseButtonDown(0))
