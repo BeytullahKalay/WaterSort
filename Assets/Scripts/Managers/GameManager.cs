@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -30,8 +31,10 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    [Header("Tubes")] public List<BottleController> bottleControllers;
 
-    [Header("Game Objects")]
+
+    [Header("Particles")]
     [SerializeField] private GameObject confettiParticle;
     
     [Header("Integers")]
@@ -42,8 +45,15 @@ public class GameManager : MonoBehaviour
 
     private void CheckLevelIsCompleted()
     {
-        TotalColorAmount--;
-        if (TotalColorAmount == 0)
+        int completedColorAmount = 0;
+
+        foreach (var bottle in bottleControllers)
+        {
+            if (bottle.BottleSorted)
+                completedColorAmount++;
+        }
+
+        if (completedColorAmount == TotalColorAmount)
         {
             EventManager.LevelCompleted();
         }
