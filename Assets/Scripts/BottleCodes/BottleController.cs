@@ -7,10 +7,10 @@ using UnityEngine;
 public class BottleController : MonoBehaviour
 {
     [Header("Bottle Sprite Renderer")] public SpriteRenderer BottleMaskSR;
-
-
+    
     [Header("Bottle Values")] [Range(0, 4)]
     public int NumberOfColorsInBottle = 4;
+
     public Color[] BottleColors;
     public Color TopColor;
     public float[] FillAmounts;
@@ -18,10 +18,10 @@ public class BottleController : MonoBehaviour
     public int NumberOfTopColorLayers = 0;
     private int rotationIndex = 0;
     public bool BottleSorted;
-    
+
     // Undo values
     private int _topColorLayerAmountHolder;
-    private Color _topColorHolder;
+    public Color _previousTopColor;
 
 
     [Header("Animation Curves")] public AnimationCurve ScaleAndRotationMultiplierCurve;
@@ -38,7 +38,6 @@ public class BottleController : MonoBehaviour
     public Transform LeftRotationPoint;
     public Transform RightRotationPoint;
     private Transform _chosenRotationPoint;
-    private float _direcitonMultiplier = 1;
     public LineRenderer LineRenderer;
     private int _numberOfColorsToTransfer = 0;
 
@@ -54,6 +53,7 @@ public class BottleController : MonoBehaviour
 
     [Header("Speed Up Values")] [SerializeField]
     private float speedMultiplier = 10f;
+
     public List<BottleController> ActionBottles = new List<BottleController>();
     private Tween _moveTween;
     private Tween _rotateBottle;
@@ -73,8 +73,8 @@ public class BottleController : MonoBehaviour
     public void UpdateAfterUndo()
     {
         BottleMaskSR.material.SetFloat("_FillAmount", FillAmounts[NumberOfColorsInBottle]);
-        TopColor = _topColorHolder;
         UpdateColorsOnShader(); // setting colors
+        TopColor = _previousTopColor;
         UpdateTopColorValues(); // setting Top Color values
     }
 
@@ -88,6 +88,7 @@ public class BottleController : MonoBehaviour
 
     private void UpdateTopColorValues()
     {
+        _previousTopColor = TopColor;
         BottleSorted = false;
         if (NumberOfColorsInBottle != 0)
         {
@@ -278,7 +279,6 @@ public class BottleController : MonoBehaviour
             .SetEase(Ease.OutQuart).SetUpdate(true).OnStart(() =>
             {
                 _topColorLayerAmountHolder = NumberOfTopColorLayers;
-                _topColorHolder = TopColor;
             }).OnUpdate(() =>
             {
                 transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
@@ -349,7 +349,7 @@ public class BottleController : MonoBehaviour
             {
                 GetComponent<BoxCollider2D>().enabled = true;
                 OnSpeedUp = false;
-                EventManager.AddMoveToList(this, BottleControllerRef, _topColorLayerAmountHolder,_topColorHolder);
+                EventManager.AddMoveToList(this, BottleControllerRef, _topColorLayerAmountHolder,_previousTopColor);
             });
 
         transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;

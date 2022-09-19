@@ -35,9 +35,7 @@ public class UndoLastMoveManager : MonoBehaviour
     {
         Move move = new Move(first, second, numberOfTopColorLayer,color);
 
-        if (_moves.Count >= 5)
-            _moves.RemoveAt(0);
-        
+        if (_moves.Count >= 5) _moves.RemoveAt(0);
 
         _moves.Add(move);
     }
@@ -52,7 +50,7 @@ public class UndoLastMoveManager : MonoBehaviour
 
         var lastMove = _moves.Last();
         _moves.Remove(lastMove);
-        
+
         lastMove.UndoMove();
         _remainingUndoCounter--;
 
@@ -70,24 +68,31 @@ class Move
 
     private int _numberOfTopColorLayer;
 
-    private Color _topColor;
+    private Color _color;
 
     public Move(BottleController first, BottleController second, int colorLayerAmount,Color color)
     {
         _firstBottle = first;
         _secondBottle = second;
         _numberOfTopColorLayer = colorLayerAmount;
-        _topColor = color;
+        _color = color;
     }
 
     public void UndoMove()
     {
         _firstBottle.NumberOfColorsInBottle += _numberOfTopColorLayer;
-        //_firstBottle.TopColor = _topColor;
-        _firstBottle.UpdateAfterUndo();
-
         _secondBottle.NumberOfColorsInBottle -= _numberOfTopColorLayer;
-        //_secondBottle.TopColor = _topColor;
+
+
+        int firstStartIndex = _firstBottle.NumberOfColorsInBottle - _numberOfTopColorLayer;
+        firstStartIndex = (int)Mathf.Clamp(firstStartIndex,0, Mathf.Infinity);
+        
+        for (int i = firstStartIndex; i < _firstBottle.NumberOfColorsInBottle; i++)
+        {
+            _firstBottle.BottleColors[i] = _color;
+        }
+
+        _firstBottle.UpdateAfterUndo();
         _secondBottle.UpdateAfterUndo();
     }
 }

@@ -6,11 +6,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.CheckIsLevelCompleted += CheckLevelIsCompleted;
+        EventManager.LevelCompleted += DisableBottlesCollider;
     }
 
     private void OnDisable()
     {
         EventManager.CheckIsLevelCompleted -= CheckLevelIsCompleted;
+        EventManager.LevelCompleted -= DisableBottlesCollider;
     }
 
     #region Singleton
@@ -56,6 +58,14 @@ public class GameManager : MonoBehaviour
         if (completedColorAmount == TotalColorAmount)
         {
             EventManager.LevelCompleted();
+        }
+    }
+
+    private void DisableBottlesCollider()
+    {
+        foreach (var bottleController in bottleControllers)
+        {
+            bottleController.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 

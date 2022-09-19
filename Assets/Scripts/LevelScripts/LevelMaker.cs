@@ -34,7 +34,6 @@ public class LevelMaker : MonoBehaviour
     private List<MyColors> _myColorsList = new List<MyColors>();
 
     private int _createdBottles;
-    private int _bottleLineMax = 6;
     private int _numberOfBottlesCreate;
     private int _totalWaterCount;
 

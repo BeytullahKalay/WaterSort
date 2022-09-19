@@ -406,6 +406,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
@@ -888,6 +890,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
@@ -1708,6 +1712,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
@@ -2472,6 +2478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00dbfd0bb47237c488dbe44eadb837a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bottleControllers: []
   confettiParticle: {fileID: 59298325784742375, guid: e64587630e00d584daf0a93b005c949d,
     type: 3}
   TotalColorAmount: 0
@@ -2559,6 +2566,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
@@ -3314,6 +3323,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
@@ -4384,6 +4395,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
@@ -5735,6 +5748,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
