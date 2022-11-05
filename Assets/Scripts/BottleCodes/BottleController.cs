@@ -432,7 +432,6 @@ public class BottleController : MonoBehaviour
                     transform.position + new Vector3(0, .25f, -1),
                     GameManager.Instance.ConfettiParticle.transform.rotation);
                 Destroy(particleFX, 3);
-                //Destroy(this);
                 EventManager.CheckIsLevelCompleted();
                 StopCoroutine(_coroutine);
             }

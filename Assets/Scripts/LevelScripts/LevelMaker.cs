@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -44,10 +45,29 @@ public class LevelMaker : MonoBehaviour
 
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
 
-    
+    [Header("Created Bottles")] public List<BottleController> createdBottlesContainer;
+
+
+    private void Start()
+    {
+        ColorNumerator.NumerateColors(selectedColors);
+        AllBottles allBottles = new AllBottles(createdBottlesContainer);
+        print("CREATED!");
+        
+        if (allBottles.IsSolvable())
+        {
+            print("Solvable!");
+        }
+        else
+        {
+            print("Not Solvable :(");
+        }
+    }
+
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
     {
+        createdBottlesContainer.Clear();
         DestroyImmediate(lastCreatedParent);
         CreateLevel();
     }
@@ -146,6 +166,8 @@ public class LevelMaker : MonoBehaviour
 
             _obj.transform.SetParent(_createdBottles < (num / 2) ? _line1.transform : _line2.transform);
 
+            createdBottlesContainer.Add(_obj.GetComponent<BottleController>());
+            
             _createdBottles++;
         }
 

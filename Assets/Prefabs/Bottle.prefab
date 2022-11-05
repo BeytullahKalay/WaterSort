@@ -147,6 +147,8 @@ MonoBehaviour:
   - 83
   - 90
   NumberOfTopColorLayers: 0
+  BottleSorted: 0
+  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
