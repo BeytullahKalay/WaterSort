@@ -39,7 +39,7 @@ public class AllBottles
 
     private void TrySort(TransferMoves comingMove)
     {
-        Debug.Log("DoAction");
+        //Debug.Log("DoAction");
 
         for (int i = 0; i < _allBottles.Count; i++)
         {
