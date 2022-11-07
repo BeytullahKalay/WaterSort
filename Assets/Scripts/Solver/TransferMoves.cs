@@ -1,12 +1,31 @@
+using System.IO;
 
 public class TransferMoves
 {
     private Bottle _from, _to;
+    
+    string path = @"D:\UnitySaves\WaterSort - Copy\Logs.txt";
+
+    private int _lastTransferAmount;
 
     public TransferMoves(Bottle from, Bottle to)
     {
         _from = from;
         _to = to;
+
+        OpenTXT();
+    }
+
+    private void OpenTXT()
+    {
+        if (!File.Exists(path))
+        {
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.WriteLine("----------- START -----------");
+            }
+        }
     }
 
     public bool CheckCanTransfer()
@@ -35,19 +54,42 @@ public class TransferMoves
             _to.NumberedBottleStack.Push(_from.NumberedBottleStack.Pop());
         }
 
+        _lastTransferAmount = _from.GetTopColorAmount();
+
+        WriteDoActionsToTxtFile(_from, _to,false);
+
         _to.CheckIsSorted();
+        _to.CalculateTopColorAmount();
+
         _from.CheckIsSorted();
+        _from.CalculateTopColorAmount();
     }
 
     public void UndoActions()
     {
-        for (int i = 0; i < _to.GetTopColorAmount(); i++)
+        for (int i = 0; i < _lastTransferAmount; i++)
         {
             _from.NumberedBottleStack.Push(_to.NumberedBottleStack.Pop());
         }
-        
+
+        WriteDoActionsToTxtFile(_to, _from,true);
+
         _to.CheckIsSorted();
+        _to.CalculateTopColorAmount();
+
         _from.CheckIsSorted();
+        _from.CalculateTopColorAmount();
+    }
+
+    private void WriteDoActionsToTxtFile(Bottle from, Bottle to,bool isUndo)
+    {
+        string s = "";
+
+        s = isUndo ? "(UNDO)" : "";
+        
+        using (StreamWriter sw = File.AppendText(path))
+        {
+            sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex() + s);
+        }
     }
 }
-

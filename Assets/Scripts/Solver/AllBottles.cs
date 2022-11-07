@@ -1,15 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AllBottles
 {
     private List<Bottle> _allBottles = new List<Bottle>();
 
+    private int _bottleIndex = 0;
+
     public AllBottles(List<BottleController> bottleControllers)
     {
+
         foreach (var controller in bottleControllers)
         {
-            Bottle b = new Bottle();
+            Bottle b = new Bottle(_bottleIndex);
 
             for (int i = 0; i < controller.NumberOfColorsInBottle; i++)
             {
@@ -19,12 +23,15 @@ public class AllBottles
                 }
             }
             _allBottles.Add(b);
+            b.CalculateTopColorAmount();
+            _bottleIndex++;
         }
     }
 
+
+
     public bool IsSolvable()
     {
-
         TrySort(null);
 
         return CheckAllBottleSorted();
@@ -32,11 +39,13 @@ public class AllBottles
 
     private void TrySort(TransferMoves comingMove)
     {
+        Debug.Log("DoAction");
+
         for (int i = 0; i < _allBottles.Count; i++)
         {
             if (CheckAllBottleSorted()) return;
 
-            Stack<TransferMoves> movesStack = new Stack<TransferMoves>();
+            var movesQueue = new Queue<TransferMoves>();
 
             for (int j = 0; j < _allBottles.Count; j++)
             {
@@ -44,15 +53,16 @@ public class AllBottles
 
                 if (move.CheckCanTransfer())
                 {
-                    movesStack.Push(move);
+                    movesQueue.Enqueue(move);
                 }
             }
 
 
-            while (movesStack.Count > 0)
+            while (movesQueue.Count > 0)
             {
-                var currentMove = movesStack.Pop();
+                var currentMove = movesQueue.Dequeue();
                 currentMove.DoAction();
+
                 TrySort(currentMove);
                 if (CheckAllBottleSorted()) return;
             }
@@ -66,7 +76,6 @@ public class AllBottles
             comingMove.UndoActions();
         }
 
-        // TODO: Buraya birden fazla kez geliyor!!
     }
 
     private bool CheckAllBottleSorted()
@@ -75,8 +84,11 @@ public class AllBottles
 
         for (int i = 0; i < _allBottles.Count; i++)
         {
-            if (!_allBottles[i].GetSorted())
+            if (!_allBottles[i].GetSorted() && _allBottles[i].NumberedBottleStack.Count > 0)
+            {
                 isAllSorted = false;
+                break;
+            }
         }
 
         return isAllSorted;

@@ -3,7 +3,15 @@ using System.Collections.Generic;
 public class Bottle
 {
     public Stack<int> NumberedBottleStack = new Stack<int>();
+    
+    private int _bottleIndex =  -1;
+    private int _topColorAmount;
+    
     private bool _sorted;
+    public Bottle(int bottleIndex)
+    {
+        _bottleIndex = bottleIndex;
+    }
 
     public int GetTopColorID()
     {
@@ -11,48 +19,47 @@ public class Bottle
             return NumberedBottleStack.Peek();
         else
         {
-            //Debug.LogError("Bottle empty but trying get top color ID!");
             return -1;
         }
     }
 
-    public int GetTopColorAmount()
+    public void CalculateTopColorAmount()
     {
-        if (NumberedBottleStack.Count <= 0) return 0;
-        
+        if (NumberedBottleStack.Count <= 0)
+        {
+            _topColorAmount = 0;
+            return;
+        }
+
         var stack = new Stack<int>(new Stack<int>(NumberedBottleStack));
-        
+
         int firstColorNum = stack.Peek();
-        int topColorAmount = 0;
+        _topColorAmount = 0;
 
 
         while (stack.Count > 0)
         {
             if (stack.Pop() == firstColorNum)
-                topColorAmount++;
+                _topColorAmount++;
             else
                 break;
         }
-        
-        
-
-        return topColorAmount;
     }
+
+    public int GetTopColorAmount()
+    {
+        return _topColorAmount;
+    }
+
 
     public void CheckIsSorted()
     {
-        if (NumberedBottleStack.Count <= 0)
-        {
-            _sorted = true;
-            return;
-        }
-
         if (NumberedBottleStack.Count < 4)
         {
             _sorted = false;
             return;
         }
-        
+
 
         var stack = new Stack<int>(new Stack<int>(NumberedBottleStack));
 
@@ -65,7 +72,6 @@ public class Bottle
                 _sorted = false;
                 return;
             }
-            
         }
 
         _sorted = true;
@@ -74,5 +80,10 @@ public class Bottle
     public bool GetSorted()
     {
         return _sorted;
+    }
+
+    public int GetBottleIndex()
+    {
+        return _bottleIndex;
     }
 }
