@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: ColorDatabase
   m_EditorClassIdentifier: 
   colors:
-  - name: White
-    color: {r: 1, g: 1, b: 1, a: 1}
   - name: Blue
     color: {r: 0, g: 0, b: 1, a: 1}
   - name: Green
@@ -23,10 +21,12 @@ MonoBehaviour:
     color: {r: 1, g: 0, b: 0, a: 1}
   - name: Yellow
     color: {r: 1, g: 1, b: 0, a: 1}
+  - name: DarkYellow
+    color: {r: 0.33962262, g: 0.32802057, b: 0.011213961, a: 1}
   - name: Purple
     color: {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
-  - name: Pink
-    color: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
+  - name: DarkPink
+    color: {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
   - name: Orange
     color: {r: 1, g: 0.64705884, b: 0, a: 1}
   - name: Brown
