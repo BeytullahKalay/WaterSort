@@ -3,6 +3,14 @@ using UnityEngine;
 
 public class CanvasController : MonoBehaviour
 {
+    [Header("Panels")] [SerializeField] private GameObject levelCompletedPanel;
+    [SerializeField] private GameObject inGamePanel;
+
+
+    [Header("Texts")] [SerializeField] private TMP_Text remainingUndoText;
+
+    private GameManager _gm;
+
     private void OnEnable()
     {
         EventManager.LevelCompleted += OpenLevelCompletePanel;
@@ -17,13 +25,10 @@ public class CanvasController : MonoBehaviour
         EventManager.UpdateRemainingUndo -= UpdateRemainingUndo;
     }
 
-
-    [Header("Panels")]
-    [SerializeField] private GameObject levelCompletedPanel;
-    [SerializeField] private GameObject inGamePanel;
-
-
-    [Header("Texts")] [SerializeField] private TMP_Text remainingUndoText;
+    private void Start()
+    {
+        _gm = GameManager.Instance;
+    }
 
     private void OpenLevelCompletePanel()
     {
@@ -46,7 +51,8 @@ public class CanvasController : MonoBehaviour
     // using by button actions
     public void UndoLastMove()
     {
-        EventManager.UndoLastMove();
+        if (_gm.InActionBottleList.Count == 0)
+            EventManager.UndoLastMove();
     }
 
     private void UpdateRemainingUndo(int remainingUndo)

@@ -42,7 +42,10 @@ public class GameManager : MonoBehaviour
     [Header("Integers")]
     public int TotalColorAmount;
 
-    
+    [Header("In Action")] [SerializeField]
+    public List<BottleController> InActionBottleList = new List<BottleController>();
+
+
 
 
     private void CheckLevelIsCompleted()
