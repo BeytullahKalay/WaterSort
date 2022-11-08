@@ -220,11 +220,13 @@ public class LevelMaker : MonoBehaviour
             {
                 while (matchState && color == bottleController.GetColorAtPosition(checkIndex))
                 {
+                    if (_myColorsList.Count < 2) break;
+                    
                     randomColorIndex = Random.Range(0, _myColorsList.Count);
                     color = _myColorsList[randomColorIndex].Color;
                 }
             }
-            
+
             _myColorsList[randomColorIndex].Amount++;
 
             if (_myColorsList[randomColorIndex].MoreThan4())
