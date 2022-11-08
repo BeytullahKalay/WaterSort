@@ -48,21 +48,21 @@ public class LevelMaker : MonoBehaviour
     [Header("Created Bottles")] public List<BottleController> createdBottlesContainer;
 
 
-    private void Start()
-    {
-        ColorNumerator.NumerateColors(selectedColors);
-        AllBottles allBottles = new AllBottles(createdBottlesContainer);
-        print("CREATED!");
-        
-        if (allBottles.IsSolvable())
-        {
-            print("Solvable!");
-        }
-        else
-        {
-            print("Not Solvable :(");
-        }
-    }
+    // private void Start()
+    // {
+    //     ColorNumerator.NumerateColors(selectedColors);
+    //     AllBottles allBottles = new AllBottles(createdBottlesContainer);
+    //     print("CREATED!");
+    //     
+    //     if (allBottles.IsSolvable())
+    //     {
+    //         print("Solvable!");
+    //     }
+    //     else
+    //     {
+    //         print("Not Solvable :(");
+    //     }
+    // }
 
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
@@ -70,6 +70,15 @@ public class LevelMaker : MonoBehaviour
         createdBottlesContainer.Clear();
         DestroyImmediate(lastCreatedParent);
         CreateLevel();
+
+        do
+        {
+            createdBottlesContainer.Clear();
+            DestroyImmediate(lastCreatedParent);
+            CreateLevel();
+            ColorNumerator.NumerateColors(selectedColors);
+        } while (!new AllBottles(createdBottlesContainer).IsSolvable());
+        Debug.Log("Solvable");
     }
 
     private void CreateLevel()

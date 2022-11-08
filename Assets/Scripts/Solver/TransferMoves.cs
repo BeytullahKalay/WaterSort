@@ -4,7 +4,7 @@ public class TransferMoves
 {
     private Bottle _from, _to;
     
-    string path = @"D:\UnitySaves\WaterSort - Copy\Logs.txt";
+    string path = @"D:\UnitySaves\WaterSort - Copy\Solves\Logs.txt";
 
     private int _lastTransferAmount;
 
