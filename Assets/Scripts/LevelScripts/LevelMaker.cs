@@ -15,21 +15,23 @@ public class LevelMaker : MonoBehaviour
     }
 
 
-    [Header("Bottle Sorting Values")]
-    [SerializeField] [Range(0, 1)] private float bottleDistanceX = .01f;
+    [Header("Bottle Sorting Values")] [SerializeField] [Range(0, 1)]
+    private float bottleDistanceX = .01f;
+
     [SerializeField] [Range(0, 1)] private float bottleStartPosY = .75f;
     [SerializeField] [Range(0, 1)] private float bottleDistanceY = .01f;
-
 
 
     [SerializeField] private GameObject bottle;
 
     [Space(10)] [SerializeField] private LineRenderer lineRenderer;
 
-    [Header("Color Database")] [SerializeField] private Colors _colorsdb;
+    [Header("Color Database")] [SerializeField]
+    private Colors _colorsdb;
 
-    [Header("Level Maker")]
-    [SerializeField] private int numberOfColorsToCreate = 2;
+    [Header("Level Maker")] [SerializeField]
+    private int numberOfColorsToCreate = 2;
+
     [SerializeField] private List<Color> selectedColors = new List<Color>();
     private List<MyColors> _myColorsList = new List<MyColors>();
 
@@ -43,9 +45,10 @@ public class LevelMaker : MonoBehaviour
     private GameObject _obj;
 
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
+    [SerializeField] private bool noMatches;
 
     [Header("Created Bottles")] public List<BottleController> createdBottlesContainer;
-    
+
 
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
@@ -61,6 +64,7 @@ public class LevelMaker : MonoBehaviour
             CreateLevel();
             ColorNumerator.NumerateColors(selectedColors);
         } while (!new AllBottles(createdBottlesContainer).IsSolvable());
+
         Debug.Log("Solvable");
     }
 
@@ -68,7 +72,7 @@ public class LevelMaker : MonoBehaviour
     {
         _createdBottles = 0;
         selectedColors.Clear();
-        
+
         SelectColorsToCreate();
 
         CreateColorObjects();
@@ -76,10 +80,10 @@ public class LevelMaker : MonoBehaviour
         _totalWaterCount = selectedColors.Count * 4;
 
         RandomizeNumberOfBottle();
-        
+
         CreateLevelParentAndLineObjects();
 
-        CreateBottles(_numberOfBottlesCreate);
+        CreateBottles(_numberOfBottlesCreate, noMatches);
     }
 
     private void RandomizeNumberOfBottle()
@@ -92,7 +96,7 @@ public class LevelMaker : MonoBehaviour
         while (selectedColors.Count < numberOfColorsToCreate)
         {
             var selectedColor = _colorsdb.GetRandomColor();
-            
+
             if (!selectedColors.Contains(selectedColor))
                 selectedColors.Add(selectedColor);
         }
@@ -121,7 +125,7 @@ public class LevelMaker : MonoBehaviour
     }
 
 
-    private void CreateBottles(float numberOfBottleToCreate)
+    private void CreateBottles(float numberOfBottleToCreate, bool matchState)
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
         {
@@ -129,7 +133,7 @@ public class LevelMaker : MonoBehaviour
 
             DecreaseTotalWaterCount(objBottleControllerScript);
 
-            GetRandomColorForBottle(objBottleControllerScript);
+            GetRandomColorForBottle(objBottleControllerScript, matchState);
 
             var pos = FindPosition(numberOfBottleToCreate);
 
@@ -137,7 +141,7 @@ public class LevelMaker : MonoBehaviour
 
             // add create bottle to bottle container
             createdBottlesContainer.Add(_obj.GetComponent<BottleController>());
-            
+
             // increase created bottle amount
             _createdBottles++;
         }
@@ -161,11 +165,11 @@ public class LevelMaker : MonoBehaviour
         return pos;
     }
 
-    private void GetRandomColorForBottle(BottleController objBottleControllerScript)
+    private void GetRandomColorForBottle(BottleController objBottleControllerScript, bool matchState)
     {
         for (int j = 0; j < objBottleControllerScript.BottleColors.Length; j++)
         {
-            objBottleControllerScript.BottleColors[j] = GetColorFromList();
+            objBottleControllerScript.BottleColors[j] = GetColorFromList(matchState, objBottleControllerScript, j - 1);
         }
     }
 
@@ -205,16 +209,24 @@ public class LevelMaker : MonoBehaviour
         _line1.transform.parent.position = newParentPos;
     }
 
-    private Color GetColorFromList()
+    private Color GetColorFromList(bool matchState, BottleController bottleController, int checkIndex)
     {
         if (_myColorsList.Count > 0)
         {
             int randomColorIndex = Random.Range(0, _myColorsList.Count);
-
             var color = _myColorsList[randomColorIndex].Color;
 
+            if (checkIndex >= 0)
+            {
+                while (matchState && color == bottleController.GetColorAtPosition(checkIndex))
+                {
+                    randomColorIndex = Random.Range(0, _myColorsList.Count);
+                    color = _myColorsList[randomColorIndex].Color;
+                }
+            }
+            
             _myColorsList[randomColorIndex].Amount++;
-        
+
             if (_myColorsList[randomColorIndex].MoreThan4())
             {
                 _myColorsList.RemoveAt(randomColorIndex);

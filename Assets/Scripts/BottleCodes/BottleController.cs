@@ -438,4 +438,9 @@ public class BottleController : MonoBehaviour
             yield return null;
         }
     }
+
+    public Color GetColorAtPosition(int positionIndex)
+    {
+        return BottleColors[positionIndex];
+    }
 }
