@@ -31,3 +31,9 @@ MonoBehaviour:
     color: {r: 1, g: 0.5513562, b: 0, a: 1}
   - name: DarkBlue
     color: {r: 0, g: 0.07855177, b: 1, a: 1}
+  - name: MilkBrown
+    color: {r: 0.6627451, g: 0.5411765, b: 0.3372549, a: 1}
+  - name: Blue
+    color: {r: 0.12941177, g: 0.5686275, b: 0.9960785, a: 1}
+  - name: RottenCherry
+    color: {r: 0.69411767, g: 0.3137255, b: 0.40784317, a: 1}
