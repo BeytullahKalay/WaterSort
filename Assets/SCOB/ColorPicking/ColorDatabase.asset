@@ -13,27 +13,27 @@ MonoBehaviour:
   m_Name: ColorDatabase
   m_EditorClassIdentifier: 
   colors:
-  - name: Red
-    color: {r: 0.8301887, g: 0.25133342, b: 0.14489143, a: 1}
-  - name: Violet
-    color: {r: 0.42101014, g: 0.14509805, b: 0.83137256, a: 1}
-  - name: Turquoise
-    color: {r: 0.14509805, g: 0.83137256, b: 0.7050874, a: 1}
-  - name: Green
-    color: {r: 0.37668794, g: 0.83137256, b: 0.14509805, a: 1}
-  - name: LightGreen
-    color: {r: 0.83137256, g: 0.14509805, b: 0.7120212, a: 1}
-  - name: Yellow
-    color: {r: 1, g: 0.84357387, b: 0, a: 1}
-  - name: Gray
-    color: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
-  - name: Orange
-    color: {r: 1, g: 0.5513562, b: 0, a: 1}
-  - name: DarkBlue
-    color: {r: 0, g: 0.07855177, b: 1, a: 1}
-  - name: MilkBrown
-    color: {r: 0.6627451, g: 0.5411765, b: 0.3372549, a: 1}
+  - name: White
+    color: {r: 1, g: 1, b: 1, a: 1}
   - name: Blue
-    color: {r: 0.12941177, g: 0.5686275, b: 0.9960785, a: 1}
-  - name: RottenCherry
-    color: {r: 0.69411767, g: 0.3137255, b: 0.40784317, a: 1}
+    color: {r: 0, g: 0, b: 1, a: 1}
+  - name: Green
+    color: {r: 0, g: 1, b: 0, a: 1}
+  - name: Red
+    color: {r: 1, g: 0, b: 0, a: 1}
+  - name: Yellow
+    color: {r: 1, g: 1, b: 0, a: 1}
+  - name: Purple
+    color: {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
+  - name: Pink
+    color: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
+  - name: Orange
+    color: {r: 1, g: 0.64705884, b: 0, a: 1}
+  - name: Brown
+    color: {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
+  - name: Gray
+    color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  - name: Turquoise
+    color: {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
+  - name: DarkGreen
+    color: {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
