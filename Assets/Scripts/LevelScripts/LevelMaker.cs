@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -46,23 +45,7 @@ public class LevelMaker : MonoBehaviour
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
 
     [Header("Created Bottles")] public List<BottleController> createdBottlesContainer;
-
-
-    // private void Start()
-    // {
-    //     ColorNumerator.NumerateColors(selectedColors);
-    //     AllBottles allBottles = new AllBottles(createdBottlesContainer);
-    //     print("CREATED!");
-    //     
-    //     if (allBottles.IsSolvable())
-    //     {
-    //         print("Solvable!");
-    //     }
-    //     else
-    //     {
-    //         print("Not Solvable :(");
-    //     }
-    // }
+    
 
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
@@ -138,49 +121,75 @@ public class LevelMaker : MonoBehaviour
     }
 
 
-    private void CreateBottles(float num)
+    private void CreateBottles(float numberOfBottleToCreate)
     {
-        for (int i = 0; i < num; i++)
+        for (int i = 0; i < numberOfBottleToCreate; i++)
         {
-            _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
+            var objBottleControllerScript = InitializeBottle();
 
-            var objBottleControllerScript = _obj.GetComponent<BottleController>();
-            
-            objBottleControllerScript.LineRenderer = lineRenderer;
+            DecreaseTotalWaterCount(objBottleControllerScript);
 
-            if (_totalWaterCount >= 4)
-            {
-                objBottleControllerScript.NumberOfColorsInBottle = 4;
-                _totalWaterCount -= 4;
-            }
-            else
-            {
-                objBottleControllerScript.NumberOfColorsInBottle = 0; 
-            }
-            
+            GetRandomColorForBottle(objBottleControllerScript);
 
+            var pos = FindPosition(numberOfBottleToCreate);
 
-            for (int j = 0; j < objBottleControllerScript.BottleColors.Length; j++)
-            {
-                objBottleControllerScript.BottleColors[j] = GetColorFromList();
-            }
+            PositioningAndParenting(numberOfBottleToCreate, pos);
 
-            var posA = new Vector3(_createdBottles % (num / 2) * bottleDistanceX,
-                bottleStartPosY - bottleDistanceY * Mathf.Floor(_createdBottles / (num / 2)), 0);
-
-            Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
-            pos.z = 0;
-
-            _obj.transform.position = pos;
-
-            _obj.transform.SetParent(_createdBottles < (num / 2) ? _line1.transform : _line2.transform);
-
+            // add create bottle to bottle container
             createdBottlesContainer.Add(_obj.GetComponent<BottleController>());
             
+            // increase created bottle amount
             _createdBottles++;
         }
 
         AlignBottles();
+    }
+
+    private void PositioningAndParenting(float numberOfBottleToCreate, Vector3 pos)
+    {
+        _obj.transform.position = pos;
+        _obj.transform.SetParent(_createdBottles < (numberOfBottleToCreate / 2) ? _line1.transform : _line2.transform);
+    }
+
+    private Vector3 FindPosition(float numberOfBottleToCreate)
+    {
+        var posA = new Vector3(_createdBottles % (numberOfBottleToCreate / 2) * bottleDistanceX,
+            bottleStartPosY - bottleDistanceY * Mathf.Floor(_createdBottles / (numberOfBottleToCreate / 2)), 0);
+
+        Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
+        pos.z = 0;
+        return pos;
+    }
+
+    private void GetRandomColorForBottle(BottleController objBottleControllerScript)
+    {
+        for (int j = 0; j < objBottleControllerScript.BottleColors.Length; j++)
+        {
+            objBottleControllerScript.BottleColors[j] = GetColorFromList();
+        }
+    }
+
+    private void DecreaseTotalWaterCount(BottleController objBottleControllerScript)
+    {
+        if (_totalWaterCount >= 4)
+        {
+            objBottleControllerScript.NumberOfColorsInBottle = 4;
+            _totalWaterCount -= 4;
+        }
+        else
+        {
+            objBottleControllerScript.NumberOfColorsInBottle = 0;
+        }
+    }
+
+    private BottleController InitializeBottle()
+    {
+        _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
+
+        var objBottleControllerScript = _obj.GetComponent<BottleController>();
+
+        objBottleControllerScript.LineRenderer = lineRenderer;
+        return objBottleControllerScript;
     }
 
     private void AlignBottles()

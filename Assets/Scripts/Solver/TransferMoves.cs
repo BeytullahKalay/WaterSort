@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public class TransferMoves
 {
@@ -83,13 +85,21 @@ public class TransferMoves
 
     private void WriteDoActionsToTxtFile(Bottle from, Bottle to,bool isUndo)
     {
-        string s = "";
-
-        s = isUndo ? "(UNDO)" : "";
-        
-        using (StreamWriter sw = File.AppendText(path))
+        if (isUndo)
         {
-            sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex() + s);
+            List<string> lines = File.ReadAllLines(path).ToList();
+            File.WriteAllLines(path, lines.GetRange(0, lines.Count - 1).ToArray());
+        }
+        else
+        {
+            string s = "";
+
+            s = isUndo ? "(UNDO)" : "";
+        
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex() + s);
+            }
         }
     }
 }
