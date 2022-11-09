@@ -9,9 +9,15 @@ public class CustomInspector : Editor
         DrawDefaultInspector();
         
         LevelMaker levelMaker = (LevelMaker)target;
+        
         if (GUILayout.Button("Create New Level"))
         {
             levelMaker.CreateNewLevel_GUIButton();
+        }
+        
+        if (GUILayout.Button("Save Level"))
+        {
+            levelMaker.SaveLevelAsPrefab();
         }
     }
 }

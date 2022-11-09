@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 public class LevelMaker : MonoBehaviour
@@ -61,8 +62,6 @@ public class LevelMaker : MonoBehaviour
             ColorNumerator.NumerateColors(selectedColors);
         } while (!new AllBottles(createdBottlesContainer).IsSolvable());
 
-        //SaveLevel();
-
         Debug.Log("Solvable");
     }
 
@@ -121,8 +120,7 @@ public class LevelMaker : MonoBehaviour
 
         lastCreatedParent = _levelParent;
     }
-
-
+    
     private void CreateBottles(float numberOfBottleToCreate, bool matchState)
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
@@ -238,5 +236,21 @@ public class LevelMaker : MonoBehaviour
         {
             return Color.black;
         }
+    }
+
+    // using by inspector gui
+    public void SaveLevelAsPrefab()
+    {
+        string levelPrefabPath = "Assets/Prefabs/Levels/" + "Level" + ".prefab";
+        levelPrefabPath = AssetDatabase.GenerateUniqueAssetPath(levelPrefabPath);
+        var obj = PrefabUtility.SaveAsPrefabAssetAndConnect(_levelParent, levelPrefabPath,InteractionMode.UserAction);
+
+        var level = ScriptableObject.CreateInstance<Level>();
+        level.LevelPrefab = obj.GetComponent<LevelParent>();
+        string levelScriptableObjectPath = "Assets/SCOB/Level/" + "Level_" + ".asset";
+        levelScriptableObjectPath = AssetDatabase.GenerateUniqueAssetPath(levelScriptableObjectPath);
+        AssetDatabase.CreateAsset(level,levelScriptableObjectPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 }

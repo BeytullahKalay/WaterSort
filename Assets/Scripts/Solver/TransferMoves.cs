@@ -71,7 +71,10 @@ public class TransferMoves
     {
         for (int i = 0; i < _lastTransferAmount; i++)
         {
-            _from.NumberedBottleStack.Push(_to.NumberedBottleStack.Pop());
+            if (_to.NumberedBottleStack.Count > 0)
+            {
+                _from.NumberedBottleStack.Push(_to.NumberedBottleStack.Pop());
+            }
         }
 
         WriteDoActionsToTxtFile(_to, _from,true);
