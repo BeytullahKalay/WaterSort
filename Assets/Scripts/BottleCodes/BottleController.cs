@@ -47,7 +47,9 @@ public class BottleController : MonoBehaviour
     [Header("Locker Values")] public bool BottleIsLocked;
     private IEnumerator _coroutine;
 
-    [Header("Animation Values")] public float MoveBottleDuration = 5f;
+    [Header("Animation Values")] [SerializeField]
+    private float lineRendererPouringDistance = 1f;
+    public float MoveBottleDuration = 5f;
     public float RotateBottleDuration = 1f;
     public float PreRotateDuration = .25f;
     public float PreRotateAmount = 15f;
@@ -313,7 +315,7 @@ public class BottleController : MonoBehaviour
                 {
                     // set line position
                     LineRenderer.SetPosition(0, _chosenRotationPoint.position);
-                    LineRenderer.SetPosition(1, _chosenRotationPoint.position - Vector3.up * 1.175f);
+                    LineRenderer.SetPosition(1, _chosenRotationPoint.position - Vector3.up * lineRendererPouringDistance);
 
                     // enable line renderer
                     LineRenderer.enabled = true;
