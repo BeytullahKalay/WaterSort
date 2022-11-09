@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class AllBottles
 {
     private List<Bottle> _allBottles = new List<Bottle>();
 
     private int _bottleIndex = 0;
 
+    private int _maxTryAmount = 10000;
+    private int _tryAmount = 0;
+
     public AllBottles(List<BottleController> bottleControllers)
     {
-
         foreach (var controller in bottleControllers)
         {
             Bottle b = new Bottle(_bottleIndex);
@@ -22,6 +23,7 @@ public class AllBottles
                     b.NumberedBottleStack.Push(ColorNumerator.colorsNumerator[controller.BottleColors[i]]);
                 }
             }
+
             _allBottles.Add(b);
             b.CalculateTopColorAmount();
             _bottleIndex++;
@@ -29,17 +31,19 @@ public class AllBottles
     }
 
 
-
     public bool IsSolvable()
     {
         TrySort(null);
-
+        Debug.Log("Try Amount: " + _tryAmount);
         return CheckAllBottleSorted();
     }
 
     private void TrySort(TransferMoves comingMove)
     {
-        //Debug.Log("DoAction");
+        if(_tryAmount > _maxTryAmount) return;
+        
+        
+        _tryAmount++;
 
         for (int i = 0; i < _allBottles.Count; i++)
         {
@@ -70,12 +74,11 @@ public class AllBottles
 
         if (CheckAllBottleSorted()) return;
 
-        
+
         if (comingMove != null)
         {
             comingMove.UndoActions();
         }
-
     }
 
     private bool CheckAllBottleSorted()
