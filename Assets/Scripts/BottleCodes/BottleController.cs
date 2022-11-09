@@ -71,6 +71,7 @@ public class BottleController : MonoBehaviour
     {
         _gm = GameManager.Instance;
         BottleMaskSR.material = _gm.Mat;
+        LineRenderer = _gm.LineRenderer;
         _coroutine = CheckIsBottleSorted_Co();
         BottleMaskSR.material.SetFloat("_FillAmount", FillAmounts[NumberOfColorsInBottle]);
         originalPosition = transform.position;

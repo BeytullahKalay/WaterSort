@@ -5,17 +5,6 @@ using Random = UnityEngine.Random;
 
 public class LevelMaker : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        EventManager.LoadNextLevel += CreateNewLevel_GUIButton;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.LoadNextLevel -= CreateNewLevel_GUIButton;
-    }
-
-
     [Header("Bottle Sorting Values")] [SerializeField] [Range(0, 1)]
     private float bottleDistanceX = .01f;
 

@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Material")] [SerializeField] private Material mat;
     
+    [Header("Line Renderer")] [SerializeField] private LineRenderer lineRenderer;
+    
     [Header("Integers")] public int TotalColorAmount;
 
     [Header("In Action")] [SerializeField]
@@ -74,4 +76,6 @@ public class GameManager : MonoBehaviour
     public GameObject ConfettiParticle => confettiParticle;
 
     public Material Mat => mat;
+
+    public LineRenderer LineRenderer => lineRenderer;
 }
