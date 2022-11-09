@@ -34,18 +34,16 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [Header("Tubes")] public List<BottleController> bottleControllers;
-
-
-    [Header("Particles")]
-    [SerializeField] private GameObject confettiParticle;
     
-    [Header("Integers")]
-    public int TotalColorAmount;
+    [Header("Particles")] [SerializeField] private GameObject confettiParticle;
+
+    [Header("Material")] [SerializeField] private Material mat;
+    
+    [Header("Integers")] public int TotalColorAmount;
 
     [Header("In Action")] [SerializeField]
     public List<BottleController> InActionBottleList = new List<BottleController>();
-
-
+    
 
 
     private void CheckLevelIsCompleted()
@@ -73,7 +71,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    
-    
     public GameObject ConfettiParticle => confettiParticle;
+
+    public Material Mat => mat;
 }
