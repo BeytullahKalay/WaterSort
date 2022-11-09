@@ -53,10 +53,6 @@ public class LevelMaker : MonoBehaviour
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
     {
-        createdBottlesContainer.Clear();
-        DestroyImmediate(lastCreatedParent);
-        CreateLevel();
-
         do
         {
             createdBottlesContainer.Clear();
@@ -64,6 +60,8 @@ public class LevelMaker : MonoBehaviour
             CreateLevel();
             ColorNumerator.NumerateColors(selectedColors);
         } while (!new AllBottles(createdBottlesContainer).IsSolvable());
+
+        //SaveLevel();
 
         Debug.Log("Solvable");
     }
@@ -240,22 +238,5 @@ public class LevelMaker : MonoBehaviour
         {
             return Color.black;
         }
-    }
-}
-
-public class MyColors
-{
-    public Color Color;
-    public int Amount = 0;
-
-    public MyColors(Color color)
-    {
-        this.Color = color;
-        this.Amount = 0;
-    }
-
-    public bool MoreThan4()
-    {
-        return Amount >= 4;
     }
 }
