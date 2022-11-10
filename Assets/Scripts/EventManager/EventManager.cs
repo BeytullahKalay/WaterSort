@@ -9,4 +9,5 @@ public static class EventManager
     public static Action<BottleController, BottleController,int,Color> AddMoveToList;
     public static Action UndoLastMove;
     public static Action<int> UpdateRemainingUndo;
+    public static Action RestartLevel;
 }

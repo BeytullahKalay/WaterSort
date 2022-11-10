@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class CanvasController : MonoBehaviour
 
 
     [Header("Texts")] [SerializeField] private TMP_Text remainingUndoText;
+    [SerializeField] private TMP_Text LevelText;
 
     private GameManager _gm;
 
@@ -28,6 +30,7 @@ public class CanvasController : MonoBehaviour
     private void Start()
     {
         _gm = GameManager.Instance;
+        UpdateLevelText();
     }
 
     private void OpenLevelCompletePanel()
@@ -43,6 +46,17 @@ public class CanvasController : MonoBehaviour
         inGamePanel.SetActive(true);
     }
 
+    private void UpdateRemainingUndo(int remainingUndo)
+    {
+        remainingUndoText.text = remainingUndo.ToString();
+    }
+
+    private void UpdateLevelText()
+    {
+        LevelText.text = "Level " + (PlayerPrefs.GetInt("LevelIndex") + 1).ToString();
+    }
+
+    // using by button actions
     public void NextLevelButtonAction()
     {
         EventManager.LoadNextLevel();
@@ -55,8 +69,22 @@ public class CanvasController : MonoBehaviour
             EventManager.UndoLastMove();
     }
 
-    private void UpdateRemainingUndo(int remainingUndo)
+    // using by button actions
+    public void RestartLevel()
     {
-        remainingUndoText.text = remainingUndo.ToString();
+        Debug.Log("Restart");
+        EventManager.RestartLevel?.Invoke();
+    }
+
+    // using by button actions
+    public void AddOneMoreBottle()
+    {
+        Debug.Log("Add one more bottle");
+    }
+
+    // using by button actions
+    public void OpenMenuTab()
+    {
+        Debug.Log("Open menu tab");
     }
 }

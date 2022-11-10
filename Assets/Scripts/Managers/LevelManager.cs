@@ -4,6 +4,8 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Level[] level_SO;
 
+    private GameObject _currentLevel;
+
     private void Awake()
     {
         CheckPlayerPrefs();
@@ -13,12 +15,14 @@ public class LevelManager : MonoBehaviour
     {
         EventManager.LevelCompleted += IncreaseLevelIndexOnLevelCompleted;
         EventManager.LoadNextLevel += CreateLevel;
+        EventManager.RestartLevel += RestartLevel;
     }
 
     private void OnDisable()
     {
         EventManager.LevelCompleted -= IncreaseLevelIndexOnLevelCompleted;
         EventManager.LoadNextLevel -= CreateLevel;
+        EventManager.RestartLevel -= RestartLevel;
     }
 
     private void Start()
@@ -34,7 +38,7 @@ public class LevelManager : MonoBehaviour
                       PlayerPrefs.GetInt("LevelIndex"));
         }
 
-        Instantiate(level_SO[PlayerPrefs.GetInt("LevelIndex")].LevelPrefab.gameObject);
+        _currentLevel = Instantiate(level_SO[PlayerPrefs.GetInt("LevelIndex")].LevelPrefab.gameObject);
     }
 
     private void CheckPlayerPrefs()
@@ -46,5 +50,11 @@ public class LevelManager : MonoBehaviour
     private void IncreaseLevelIndexOnLevelCompleted()
     {
         PlayerPrefs.SetInt("LevelIndex", PlayerPrefs.GetInt("LevelIndex") + 1);
+    }
+
+    private void RestartLevel()
+    {
+        Destroy(_currentLevel);
+        CreateLevel();
     }
 }
