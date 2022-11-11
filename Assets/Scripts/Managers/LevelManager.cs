@@ -32,6 +32,8 @@ public class LevelManager : MonoBehaviour
 
     private void CreateLevel()
     {
+        if (_currentLevel != null) Destroy(_currentLevel);
+
         if (PlayerPrefs.GetInt("LevelIndex") > level_SO.Length)
         {
             Debug.Log("Level manager could not create level because of there is no level in index " +

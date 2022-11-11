@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 
@@ -18,6 +17,7 @@ public class CanvasController : MonoBehaviour
         EventManager.LevelCompleted += OpenLevelCompletePanel;
         EventManager.LoadNextLevel += CloseLevelCompetePanel;
         EventManager.UpdateRemainingUndo += UpdateRemainingUndo;
+        EventManager.UpdateLevelText += UpdateLevelText;
     }
 
     private void OnDisable()
@@ -25,6 +25,7 @@ public class CanvasController : MonoBehaviour
         EventManager.LevelCompleted -= OpenLevelCompletePanel;
         EventManager.LoadNextLevel -= CloseLevelCompetePanel;
         EventManager.UpdateRemainingUndo -= UpdateRemainingUndo;
+        EventManager.UpdateLevelText -= UpdateLevelText;
     }
 
     private void Start()
@@ -60,6 +61,7 @@ public class CanvasController : MonoBehaviour
     public void NextLevelButtonAction()
     {
         EventManager.LoadNextLevel();
+        EventManager.UpdateLevelText();
     }
 
     // using by button actions
