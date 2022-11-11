@@ -6,24 +6,24 @@ public class RandomSeedTest : MonoBehaviour
 {
     public string texts = "deneme metini";
 
-    private void Awake()
-    {
-        GenerateRandomSeed();
-    }
+    // private void Awake()
+    // {
+    //     GenerateRandomSeed();
+    // }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SetSeed(texts.GetHashCode());
-
-            Debug.Log(Random.Range(-100, 100));
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            GenerateRandomSeed();
-        }
-    }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.S))
+    //     {
+    //         SetSeed(texts.GetHashCode());
+    //
+    //         Debug.Log(Random.Range(-100, 100));
+    //     }
+    //     else if (Input.GetKeyDown(KeyCode.R))
+    //     {
+    //         GenerateRandomSeed();
+    //     }
+    // }
 
     private void SetSeed(int state = 0)
     {

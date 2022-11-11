@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 using UnityEngine;
 using UnityEditor;
 using Random = UnityEngine.Random;
@@ -25,33 +28,84 @@ public class LevelMaker : MonoBehaviour
     [SerializeField] private List<Color> selectedColors = new List<Color>();
     private List<MyColors> _myColorsList = new List<MyColors>();
 
-    private int _createdBottles;
-    private int _numberOfBottlesCreate;
-    private int _totalWaterCount;
-
-    private GameObject _levelParent;
-    private GameObject _line1;
-    private GameObject _line2;
-    private GameObject _obj;
-
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
     [SerializeField] private bool noMatches;
 
     [Header("Created Bottles")] public List<BottleController> createdBottlesContainer;
 
 
+    private int _createdBottles;
+    private int _numberOfBottlesCreate;
+    private int _totalWaterCount;
+    private int _randomChanger;
+
+
+    private GameObject _levelParent;
+    private GameObject _line1;
+    private GameObject _line2;
+    private GameObject _obj;
+
+    private Thread _myThread;
+    private Dispatcher _dispatcher;
+
+    private void Awake()
+    {
+        _dispatcher = Dispatcher.Instance;
+    }
+
+    private void Update()
+    {
+        _dispatcher.InvokePending();
+
+        // if (_myThread == null) return;
+        //
+        // if (_myThread.IsAlive)
+        // {
+        //     Debug.Log("_myThread Alive");
+        // }
+        // else
+        // {
+        //     Debug.Log("_myThread Dead");
+        // }
+    }
+
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
+    {
+        if (_myThread == null || !_myThread.IsAlive)
+            _myThread = new Thread(CreateLevelActions);
+
+        _myThread.Start();
+        //CreateLevelActions();
+    }
+
+    private void CreateLevelActions()
     {
         do
         {
             createdBottlesContainer.Clear();
-            DestroyImmediate(lastCreatedParent);
+            //DestroyImmediate(lastCreatedParent);
             CreateLevel();
             ColorNumerator.NumerateColors(selectedColors);
         } while (!new AllBottles(createdBottlesContainer).IsSolvable());
 
+        //lastCreatedParent.SetActive(false);
+        Async_SetActive(lastCreatedParent, false);
+
+        //SaveLevelAsPrefab();
+        Async_SaveLevelAsPrefab();
+
+        //if (_myThread.IsAlive)
+
+        _myThread.Abort();
+
         Debug.Log("Solvable");
+    }
+
+    private void Async_SetActive(GameObject obj, bool state)
+    {
+        //Thread.Sleep(50);
+        _dispatcher.Invoke(() => obj.SetActive(state));
     }
 
     private void CreateLevel()
@@ -67,14 +121,21 @@ public class LevelMaker : MonoBehaviour
 
         RandomizeNumberOfBottle();
 
-        CreateLevelParentAndLineObjects();
+        //CreateLevelParentAndLineObjects();
+        Async_CreateLevelParentAndLineObjects();
 
-        CreateBottles(_numberOfBottlesCreate, noMatches);
+        //CreateBottles(_numberOfBottlesCreate, noMatches);
+        Async_CreateBottles(_numberOfBottlesCreate, noMatches);
     }
 
     private void RandomizeNumberOfBottle()
     {
-        _numberOfBottlesCreate = Random.Range(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
+        var hasString = "Level " + _randomChanger.ToString();
+        var rand = new Unity.Mathematics.Random((uint)hasString.GetHashCode());
+        _randomChanger += 7;
+        _numberOfBottlesCreate = rand.NextInt(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
+
+        //_numberOfBottlesCreate = Random.Range(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
     }
 
     private void SelectColorsToCreate()
@@ -97,6 +158,12 @@ public class LevelMaker : MonoBehaviour
         }
     }
 
+    private void Async_CreateLevelParentAndLineObjects()
+    {
+        Thread.Sleep(50);
+        _dispatcher.Invoke(() => CreateLevelParentAndLineObjects());
+    }
+
     private void CreateLevelParentAndLineObjects()
     {
         _levelParent = new GameObject("LevelParent");
@@ -109,7 +176,14 @@ public class LevelMaker : MonoBehaviour
 
         lastCreatedParent = _levelParent;
     }
-    
+
+    private void Async_CreateBottles(float numberOfBottleToCreate, bool matchState)
+    {
+        Thread.Sleep(50);
+        _dispatcher.Invoke(() => CreateBottles(numberOfBottleToCreate, matchState));
+    }
+
+
     private void CreateBottles(float numberOfBottleToCreate, bool matchState)
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
@@ -171,6 +245,7 @@ public class LevelMaker : MonoBehaviour
         }
     }
 
+
     private BottleController InitializeBottle()
     {
         _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
@@ -206,7 +281,7 @@ public class LevelMaker : MonoBehaviour
                 while (matchState && color == bottleController.GetColorAtPosition(checkIndex))
                 {
                     if (_myColorsList.Count < 2) break;
-                    
+
                     randomColorIndex = Random.Range(0, _myColorsList.Count);
                     color = _myColorsList[randomColorIndex].Color;
                 }
@@ -232,14 +307,22 @@ public class LevelMaker : MonoBehaviour
     {
         string levelPrefabPath = "Assets/Prefabs/Levels/" + "Level" + ".prefab";
         levelPrefabPath = AssetDatabase.GenerateUniqueAssetPath(levelPrefabPath);
-        var obj = PrefabUtility.SaveAsPrefabAssetAndConnect(_levelParent, levelPrefabPath,InteractionMode.UserAction);
+        var obj = PrefabUtility.SaveAsPrefabAssetAndConnect(_levelParent, levelPrefabPath, InteractionMode.UserAction);
+
 
         var level = ScriptableObject.CreateInstance<Level>();
         level.LevelPrefab = obj.GetComponent<LevelParent>();
         string levelScriptableObjectPath = "Assets/SCOB/Level/" + "Level_" + ".asset";
         levelScriptableObjectPath = AssetDatabase.GenerateUniqueAssetPath(levelScriptableObjectPath);
-        AssetDatabase.CreateAsset(level,levelScriptableObjectPath);
+        AssetDatabase.CreateAsset(level, levelScriptableObjectPath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+
+        Destroy(_levelParent);
+    }
+
+    private void Async_SaveLevelAsPrefab()
+    {
+        _dispatcher.Invoke(() => SaveLevelAsPrefab());
     }
 }

@@ -7,8 +7,8 @@ public class AllBottles
 
     private int _bottleIndex = 0;
 
-    private int _maxTryAmount = 10000;
-    private int _tryAmount = 0;
+    private int _maxIterationNum = 10000;
+    private int _iterationNum = 0;
 
     public AllBottles(List<BottleController> bottleControllers)
     {
@@ -34,16 +34,16 @@ public class AllBottles
     public bool IsSolvable()
     {
         TrySort(null);
-        Debug.Log("Try Amount: " + _tryAmount);
+        Debug.Log("Iteration Num: " + _iterationNum);
         return CheckAllBottleSorted();
     }
 
     private void TrySort(TransferMoves comingMove)
     {
-        if(_tryAmount > _maxTryAmount) return;
+        if(_iterationNum > _maxIterationNum) return;
         
         
-        _tryAmount++;
+        _iterationNum++;
 
         for (int i = 0; i < _allBottles.Count; i++)
         {
