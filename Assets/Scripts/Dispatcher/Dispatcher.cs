@@ -32,13 +32,7 @@ public class Dispatcher : IDispatcher
     {
         lock (_pending)
         {
-            // foreach (var action in pending)
-            // {
-            //     action(); // Invoke the action.
-            // } 
-
             while (_pending.Count > 0) _pending.Dequeue().Invoke();
-            
         }
 
         _pending.Clear(); // Clear the pending list.
