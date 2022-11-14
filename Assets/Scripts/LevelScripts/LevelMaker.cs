@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 using UnityEditor;
@@ -19,8 +17,8 @@ public class LevelMaker : MonoBehaviour
 
     [Space(10)] [SerializeField] private LineRenderer lineRenderer;
 
-    [Header("Color Database")] [SerializeField]
-    private Colors _colorsdb;
+    [Header("Databases")] [SerializeField] private Colors _colorsdb;
+    [SerializeField] private Data _data;
 
     [Header("Level Maker")] [SerializeField]
     private int numberOfColorsToCreate = 2;
@@ -31,13 +29,10 @@ public class LevelMaker : MonoBehaviour
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
     [SerializeField] private bool noMatches;
 
-    [Header("Created Bottles")] public List<BottleController> createdBottlesContainer;
-
 
     private int _createdBottles;
     private int _numberOfBottlesCreate;
     private int _totalWaterCount;
-    private int _randomChanger;
 
 
     private GameObject _levelParent;
@@ -46,27 +41,10 @@ public class LevelMaker : MonoBehaviour
     private GameObject _obj;
 
     private Thread _myThread;
-    private Dispatcher _dispatcher;
-
-    private void Awake()
-    {
-        _dispatcher = Dispatcher.Instance;
-    }
 
     private void Update()
     {
-        _dispatcher.InvokePending();
-
-        // if (_myThread == null) return;
-        //
-        // if (_myThread.IsAlive)
-        // {
-        //     Debug.Log("_myThread Alive");
-        // }
-        // else
-        // {
-        //     Debug.Log("_myThread Dead");
-        // }
+        Dispatcher.Instance.InvokePending();
     }
 
     // using by inspector gui
@@ -76,40 +54,51 @@ public class LevelMaker : MonoBehaviour
             _myThread = new Thread(CreateLevelActions);
 
         _myThread.Start();
-        //CreateLevelActions();
     }
 
     private void CreateLevelActions()
     {
-        do
-        {
-            createdBottlesContainer.Clear();
-            //DestroyImmediate(lastCreatedParent);
-            CreateLevel();
-            ColorNumerator.NumerateColors(selectedColors);
-        } while (!new AllBottles(createdBottlesContainer).IsSolvable());
+        CreateLevel();
 
-        //lastCreatedParent.SetActive(false);
-        Async_SetActive(lastCreatedParent, false);
 
-        //SaveLevelAsPrefab();
-        Async_SaveLevelAsPrefab();
-
-        //if (_myThread.IsAlive)
-
-        _myThread.Abort();
-
-        Debug.Log("Solvable");
+        // // check in do while
+        // do
+        // {
+        //     Debug.Log("in while");
+        //
+        //     createdBottlesContainer.Clear();
+        //
+        //     CreateLevel();
+        //     ColorNumerator.NumerateColors(selectedColors);
+        // } while (!new AllBottles(createdBottlesContainer).IsSolvable());
+        //
+        // Debug.Log("Solvable");
+        //
+        // //  Create bottles here
+        //
+        //
+        // //lastCreatedParent.SetActive(false);
+        // Async_SetActive(lastCreatedParent, false);
+        //
+        // //SaveLevelAsPrefab();
+        // Async_SaveLevelAsPrefab();
+        //
+        // //if (_myThread.IsAlive)
+        //
+        // _myThread.Abort();
+        //
+        // Debug.Log("Solvable");
     }
 
     private void Async_SetActive(GameObject obj, bool state)
     {
         //Thread.Sleep(50);
-        _dispatcher.Invoke(() => obj.SetActive(state));
+        Dispatcher.Instance.Invoke(() => obj.SetActive(state));
     }
 
     private void CreateLevel()
     {
+        _data.CreatedBottles.Clear();
         _createdBottles = 0;
         selectedColors.Clear();
 
@@ -122,27 +111,25 @@ public class LevelMaker : MonoBehaviour
         RandomizeNumberOfBottle();
 
         //CreateLevelParentAndLineObjects();
-        Async_CreateLevelParentAndLineObjects();
+        //Async_CreateLevelParentAndLineObjects();
 
         //CreateBottles(_numberOfBottlesCreate, noMatches);
         Async_CreateBottles(_numberOfBottlesCreate, noMatches);
     }
 
+    // THIS WILL CHANGE
     private void RandomizeNumberOfBottle()
     {
-        var hasString = "Level " + _randomChanger.ToString();
+        var hasString = "ExtraBottle " + _data.GetAmountOfExtraBottleIndex().ToString();
         var rand = new Unity.Mathematics.Random((uint)hasString.GetHashCode());
-        _randomChanger += 7;
         _numberOfBottlesCreate = rand.NextInt(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
-
-        //_numberOfBottlesCreate = Random.Range(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
     }
 
     private void SelectColorsToCreate()
     {
         while (selectedColors.Count < numberOfColorsToCreate)
         {
-            var selectedColor = _colorsdb.GetRandomColor();
+            var selectedColor = _colorsdb.GetRandomColor(_data.GetBottleColorRandomIndex());
 
             if (!selectedColors.Contains(selectedColor))
                 selectedColors.Add(selectedColor);
@@ -161,7 +148,7 @@ public class LevelMaker : MonoBehaviour
     private void Async_CreateLevelParentAndLineObjects()
     {
         Thread.Sleep(50);
-        _dispatcher.Invoke(() => CreateLevelParentAndLineObjects());
+        Dispatcher.Instance.Invoke(() => CreateLevelParentAndLineObjects());
     }
 
     private void CreateLevelParentAndLineObjects()
@@ -179,8 +166,8 @@ public class LevelMaker : MonoBehaviour
 
     private void Async_CreateBottles(float numberOfBottleToCreate, bool matchState)
     {
-        Thread.Sleep(50);
-        _dispatcher.Invoke(() => CreateBottles(numberOfBottleToCreate, matchState));
+        //Thread.Sleep(50);
+        Dispatcher.Instance.Invoke(() => CreateBottles(numberOfBottleToCreate, matchState));
     }
 
 
@@ -188,30 +175,46 @@ public class LevelMaker : MonoBehaviour
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
         {
-            var objBottleControllerScript = InitializeBottle();
+            Bottle tempBottle = new Bottle(-1);
+            DecreaseTotalWaterCount(tempBottle);
+            GetRandomColorForBottle(tempBottle, matchState);
 
-            DecreaseTotalWaterCount(objBottleControllerScript);
+            tempBottle.SetOpenPositionTo(FindPosition(numberOfBottleToCreate));
+            tempBottle.ParentNum = FindParent(numberOfBottleToCreate);
+            //tempBottle.ParentTransform = FindParent(numberOfColorsToCreate, _createdBottles);
+            //PositioningAndParenting(numberOfBottleToCreate, pos);
 
-            GetRandomColorForBottle(objBottleControllerScript, matchState);
+            tempBottle.CheckIsSorted();
+            _data.CreatedBottles.Add(tempBottle);
 
-            var pos = FindPosition(numberOfBottleToCreate);
-
-            PositioningAndParenting(numberOfBottleToCreate, pos);
-
-            // add create bottle to bottle container
-            createdBottlesContainer.Add(_obj.GetComponent<BottleController>());
 
             // increase created bottle amount
             _createdBottles++;
         }
 
-        AlignBottles();
+        Debug.Log(_data.CreatedBottles.Count);
+
+        AllBottles allBottles = new AllBottles(_data.CreatedBottles);
+        ColorNumerator.NumerateColors(selectedColors);
+
+        if (allBottles.IsSolvable())
+        {
+            Debug.Log("Solvable");
+            CreateLevelParentAndLineObjects();
+            CreateBottlesAndAssignPositions();
+            AlignBottles();
+            //Async_CreateLevelParentAndLineObjects();
+            //AlignBottles();
+        }
+        else
+        {
+            Debug.Log("Not Solvable");
+        }
     }
 
-    private void PositioningAndParenting(float numberOfBottleToCreate, Vector3 pos)
+    private int FindParent(float numberOfBottleToCreate)
     {
-        _obj.transform.position = pos;
-        _obj.transform.SetParent(_createdBottles < (numberOfBottleToCreate / 2) ? _line1.transform : _line2.transform);
+        return (_createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
     }
 
     private Vector3 FindPosition(float numberOfBottleToCreate)
@@ -224,27 +227,49 @@ public class LevelMaker : MonoBehaviour
         return pos;
     }
 
-    private void GetRandomColorForBottle(BottleController objBottleControllerScript, bool matchState)
+    private void GetRandomColorForBottle(Bottle tempBottle, bool matchState)
     {
-        for (int j = 0; j < objBottleControllerScript.BottleColors.Length; j++)
+        for (int j = 0; j < tempBottle.BottleColorsHashCodes.Length; j++)
         {
-            objBottleControllerScript.BottleColors[j] = GetColorFromList(matchState, objBottleControllerScript, j - 1);
+            var color = GetColorFromList(matchState, tempBottle, j - 1);
+            tempBottle.BottleColorsHashCodes[j] = color.GetHashCode();
+            tempBottle.BottleColors[j] = color;
         }
     }
 
-    private void DecreaseTotalWaterCount(BottleController objBottleControllerScript)
+    private void DecreaseTotalWaterCount(Bottle tempBottle)
     {
         if (_totalWaterCount >= 4)
         {
-            objBottleControllerScript.NumberOfColorsInBottle = 4;
+            tempBottle.NumberOfColorsInBottle = 4;
             _totalWaterCount -= 4;
         }
         else
         {
-            objBottleControllerScript.NumberOfColorsInBottle = 0;
+            tempBottle.NumberOfColorsInBottle = 0;
         }
     }
 
+    private void CreateBottlesAndAssignPositions()
+    {
+        for (int i = 0; i < _data.CreatedBottles.Count; i++)
+        {
+            var newBottle = InitializeBottle();
+            newBottle.NumberOfColorsInBottle = _data.CreatedBottles[i].NumberOfColorsInBottle;
+            newBottle.transform.position = _data.CreatedBottles[i].GetOpenPosition();
+            _data.CreatedBottles[i].BottleColors .CopyTo(newBottle.BottleColors,0);
+            
+
+            if (_data.CreatedBottles[i].ParentNum == 0)
+            {
+                newBottle.transform.SetParent(_line1.transform);
+            }
+            else if (_data.CreatedBottles[i].ParentNum == 1)
+            {
+                newBottle.transform.SetParent(_line2.transform);
+            }
+        }
+    }
 
     private BottleController InitializeBottle()
     {
@@ -269,16 +294,19 @@ public class LevelMaker : MonoBehaviour
         _line1.transform.parent.position = newParentPos;
     }
 
-    private Color GetColorFromList(bool matchState, BottleController bottleController, int checkIndex)
+
+
+    private Color GetColorFromList(bool matchState, Bottle tempBottle, int checkIndex)
     {
         if (_myColorsList.Count > 0)
         {
+            Random.InitState(_data.GetColorPickerRandomIndex());
             int randomColorIndex = Random.Range(0, _myColorsList.Count);
             var color = _myColorsList[randomColorIndex].Color;
 
             if (checkIndex >= 0)
             {
-                while (matchState && color == bottleController.GetColorAtPosition(checkIndex))
+                while (matchState && color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(checkIndex))
                 {
                     if (_myColorsList.Count < 2) break;
 
@@ -293,6 +321,8 @@ public class LevelMaker : MonoBehaviour
             {
                 _myColorsList.RemoveAt(randomColorIndex);
             }
+            
+            
 
             return color;
         }
@@ -323,6 +353,6 @@ public class LevelMaker : MonoBehaviour
 
     private void Async_SaveLevelAsPrefab()
     {
-        _dispatcher.Invoke(() => SaveLevelAsPrefab());
+        Dispatcher.Instance.Invoke(() => SaveLevelAsPrefab());
     }
 }

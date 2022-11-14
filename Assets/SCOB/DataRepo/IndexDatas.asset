@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be13a8d8f8d75e459dc5817a2bba9d8, type: 3}
   m_Name: IndexDatas
   m_EditorClassIdentifier: 
-  BottleColorRandomIndex: 24
-  ExtraBottleAmountRandomIndex: 3
-  ColorPickerRandomIndex: 6
+  BottleColorRandomIndex: 0
+  ExtraBottleAmountRandomIndex: 0
+  ColorPickerRandomIndex: 0
+  CreatedBottles: []

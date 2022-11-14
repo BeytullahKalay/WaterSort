@@ -1,13 +1,26 @@
 using System.Collections.Generic;
+using UnityEngine;
 
+[System.Serializable]
 public class Bottle
 {
     public Stack<int> NumberedBottleStack = new Stack<int>();
+
+    public int ParentNum;
+
+    public int NumberOfColorsInBottle = 0;
     
+    public int[] BottleColorsHashCodes = new int[4];
+    
+    public Color[] BottleColors = new Color[4];
+
     private int _bottleIndex =  -1;
     private int _topColorAmount;
+
+    private Vector3 _openPosition;
     
-    private bool _sorted;
+    private bool _sorted = false;
+    
     public Bottle(int bottleIndex)
     {
         _bottleIndex = bottleIndex;
@@ -85,5 +98,20 @@ public class Bottle
     public int GetBottleIndex()
     {
         return _bottleIndex;
+    }
+
+    public int GetColorHashCodeAtPosition(int checkIndex)
+    {
+        return BottleColorsHashCodes[checkIndex].GetHashCode();
+    }
+
+    public void SetOpenPositionTo(Vector3 pos)
+    {
+        _openPosition = pos;
+    }
+
+    public Vector3 GetOpenPosition()
+    {
+        return _openPosition;
     }
 }
