@@ -13,56 +13,14 @@ public class AllBottles
     private int _maxIterationNum = 10000;
     private int _iterationNum = 0;
 
-    // public AllBottles(List<BottleController> bottleControllers)
-    // {
-    //     foreach (var controller in bottleControllers)
-    //     {
-    //         Bottle b = new Bottle(_bottleIndex);
-    //
-    //         for (int i = 0; i < controller.NumberOfColorsInBottle; i++)
-    //         {
-    //             if (ColorNumerator.colorsNumerator.ContainsKey(controller.BottleColors[i]))
-    //             {
-    //                 b.NumberedBottleStack.Push(ColorNumerator.colorsNumerator[controller.BottleColors[i]]);
-    //             }
-    //         }
-    //
-    //         _allBottles.Add(b);
-    //         b.CalculateTopColorAmount();
-    //         _bottleIndex++;
-    //     }
-    // }
-
     public AllBottles(List<Bottle> tempBottles)
     {
-        // foreach (var bottle in tempBottles)
-        // {
-        //     _allBottles.Add(bottle);
-        //     bottle.CalculateTopColorAmount();
-        //     _bottleIndex++;
-        // }
-
-        //_allBottles = new List<Bottle>(tempBottles);
         _allBottles = tempBottles.ToList();
-
-        foreach (var bottle in _allBottles)
-        {
-            foreach (var color in bottle.BottleColorsHashCodes)
-            {
-                int blackHashCode = 532676608;
-                if (color != blackHashCode)
-                    bottle.NumberedBottleStack.Push(color);
-            }
-        }
-
-        // Debug.Log(_allBottles.Capacity);
     }
 
 
     public bool IsSolvable()
     {
-        //Debug.Log("All bottle length is: " + _allBottles.Count);
-
         if (CheckAllBottleSorted())
         {
             Debug.Log("sorted level");
@@ -121,11 +79,8 @@ public class AllBottles
     {
         bool isAllSorted = true;
 
-        //Debug.Log(_allBottles.Count);
-
         for (int i = 0; i < _allBottles.Count; i++)
         {
-            //Debug.Log(_allBottles[i].NumberedBottleStack.Count);
             if (!_allBottles[i].GetSorted() && _allBottles[i].NumberedBottleStack.Count > 0)
             {
                 isAllSorted = false;

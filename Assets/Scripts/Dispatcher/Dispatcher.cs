@@ -23,7 +23,6 @@ public class Dispatcher : IDispatcher
     // Schedule code for execution in the main-thread.
     public void Invoke(Action fn)
     {
-        //pending.Add(fn);
         _pending.Enqueue(fn);
     }
 

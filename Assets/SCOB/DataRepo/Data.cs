@@ -13,19 +13,19 @@ public class Data : ScriptableObject
 
     public int GetBottleColorRandomIndex()
     {
-        BottleColorRandomIndex += 5;
-        return BottleColorRandomIndex - 5;
+        BottleColorRandomIndex += 50;
+        return BottleColorRandomIndex - 50;
     }
 
     public int GetAmountOfExtraBottleIndex()
     {
-        ExtraBottleAmountRandomIndex += 5;
-        return ExtraBottleAmountRandomIndex - 5;
+        ExtraBottleAmountRandomIndex += 50;
+        return ExtraBottleAmountRandomIndex - 50;
     }
 
     public int GetColorPickerRandomIndex()
     {
-        ColorPickerRandomIndex +=5;
-        return ColorPickerRandomIndex - 5;
+        ColorPickerRandomIndex +=50;
+        return ColorPickerRandomIndex - 50;
     }
 }

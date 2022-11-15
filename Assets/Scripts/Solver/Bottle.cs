@@ -7,20 +7,19 @@ public class Bottle
     public Stack<int> NumberedBottleStack = new Stack<int>();
 
     public int ParentNum;
-
     public int NumberOfColorsInBottle = 0;
-    
+
     public int[] BottleColorsHashCodes = new int[4];
-    
+
     public Color[] BottleColors = new Color[4];
 
-    private int _bottleIndex =  -1;
+    private int _bottleIndex = -1;
     private int _topColorAmount;
 
     private Vector3 _openPosition;
-    
-    private bool _sorted = false;
-    
+
+    [SerializeField] private bool _sorted = false;
+
     public Bottle(int bottleIndex)
     {
         _bottleIndex = bottleIndex;
@@ -105,8 +104,15 @@ public class Bottle
         return BottleColorsHashCodes[checkIndex].GetHashCode();
     }
 
-    public void SetOpenPositionTo(Vector3 pos)
+    public void FindPositionAndAssignToPos(float numberOfBottleToCreate, int createdBottles, float bottleDistanceX,
+        float bottleStartPosY, float bottleDistanceY)
     {
+        var posA = new Vector3(createdBottles % (numberOfBottleToCreate / 2) * bottleDistanceX,
+            bottleStartPosY - bottleDistanceY * Mathf.Floor(createdBottles / (numberOfBottleToCreate / 2)), 0);
+
+        Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
+        pos.z = 0;
+
         _openPosition = pos;
     }
 
