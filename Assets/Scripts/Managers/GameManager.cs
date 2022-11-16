@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
         if (completedColorAmount == TotalColorAmount)
         {
-            EventManager.LevelCompleted();
+            EventManager.LevelCompleted?.Invoke();
         }
     }
 

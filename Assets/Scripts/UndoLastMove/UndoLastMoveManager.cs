@@ -27,7 +27,7 @@ public class UndoLastMoveManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.UpdateRemainingUndo(remainingUndo);
+        EventManager.UpdateRemainingUndo?.Invoke(remainingUndo);
 
         _remainingUndoCounter = remainingUndo;
     }

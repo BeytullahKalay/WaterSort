@@ -365,7 +365,7 @@ public class BottleController : MonoBehaviour
             {
                 GetComponent<BoxCollider2D>().enabled = true;
                 OnSpeedUp = false;
-                EventManager.AddMoveToList(this, BottleControllerRef, _topColorLayerAmountHolder,_previousTopColor);
+                EventManager.AddMoveToList?.Invoke(this, BottleControllerRef, _topColorLayerAmountHolder,_previousTopColor);
                 RemoveBottleFromInActionBottleList();
             });
 
@@ -454,7 +454,7 @@ public class BottleController : MonoBehaviour
                     transform.position + new Vector3(0, .25f, -1),
                     _gm.ConfettiParticle.transform.rotation);
                 Destroy(particleFX, 3);
-                EventManager.CheckIsLevelCompleted();
+                EventManager.CheckIsLevelCompleted?.Invoke();
                 StopCoroutine(_coroutine);
             }
             yield return null;

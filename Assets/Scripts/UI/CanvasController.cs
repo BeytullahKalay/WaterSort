@@ -60,15 +60,16 @@ public class CanvasController : MonoBehaviour
     // using by button actions
     public void NextLevelButtonAction()
     {
-        EventManager.LoadNextLevel();
-        EventManager.UpdateLevelText();
+        EventManager.DeletePlayedLevelAndCreateNewLevel?.Invoke();
+        EventManager.LoadNextLevel?.Invoke();
+        EventManager.UpdateLevelText?.Invoke();
     }
 
     // using by button actions
     public void UndoLastMove()
     {
         if (_gm.InActionBottleList.Count == 0)
-            EventManager.UndoLastMove();
+            EventManager.UndoLastMove?.Invoke();
     }
 
     // using by button actions

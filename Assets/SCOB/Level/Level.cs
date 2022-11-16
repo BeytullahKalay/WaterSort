@@ -3,5 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Objects/Level",fileName = "Level_")]
 public class Level : ScriptableObject
 {
-    [SerializeField] public LevelParent LevelPrefab;
+    public LevelParent LevelPrefab;
+
+    public string PrefabPath;
+    public string SCOB_Path;
 }

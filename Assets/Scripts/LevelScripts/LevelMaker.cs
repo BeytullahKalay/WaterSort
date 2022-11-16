@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -41,15 +42,19 @@ public class LevelMaker : MonoBehaviour
 
     private Thread _myThread;
 
+    private void OnEnable()
+    {
+        EventManager.CreateLevel += CreateNewLevel_GUIButton;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.CreateLevel -= CreateNewLevel_GUIButton;
+    }
+
     private void Update()
     {
         Dispatcher.Instance.InvokePending();
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log("CALLED!!a");
-            CreateNewLevel_GUIButton();
-        }
     }
 
     // using by inspector gui
@@ -85,7 +90,7 @@ public class LevelMaker : MonoBehaviour
         _totalWaterCount = selectedColors.Count * 4;
 
         RandomizeNumberOfBottle();
-        
+
         CreateBottles(_numberOfBottlesCreate, noMatches);
 
         AllBottles allBottles = new AllBottles(_data.CreatedBottles);
@@ -94,23 +99,21 @@ public class LevelMaker : MonoBehaviour
         if (allBottles.IsSolvable())
         {
             Debug.Log("Solvable");
-            
+
             //CreateLevelParentAndLineObjects();
             MainThread_CreateLevelParentAndLineObjects();
-        
+
             //CreateBottlesAndAssignPositions();
             MainThread_CreateBottlesAndAssignPositions();
-            
+
             MainThread_SaveLevelAsPrefab();
         }
         else
         {
             CreateLevel();
         }
-        
     }
 
-    // THIS WILL CHANGE
     private void RandomizeNumberOfBottle()
     {
         var hasString = "ExtraBottle " + _data.GetAmountOfExtraBottleIndex().ToString();
@@ -165,27 +168,26 @@ public class LevelMaker : MonoBehaviour
             Bottle tempBottle = new Bottle(i);
             DecreaseTotalWaterCount(tempBottle);
             GetRandomColorForBottle(tempBottle, matchState);
-            
 
-            MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle,_createdBottles);
+
+            MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle, _createdBottles);
 
             tempBottle.ParentNum = FindParent(numberOfBottleToCreate);
 
             _data.CreatedBottles.Add(tempBottle);
-            
+
             // increase created bottle amount
             _createdBottles++;
         }
     }
 
-    private void MainThread_SetBottlePosition(float numberOfBottleToCreate, Bottle tempBottle,int createdBottles)
+    private void MainThread_SetBottlePosition(float numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
     {
-        Dispatcher.Instance.Invoke(() => SetBottlePosition(numberOfBottleToCreate, tempBottle,createdBottles));
+        Dispatcher.Instance.Invoke(() => SetBottlePosition(numberOfBottleToCreate, tempBottle, createdBottles));
     }
 
-    private void SetBottlePosition(float numberOfBottleToCreate, Bottle tempBottle,int createdBottles)
+    private void SetBottlePosition(float numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
     {
-        //tempBottle.SetOpenPositionTo(FindPosition(numberOfBottleToCreate));
         tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX, bottleStartPosY,
             bottleDistanceY);
     }
@@ -195,7 +197,6 @@ public class LevelMaker : MonoBehaviour
     {
         return (_createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
     }
-
 
     private void GetRandomColorForBottle(Bottle tempBottle, bool matchState)
     {
@@ -288,7 +289,6 @@ public class LevelMaker : MonoBehaviour
         _line1.transform.parent.position = newParentPos;
     }
 
-
     private Color GetColorFromList(bool matchState, Bottle tempBottle, int checkIndex)
     {
         if (_myColorsList.Count > 0)
@@ -305,7 +305,7 @@ public class LevelMaker : MonoBehaviour
                 while (matchState && color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(checkIndex))
                 {
                     if (_myColorsList.Count < 2) break;
-                    
+
                     var newHashString = "GetRandomColor " + _data.GetColorPickerRandomIndex().ToString();
                     var newRandomSeed = new Unity.Mathematics.Random((uint)newHashString.GetHashCode());
 
@@ -345,6 +345,11 @@ public class LevelMaker : MonoBehaviour
         AssetDatabase.CreateAsset(level, levelScriptableObjectPath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+
+        level.PrefabPath = levelPrefabPath;
+        level.SCOB_Path = levelScriptableObjectPath;
+
+        EventManager.SaveLevel?.Invoke(level);
 
         Destroy(_levelParent);
     }

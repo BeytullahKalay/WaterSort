@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b383301ed9a585d4c83096ac97062aa4, type: 3}
-  m_Name: Level_ 3
+  m_Script: {fileID: 11500000, guid: 7b3fe56d4cc2cb243b86e284766bdf54, type: 3}
+  m_Name: LevelHolder
   m_EditorClassIdentifier: 
-  LevelPrefab: {fileID: 7018255981279829364, guid: bf61a477f497ad54a9d0db78a712980f,
-    type: 3}
+  Levels_SO: []
