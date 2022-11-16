@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEditor;
-using Random = UnityEngine.Random;
 
 public class LevelMaker : MonoBehaviour
 {
@@ -65,38 +64,6 @@ public class LevelMaker : MonoBehaviour
     private void CreateLevelActions()
     {
         CreateLevel();
-
-        #region commnets
-
-        // // check in do while
-        // do
-        // {
-        //     Debug.Log("in while");
-        //
-        //     createdBottlesContainer.Clear();
-        //
-        //     CreateLevel();
-        //     ColorNumerator.NumerateColors(selectedColors);
-        // } while (!new AllBottles(createdBottlesContainer).IsSolvable());
-        //
-        // Debug.Log("Solvable");
-        //
-        // //  Create bottles here
-        //
-        //
-        // //lastCreatedParent.SetActive(false);
-        // Async_SetActive(lastCreatedParent, false);
-        //
-        // //SaveLevelAsPrefab();
-        // Async_SaveLevelAsPrefab();
-        //
-        // //if (_myThread.IsAlive)
-        //
-        // _myThread.Abort();
-        //
-        // Debug.Log("Solvable");
-
-        #endregion
     }
 
     private void Async_SetActive(GameObject obj, bool state)
