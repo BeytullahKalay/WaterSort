@@ -15,7 +15,7 @@ public class Colors : ScriptableObject
     
     public List<Entry> colors = new List<Entry>();
 
-    public Color GetRandomColor(int comingColorIndex)
+    public Color GetRandomColor(long comingColorIndex)
     {
         var hashString = "GetRandomColor " + comingColorIndex.ToString(); 
         var rand = new Unity.Mathematics.Random((uint)hashString.GetHashCode());

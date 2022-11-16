@@ -118,8 +118,7 @@ public class LevelMaker : MonoBehaviour
         _totalWaterCount = selectedColors.Count * 4;
 
         RandomizeNumberOfBottle();
-
-
+        
         CreateBottles(_numberOfBottlesCreate, noMatches);
 
         AllBottles allBottles = new AllBottles(_data.CreatedBottles);
@@ -199,20 +198,14 @@ public class LevelMaker : MonoBehaviour
             Bottle tempBottle = new Bottle(i);
             DecreaseTotalWaterCount(tempBottle);
             GetRandomColorForBottle(tempBottle, matchState);
-
-
-            //SetBottlePosition(numberOfBottleToCreate, tempBottle);
+            
 
             MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle,_createdBottles);
 
             tempBottle.ParentNum = FindParent(numberOfBottleToCreate);
-            //tempBottle.ParentTransform = FindParent(numberOfColorsToCreate, _createdBottles);
-            //PositioningAndParenting(numberOfBottleToCreate, pos);
 
-            //tempBottle.CheckIsSorted();
             _data.CreatedBottles.Add(tempBottle);
-
-
+            
             // increase created bottle amount
             _createdBottles++;
         }
@@ -229,18 +222,6 @@ public class LevelMaker : MonoBehaviour
         tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX, bottleStartPosY,
             bottleDistanceY);
     }
-
-    // private Vector3 FindPosition(float numberOfBottleToCreate)
-    // {
-    //     Debug.Log("Number of Bottle To Create : " + numberOfBottleToCreate);
-    //     
-    //     var posA = new Vector3(_createdBottles % (numberOfBottleToCreate / 2) * bottleDistanceX,
-    //         bottleStartPosY - bottleDistanceY * Mathf.Floor(_createdBottles / (numberOfBottleToCreate / 2)), 0);
-    //
-    //     Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
-    //     pos.z = 0;
-    //     return pos;
-    // }
 
 
     private int FindParent(float numberOfBottleToCreate)
@@ -271,6 +252,7 @@ public class LevelMaker : MonoBehaviour
         }
 
         comingBottle.CheckIsSorted();
+        comingBottle.CalculateTopColorAmount();
     }
 
     private void DecreaseTotalWaterCount(Bottle tempBottle)

@@ -5,9 +5,7 @@ using Debug = UnityEngine.Debug;
 public class AllBottles
 {
     private List<Bottle> _allBottles = new List<Bottle>();
-
-    private int _bottleIndex = 0;
-
+    
     private int _maxIterationNum = 10000;
     private int _iterationNum = 0;
 
