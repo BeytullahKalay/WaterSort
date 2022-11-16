@@ -128,18 +128,20 @@ public class LevelMaker : MonoBehaviour
         if (allBottles.IsSolvable())
         {
             Debug.Log("Solvable");
-        
-        
+            
             //CreateLevelParentAndLineObjects();
             MainThread_CreateLevelParentAndLineObjects();
         
             //CreateBottlesAndAssignPositions();
             MainThread_CreateBottlesAndAssignPositions();
+            
+            MainThread_SaveLevelAsPrefab();
         }
         else
         {
-            Debug.Log("Not Solvable");
+            CreateLevel();
         }
+        
     }
 
     // THIS WILL CHANGE
@@ -194,7 +196,7 @@ public class LevelMaker : MonoBehaviour
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
         {
-            Bottle tempBottle = new Bottle(-1);
+            Bottle tempBottle = new Bottle(i);
             DecreaseTotalWaterCount(tempBottle);
             GetRandomColorForBottle(tempBottle, matchState);
 
@@ -318,6 +320,8 @@ public class LevelMaker : MonoBehaviour
 
         var objBottleControllerScript = _obj.GetComponent<BottleController>();
 
+        objBottleControllerScript.BottleSorted = false;
+
         objBottleControllerScript.LineRenderer = lineRenderer;
         return objBottleControllerScript;
     }
@@ -352,8 +356,11 @@ public class LevelMaker : MonoBehaviour
                 while (matchState && color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(checkIndex))
                 {
                     if (_myColorsList.Count < 2) break;
+                    
+                    var newHashString = "GetRandomColor " + _data.GetColorPickerRandomIndex().ToString();
+                    var newRandomSeed = new Unity.Mathematics.Random((uint)newHashString.GetHashCode());
 
-                    randomColorIndex = Random.Range(0, _myColorsList.Count);
+                    randomColorIndex = newRandomSeed.NextInt(0, _myColorsList.Count);
                     color = _myColorsList[randomColorIndex].Color;
                 }
             }
@@ -393,7 +400,7 @@ public class LevelMaker : MonoBehaviour
         Destroy(_levelParent);
     }
 
-    private void Async_SaveLevelAsPrefab()
+    private void MainThread_SaveLevelAsPrefab()
     {
         Dispatcher.Instance.Invoke(() => SaveLevelAsPrefab());
     }

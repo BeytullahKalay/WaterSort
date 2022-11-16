@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 
 public class TransferMoves
 {
@@ -88,6 +89,7 @@ public class TransferMoves
 
     private void WriteDoActionsToTxtFile(Bottle from, Bottle to,bool isUndo)
     {
+        //path = AssetDatabase.GenerateUniqueAssetPath(path);
         if (isUndo)
         {
             List<string> lines = File.ReadAllLines(path).ToList();
@@ -95,13 +97,9 @@ public class TransferMoves
         }
         else
         {
-            string s = "";
-
-            s = isUndo ? "(UNDO)" : "";
-        
             using (StreamWriter sw = File.AppendText(path))
             {
-                sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex() + s);
+                sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex());
             }
         }
     }

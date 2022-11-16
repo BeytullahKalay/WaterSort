@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using UnityEngine.iOS;
 using Debug = UnityEngine.Debug;
 
 public class AllBottles
