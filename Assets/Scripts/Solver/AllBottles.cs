@@ -17,9 +17,9 @@ public class AllBottles
 
     public bool IsSolvable()
     {
-        if (CheckAllBottleSorted())
+        if (CheckIsOneBottleSorted())
         {
-            Debug.Log("sorted level");
+            Debug.Log("One bottle already sorted");
             return false;
         }
 
@@ -83,7 +83,22 @@ public class AllBottles
                 break;
             }
         }
-
         return isAllSorted;
+    }
+
+    private bool CheckIsOneBottleSorted()
+    {
+        bool isOnBottleSorted = false;
+
+        for (int i = 0; i < _allBottles.Count; i++)
+        {
+            if (_allBottles[i].GetSorted() && _allBottles[i].NumberedBottleStack.Count > 0)
+            {
+                isOnBottleSorted = true;
+                break;
+            }
+        }
+
+        return isOnBottleSorted;
     }
 }

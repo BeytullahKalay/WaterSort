@@ -12,100 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be13a8d8f8d75e459dc5817a2bba9d8, type: 3}
   m_Name: IndexDatas
   m_EditorClassIdentifier: 
-  BottleColorRandomIndex: 950
+  BottleColorRandomIndex: 150
   ExtraBottleAmountRandomIndex: 50
-  ColorPickerRandomIndex: 4350
+  ColorPickerRandomIndex: 600
   CreatedBottles:
   - ParentNum: 0
     NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 00002010d9864dd3f4c4ffd4000040de
+    BottleColorsHashCodes: 00002010000040de0000201000002010
     BottleColors:
     - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
-    - {r: 0.33962262, g: 0.32802057, b: 0.011213961, a: 1}
     - {r: 1, g: 1, b: 0, a: 1}
-    _sorted: 1
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 000040de999e3ed7a5a202d30000c0e1
-    BottleColors:
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - {r: 0, g: 1, b: 0, a: 1}
-    _sorted: 1
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 0000c0e1000040dea6a141d200004020
-    BottleColors:
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
-    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
     _sorted: 0
   - ParentNum: 0
     NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 00004020000040ded9864dd3f4c4ffd4
+    BottleColorsHashCodes: a5a202d3a5a202d300002010a5a202d3
     BottleColors:
-    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    _sorted: 1
+  - ParentNum: 0
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: 000040de000040dea5a202d3000040de
+    BottleColors:
     - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
-    - {r: 0.33962262, g: 0.32802057, b: 0.011213961, a: 1}
-    _sorted: 1
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 999e3ed7f4c4ffd4d9864dd3f4c4ffd4
-    BottleColors:
-    - {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
-    - {r: 0.33962262, g: 0.32802057, b: 0.011213961, a: 1}
-    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
-    - {r: 0.33962262, g: 0.32802057, b: 0.011213961, a: 1}
-    _sorted: 1
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 999e3ed700004020999e3ed7a5a202d3
-    BottleColors:
-    - {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
-    - {r: 1, g: 0, b: 0, a: 1}
-    - {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
     - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    _sorted: 1
-  - ParentNum: 1
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: d9864dd3000040209896d6dca5a202d3
-    BottleColors:
-    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
-    - {r: 1, g: 0, b: 0, a: 1}
-    - {r: 1, g: 0.64705884, b: 0, a: 1}
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    _sorted: 1
-  - ParentNum: 1
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 9896d6dca5a202d39896d6dca6a141d2
-    BottleColors:
-    - {r: 1, g: 0.64705884, b: 0, a: 1}
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - {r: 1, g: 0.64705884, b: 0, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
     _sorted: 0
-  - ParentNum: 1
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 9896d6dc000020100000c0e100002010
-    BottleColors:
-    - {r: 1, g: 0.64705884, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    _sorted: 1
-  - ParentNum: 1
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 0000c0e100002010a6a141d2a6a141d2
-    BottleColors:
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
-    _sorted: 1
   - ParentNum: 1
     NumberOfColorsInBottle: 0
     BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
