@@ -57,21 +57,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _pool = new ObjectPool<LineRenderer>(() =>
-        {
-            return Instantiate(lineRenderer);
-        }, lr =>
-        {
-            lr.gameObject.SetActive(true);
-        }, lr =>
-        {
-            lr.gameObject.SetActive(false);
-        }, lr =>
-        {
-            Destroy(lr.gameObject);
-        }, false, 10);
+        DefineLineRendererPool();
     }
-    
+
+    private void DefineLineRendererPool()
+    {
+        _pool = new ObjectPool<LineRenderer>(() => { return Instantiate(lineRenderer); },
+            lr => { lr.gameObject.SetActive(true); }, lr => { lr.gameObject.SetActive(false); },
+            lr => { Destroy(lr.gameObject); }, false, 10);
+    }
+
     private void CheckLevelIsCompleted()
     {
         int completedColorAmount = 0;

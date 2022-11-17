@@ -65,7 +65,11 @@ public class BottleController : MonoBehaviour
     private Tween _rotateBottleBack;
     public bool OnSpeedUp;
 
+    // Game manager
     private GameManager _gm;
+    
+    [Header("Bottle Helper")] [SerializeField]
+    public Bottle HelperBottle;
 
     private void Start()
     {
@@ -463,10 +467,5 @@ public class BottleController : MonoBehaviour
             }
             yield return null;
         }
-    }
-
-    public Color GetColorAtPosition(int positionIndex)
-    {
-        return BottleColors[positionIndex];
     }
 }

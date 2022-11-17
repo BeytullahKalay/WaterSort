@@ -16,7 +16,7 @@ public class Bottle
     private int _bottleIndex = -1;
     private int _topColorAmount;
 
-    private Vector3 _openPosition;
+   [SerializeField]private Vector3 _openPosition;
 
     [SerializeField] private bool _sorted = false;
 
@@ -112,6 +112,7 @@ public class Bottle
 
         Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
         pos.z = 0;
+        
 
         _openPosition = pos;
     }

@@ -188,14 +188,28 @@ public class LevelMaker : MonoBehaviour
 
     private void AddExtraEmptyBottle()
     {
+        var gm = GameManager.Instance;
+        
         Bottle extraBottleHelper = new Bottle(-1);
         var extraBottle = InitializeBottle();
+        extraBottle.HelperBottle = extraBottleHelper;
         extraBottle.NumberOfColorsInBottle = 0;
-        var bottleControllerList = GameManager.Instance.bottleControllers;
+        extraBottle.transform.SetParent(gm.line2);
+
+        var bottleControllerList = gm.bottleControllers;
         bottleControllerList.Add(extraBottle);
-        
-        //SetBottlePosition(bottleControllerList.Count,extraBottleHelper,bottleControllerList.Count - 1);
-        //extraBottle.transform.position =extraBottleHelper.GetOpenPosition();
+
+        _line1 = gm.line1.gameObject;
+        _line2 = gm.line2.gameObject;
+
+        // for (int i = 0; i < bottleControllerList.Count; i++)
+        // {
+        //     MainThread_SetBottlePosition(bottleControllerList.Count,bottleControllerList[i].HelperBottle,i);
+        //     bottleControllerList[i].transform.position = bottleControllerList[i].HelperBottle.GetOpenPosition();
+        // }
+
+
+        //AlignBottles();
     }
 
 
@@ -252,6 +266,7 @@ public class LevelMaker : MonoBehaviour
         for (int i = 0; i < _data.CreatedBottles.Count; i++)
         {
             var newBottle = InitializeBottle();
+            newBottle.HelperBottle = _data.CreatedBottles[i];
             newBottle.NumberOfColorsInBottle = _data.CreatedBottles[i].NumberOfColorsInBottle;
             newBottle.transform.position = _data.CreatedBottles[i].GetOpenPosition();
             _data.CreatedBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
