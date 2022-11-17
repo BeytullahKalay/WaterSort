@@ -261,7 +261,6 @@ public class BottleController : MonoBehaviour
         }
 
         // set line renderer start and end color
-        //LineRenderer = _gm.LineRenderer;
         LineRenderer = _gm.GetLineRenderer();
         LineRenderer.startColor = TopColor;
         LineRenderer.endColor = TopColor;

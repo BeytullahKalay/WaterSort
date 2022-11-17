@@ -44,12 +44,6 @@ public class LevelManager : MonoBehaviour
     {
         if (_currentLevel != null) Destroy(_currentLevel);
 
-        if (PlayerPrefs.GetInt("LevelIndex") > levelHolder.Levels_SO.Count)
-        {
-            Debug.Log("Level manager could not create level because of there is no level in index " +
-                      PlayerPrefs.GetInt("LevelIndex"));
-        }
-
         if (levelHolder.Levels_SO.Count > 0)
         {
             _currentLevel = Instantiate(levelHolder.Levels_SO[0].LevelPrefab.gameObject);

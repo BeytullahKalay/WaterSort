@@ -67,8 +67,7 @@ public class GameManager : MonoBehaviour
             Destroy(lr.gameObject);
         }, false, 10);
     }
-
-
+    
     private void CheckLevelIsCompleted()
     {
         int completedColorAmount = 0;
@@ -92,14 +91,7 @@ public class GameManager : MonoBehaviour
             bottleController.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
-
-
-    public GameObject ConfettiParticle => confettiParticle;
-
-    public Material Mat => mat;
-
-    public LineRenderer LineRenderer => lineRenderer;
-
+    
     public LineRenderer GetLineRenderer()
     {
         return _pool.Get();
@@ -109,4 +101,11 @@ public class GameManager : MonoBehaviour
     {
         _pool.Release(lr);
     }
+    
+    public GameObject ConfettiParticle => confettiParticle;
+
+    public Material Mat => mat;
+    
+
+
 }
