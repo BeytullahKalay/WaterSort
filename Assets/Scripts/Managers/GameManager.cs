@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,7 +47,26 @@ public class GameManager : MonoBehaviour
 
     [Header("In Action")] [SerializeField]
     public List<BottleController> InActionBottleList = new List<BottleController>();
-    
+
+
+    private ObjectPool<LineRenderer> _pool;
+
+    private void Start()
+    {
+        _pool = new ObjectPool<LineRenderer>(() =>
+        {
+            return Instantiate(lineRenderer);
+        }, lr =>
+        {
+            lr.gameObject.SetActive(true);
+        }, lr =>
+        {
+            lr.gameObject.SetActive(false);
+        }, lr =>
+        {
+            Destroy(lr.gameObject);
+        }, false, 10);
+    }
 
 
     private void CheckLevelIsCompleted()
@@ -78,4 +99,14 @@ public class GameManager : MonoBehaviour
     public Material Mat => mat;
 
     public LineRenderer LineRenderer => lineRenderer;
+
+    public LineRenderer GetLineRenderer()
+    {
+        return _pool.Get();
+    }
+
+    public void ReleaseLineRenderer(LineRenderer lr)
+    {
+        _pool.Release(lr);
+    }
 }

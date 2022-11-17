@@ -71,7 +71,7 @@ public class BottleController : MonoBehaviour
     {
         _gm = GameManager.Instance;
         BottleMaskSR.material = _gm.Mat;
-        LineRenderer = _gm.LineRenderer;
+        //LineRenderer = _gm.LineRenderer;
         _coroutine = CheckIsBottleSorted_Co();
         BottleMaskSR.material.SetFloat("_FillAmount", FillAmounts[NumberOfColorsInBottle]);
         originalPosition = transform.position;
@@ -261,6 +261,8 @@ public class BottleController : MonoBehaviour
         }
 
         // set line renderer start and end color
+        //LineRenderer = _gm.LineRenderer;
+        LineRenderer = _gm.GetLineRenderer();
         LineRenderer.startColor = TopColor;
         LineRenderer.endColor = TopColor;
 
@@ -355,6 +357,7 @@ public class BottleController : MonoBehaviour
     {
         transform.DOMove(originalPosition, MoveBottleDuration);
         transform.DORotate(Vector3.zero, RotateBottleDuration);
+        _gm.ReleaseLineRenderer(LineRenderer);
 
         var angle = 0;
         _rotateBottleBack = DOTween.To(() => angle, x => angle = x, 1, RotateBottleDuration)
