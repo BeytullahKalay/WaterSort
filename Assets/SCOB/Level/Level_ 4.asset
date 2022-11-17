@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b383301ed9a585d4c83096ac97062aa4, type: 3}
-  m_Name: Level_ 2
+  m_Name: Level_ 4
   m_EditorClassIdentifier: 
-  LevelPrefab: {fileID: 5630596117952051245, guid: 758c91b43f25ee643a64ded454126f7d,
+  LevelPrefab: {fileID: 8786637121306621619, guid: f18400d0718d27946884a6674cf5bfdb,
     type: 3}
-  PrefabPath: Assets/Prefabs/Levels/Level 2.prefab
-  SCOB_Path: Assets/SCOB/Level/Level_ 2.asset
+  PrefabPath: 
+  SCOB_Path: 

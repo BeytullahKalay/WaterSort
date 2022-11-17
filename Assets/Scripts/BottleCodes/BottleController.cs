@@ -375,6 +375,8 @@ public class BottleController : MonoBehaviour
         BottleMaskSR.sortingOrder -= 2;
         BottleControllerRef.BottleIsLocked = false;
         BottleControllerRef.ActionBottles.Remove(this);
+
+        BottleColors[NumberOfColorsInBottle] = TopColor;
     }
 
     private void RemoveBottleFromInActionBottleList()
