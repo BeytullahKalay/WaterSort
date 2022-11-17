@@ -12,52 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be13a8d8f8d75e459dc5817a2bba9d8, type: 3}
   m_Name: IndexDatas
   m_EditorClassIdentifier: 
-  BottleColorRandomIndex: 150
-  ExtraBottleAmountRandomIndex: 50
-  ColorPickerRandomIndex: 600
-  CreatedBottles:
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 00002010000040de0000201000002010
-    BottleColors:
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    _sorted: 0
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: a5a202d3a5a202d300002010a5a202d3
-    BottleColors:
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    _sorted: 1
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 000040de000040dea5a202d3000040de
-    BottleColors:
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    _sorted: 0
-  - ParentNum: 1
-    NumberOfColorsInBottle: 0
-    BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
-    BottleColors:
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    _sorted: 1
-  - ParentNum: 1
-    NumberOfColorsInBottle: 0
-    BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
-    BottleColors:
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    _sorted: 1
+  BottleColorRandomIndex: 0
+  ExtraBottleAmountRandomIndex: 0
+  ColorPickerRandomIndex: 0
+  CreatedBottles: []
