@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
     [Header("In Action")] [SerializeField]
     public List<BottleController> InActionBottleList = new List<BottleController>();
 
+    [Header("Lines")] 
+    public Transform line1;
+    public Transform line2;
+    
+    
 
     private ObjectPool<LineRenderer> _pool;
 

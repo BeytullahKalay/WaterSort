@@ -13,9 +13,7 @@ public class LevelMaker : MonoBehaviour
 
 
     [SerializeField] private GameObject bottle;
-
-    [Space(10)] [SerializeField] private LineRenderer lineRenderer;
-
+    
     [Header("Databases")] [SerializeField] private Colors _colorsdb;
     [SerializeField] private Data _data;
 
@@ -44,11 +42,13 @@ public class LevelMaker : MonoBehaviour
     private void OnEnable()
     {
         EventManager.CreateLevel += CreateNewLevel_GUIButton;
+        EventManager.AddExtraEmptyBottle += AddExtraEmptyBottle;
     }
 
     private void OnDisable()
     {
         EventManager.CreateLevel -= CreateNewLevel_GUIButton;
+        EventManager.AddExtraEmptyBottle -= AddExtraEmptyBottle;
     }
 
     private void Update()
@@ -68,12 +68,6 @@ public class LevelMaker : MonoBehaviour
     private void CreateLevelActions()
     {
         CreateLevel();
-    }
-
-    private void Async_SetActive(GameObject obj, bool state)
-    {
-        //Thread.Sleep(50);
-        Dispatcher.Instance.Invoke(() => obj.SetActive(state));
     }
 
     private void CreateLevel()
@@ -156,6 +150,7 @@ public class LevelMaker : MonoBehaviour
         _levelParent.AddComponent<LevelParent>();
         _levelParent.GetComponent<LevelParent>().numberOfColor = numberOfColorsToCreate;
 
+        _levelParent.GetComponent<LevelParent>().GetLines(_line1.transform,_line2.transform);
         lastCreatedParent = _levelParent;
     }
 
@@ -189,6 +184,18 @@ public class LevelMaker : MonoBehaviour
     {
         tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX, bottleStartPosY,
             bottleDistanceY);
+    }
+
+    private void AddExtraEmptyBottle()
+    {
+        Bottle extraBottleHelper = new Bottle(-1);
+        var extraBottle = InitializeBottle();
+        extraBottle.NumberOfColorsInBottle = 0;
+        var bottleControllerList = GameManager.Instance.bottleControllers;
+        bottleControllerList.Add(extraBottle);
+        
+        //SetBottlePosition(bottleControllerList.Count,extraBottleHelper,bottleControllerList.Count - 1);
+        //extraBottle.transform.position =extraBottleHelper.GetOpenPosition();
     }
 
 
@@ -271,7 +278,6 @@ public class LevelMaker : MonoBehaviour
 
         objBottleControllerScript.BottleSorted = false;
 
-        objBottleControllerScript.LineRenderer = lineRenderer;
         return objBottleControllerScript;
     }
 

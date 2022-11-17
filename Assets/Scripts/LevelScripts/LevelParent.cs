@@ -4,13 +4,28 @@ public class LevelParent : MonoBehaviour
 {
     public int numberOfColor;
 
+    [SerializeField] private Transform _line1, _line2;
+
     private void Start()
     {
         GameManager.Instance.TotalColorAmount = numberOfColor;
-
         var gm = GameManager.Instance;
         gm.bottleControllers.Clear();
 
+        AddControllersToTheControllerList(gm);
+
+        AssignLinesToGameManager(_line1, _line2);
+    }
+
+    private void AssignLinesToGameManager(Transform line1, Transform line2)
+    {
+        var gm = GameManager.Instance;
+        gm.line1 = line1;
+        gm.line2 = line2;
+    }
+
+    private void AddControllersToTheControllerList(GameManager gm)
+    {
         foreach (Transform child in transform)
         {
             foreach (Transform grandChild in child)
@@ -18,5 +33,11 @@ public class LevelParent : MonoBehaviour
                 gm.bottleControllers.Add(grandChild.GetComponent<BottleController>());
             }
         }
+    }
+
+    public void GetLines(Transform line1, Transform line2)
+    {
+        _line1 = line1;
+        _line2 = line2;
     }
 }

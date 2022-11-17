@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: LevelHolder
   m_EditorClassIdentifier: 
   Levels_SO:
-  - {fileID: 11400000, guid: 0f216d4725ab4a04c88552756a364a2f, type: 2}
-  - {fileID: 11400000, guid: 7ef135f76e257b24ebf1f94194102c25, type: 2}
   - {fileID: 11400000, guid: ca2fb9b9737ff2a44aa2258afcdcb0d4, type: 2}
+  - {fileID: 11400000, guid: 1371cf9e9df6c2548ab0af7d1db24003, type: 2}

@@ -41,7 +41,7 @@ public class BottleController : MonoBehaviour
     public Transform LeftRotationPoint;
     public Transform RightRotationPoint;
     private Transform _chosenRotationPoint;
-    public LineRenderer LineRenderer;
+    private LineRenderer LineRenderer;
     private int _numberOfColorsToTransfer = 0;
 
     [Header("Locker Values")] public bool BottleIsLocked;
@@ -71,7 +71,6 @@ public class BottleController : MonoBehaviour
     {
         _gm = GameManager.Instance;
         BottleMaskSR.material = _gm.Mat;
-        //LineRenderer = _gm.LineRenderer;
         _coroutine = CheckIsBottleSorted_Co();
         BottleMaskSR.material.SetFloat("_FillAmount", FillAmounts[NumberOfColorsInBottle]);
         originalPosition = transform.position;

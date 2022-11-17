@@ -14,4 +14,5 @@ public static class EventManager
     public static Action UpdateLevelText;
     public static Action CreateLevel;
     public static Action<Level> SaveLevel;
+    public static Action AddExtraEmptyBottle;
 }

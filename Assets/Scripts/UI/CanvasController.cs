@@ -83,6 +83,7 @@ public class CanvasController : MonoBehaviour
     public void AddOneMoreBottle()
     {
         Debug.Log("Add one more bottle");
+        EventManager.AddExtraEmptyBottle?.Invoke();
     }
 
     // using by button actions

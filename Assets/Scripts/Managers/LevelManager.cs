@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    //[SerializeField] private LevelMaker levelMaker;
-
     [SerializeField] private LevelHolder levelHolder;
 
     private GameObject _currentLevel;
@@ -89,7 +87,6 @@ public class LevelManager : MonoBehaviour
 
     private void CreateNewLevelForAssets()
     {
-        //levelMaker.CreateNewLevel_GUIButton();
         EventManager.CreateLevel?.Invoke();
     }
 
