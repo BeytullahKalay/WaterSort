@@ -376,6 +376,7 @@ public class BottleController : MonoBehaviour
         BottleControllerRef.BottleIsLocked = false;
         BottleControllerRef.ActionBottles.Remove(this);
 
+        // change top water color for not glitching on fast selection situations
         BottleColors[NumberOfColorsInBottle] = TopColor;
     }
 
