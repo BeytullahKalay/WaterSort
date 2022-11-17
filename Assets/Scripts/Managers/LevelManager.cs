@@ -102,5 +102,6 @@ public class LevelManager : MonoBehaviour
     private void AddLevelToLevelHolder(Level levelToBeSaved)
     {
         levelHolder.Levels_SO.Add(levelToBeSaved);
+        EditorUtility.SetDirty(levelHolder);
     }
 }

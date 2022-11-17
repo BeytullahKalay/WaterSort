@@ -350,6 +350,9 @@ public class LevelMaker : MonoBehaviour
         level.SCOB_Path = levelScriptableObjectPath;
 
         EventManager.SaveLevel?.Invoke(level);
+        
+        EditorUtility.SetDirty(obj);
+        EditorUtility.SetDirty(level);
 
         Destroy(_levelParent);
     }
