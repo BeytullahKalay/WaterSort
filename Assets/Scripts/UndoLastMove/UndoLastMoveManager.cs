@@ -9,6 +9,7 @@ public class UndoLastMoveManager : MonoBehaviour
         EventManager.AddMoveToList += AddMoveToList;
         EventManager.UndoLastMove += UndoLastMove;
         EventManager.RestartLevel += ResetUndoActions;
+        EventManager.CreateLevel += ResetUndoActions;
     }
 
     private void OnDisable()
@@ -16,6 +17,7 @@ public class UndoLastMoveManager : MonoBehaviour
         EventManager.AddMoveToList -= AddMoveToList;
         EventManager.UndoLastMove -= UndoLastMove;
         EventManager.RestartLevel -= ResetUndoActions;
+        EventManager.CreateLevel -= ResetUndoActions;
     }
 
 
@@ -23,7 +25,7 @@ public class UndoLastMoveManager : MonoBehaviour
 
     private int _remainingUndoCounter;
 
-    private readonly List<Move> _moves = new List<Move>();
+    [SerializeField] private List<Move> _moves = new List<Move>();
 
     private void Start()
     {
