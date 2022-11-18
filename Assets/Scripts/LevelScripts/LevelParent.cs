@@ -2,9 +2,18 @@ using UnityEngine;
 
 public class LevelParent : MonoBehaviour
 {
+    public Level LevelDataHolder;
+    
+    [Space (20)]
     public int numberOfColor;
 
-    [SerializeField] private Transform _line1, _line2;
+
+    [Header("Lines")]
+    [SerializeField]private Transform _line1;
+    [SerializeField]private Transform _line2;
+
+
+    [Space(20)] public bool isBottleAdded;
 
     private void Start()
     {

@@ -109,6 +109,7 @@ public class Bottle
     {
         var posA = new Vector3(createdBottles % (numberOfBottleToCreate / 2) * bottleDistanceX,
             bottleStartPosY - bottleDistanceY * Mathf.Floor(createdBottles / (numberOfBottleToCreate / 2)), 0);
+        
 
         Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
         pos.z = 0;

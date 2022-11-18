@@ -12,39 +12,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be13a8d8f8d75e459dc5817a2bba9d8, type: 3}
   m_Name: IndexDatas
   m_EditorClassIdentifier: 
-  BottleColorRandomIndex: 8200
-  ExtraBottleAmountRandomIndex: 1000
-  ColorPickerRandomIndex: 12000
+  BottleColorRandomIndex: 40750
+  ExtraBottleAmountRandomIndex: 2950
+  ColorPickerRandomIndex: 62600
   CreatedBottles:
   - ParentNum: 0
     NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: aba505d3aba505d3d9864dd3d9864dd3
+    BottleColorsHashCodes: 9896d6dc9896d6dcd9864dd3d9864dd3
     BottleColors:
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
+    - {r: 1, g: 0.64705884, b: 0, a: 1}
+    - {r: 1, g: 0.64705884, b: 0, a: 1}
     - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
     - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
     _openPosition: {x: -1.5, y: 0.30000007, z: 0}
     _sorted: 0
   - ParentNum: 0
     NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: d9864dd3d9864dd3a6a141d2a6a141d2
+    BottleColorsHashCodes: 0000201000002010000040de000040de
     BottleColors:
-    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
-    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
     _openPosition: {x: -1.104, y: 0.30000007, z: 0}
+    _sorted: 1
+  - ParentNum: 0
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: 000040de000040de0000c0e100004020
+    BottleColors:
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    _openPosition: {x: -0.708, y: 0.30000007, z: 0}
+    _sorted: 0
+  - ParentNum: 0
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: cbcc8cdacbcc8cda0000402000004020
+    BottleColors:
+    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
+    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    _openPosition: {x: -0.312, y: 0.30000007, z: 0}
+    _sorted: 1
+  - ParentNum: 0
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: cbcc8cdacbcc8cda0000201000002010
+    BottleColors:
+    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
+    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    _openPosition: {x: 0.08399999, y: 0.30000007, z: 0}
     _sorted: 1
   - ParentNum: 1
     NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: aba505d3aba505d3a6a141d2a6a141d2
+    BottleColorsHashCodes: 9896d6dc9896d6dcd9864dd3d9864dd3
     BottleColors:
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
-    - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
-    _openPosition: {x: -1.5, y: -1.5, z: 0}
+    - {r: 1, g: 0.64705884, b: 0, a: 1}
+    - {r: 1, g: 0.64705884, b: 0, a: 1}
+    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
+    - {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
+    _openPosition: {x: -1.302, y: -1.5, z: 0}
+    _sorted: 1
+  - ParentNum: 1
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: 000040200000c0e10000c0e10000c0e1
+    BottleColors:
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    _openPosition: {x: -0.90599996, y: -1.5, z: 0}
     _sorted: 1
   - ParentNum: 1
     NumberOfColorsInBottle: 0
@@ -54,5 +94,15 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 1}
     - {r: 0, g: 0, b: 0, a: 1}
     - {r: 0, g: 0, b: 0, a: 1}
-    _openPosition: {x: -1.104, y: -1.5, z: 0}
+    _openPosition: {x: -0.51000005, y: -1.5, z: 0}
+    _sorted: 1
+  - ParentNum: 1
+    NumberOfColorsInBottle: 0
+    BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
+    BottleColors:
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    _openPosition: {x: -0.11399996, y: -1.5, z: 0}
     _sorted: 1

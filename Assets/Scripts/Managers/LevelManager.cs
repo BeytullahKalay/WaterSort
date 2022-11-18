@@ -45,6 +45,8 @@ public class LevelManager : MonoBehaviour
         if (levelHolder.Levels_SO.Count > 0)
         {
             _currentLevel = Instantiate(levelHolder.Levels_SO[0].LevelPrefab.gameObject);
+            
+            EventManager.ButtonIntractable?.Invoke(_currentLevel.GetComponent<LevelParent>().isBottleAdded);
         }
         else
         {

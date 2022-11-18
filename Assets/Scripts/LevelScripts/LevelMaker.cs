@@ -13,7 +13,7 @@ public class LevelMaker : MonoBehaviour
 
 
     [SerializeField] private GameObject bottle;
-    
+
     [Header("Databases")] [SerializeField] private Colors _colorsdb;
     [SerializeField] private Data _data;
 
@@ -150,12 +150,12 @@ public class LevelMaker : MonoBehaviour
         _levelParent.AddComponent<LevelParent>();
         _levelParent.GetComponent<LevelParent>().numberOfColor = numberOfColorsToCreate;
 
-        _levelParent.GetComponent<LevelParent>().GetLines(_line1.transform,_line2.transform);
+        _levelParent.GetComponent<LevelParent>().GetLines(_line1.transform, _line2.transform);
         lastCreatedParent = _levelParent;
     }
 
 
-    private void CreateBottles(float numberOfBottleToCreate, bool matchState)
+    private void CreateBottles(int numberOfBottleToCreate, bool matchState)
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
         {
@@ -166,7 +166,7 @@ public class LevelMaker : MonoBehaviour
 
             MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle, _createdBottles);
 
-            tempBottle.ParentNum = FindParent(numberOfBottleToCreate);
+            tempBottle.ParentNum = FindParent(numberOfBottleToCreate, _createdBottles);
 
             _data.CreatedBottles.Add(tempBottle);
 
@@ -175,12 +175,12 @@ public class LevelMaker : MonoBehaviour
         }
     }
 
-    private void MainThread_SetBottlePosition(float numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
+    private void MainThread_SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
     {
         Dispatcher.Instance.Invoke(() => SetBottlePosition(numberOfBottleToCreate, tempBottle, createdBottles));
     }
 
-    private void SetBottlePosition(float numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
+    private void SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
     {
         tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX, bottleStartPosY,
             bottleDistanceY);
@@ -189,33 +189,63 @@ public class LevelMaker : MonoBehaviour
     private void AddExtraEmptyBottle()
     {
         var gm = GameManager.Instance;
-        
+
+        // initialize extra bottle
         Bottle extraBottleHelper = new Bottle(-1);
         var extraBottle = InitializeBottle();
         extraBottle.HelperBottle = extraBottleHelper;
         extraBottle.NumberOfColorsInBottle = 0;
-        extraBottle.transform.SetParent(gm.line2);
 
+        // add new bottle to list
         var bottleControllerList = gm.bottleControllers;
         bottleControllerList.Add(extraBottle);
 
+        // get lines
         _line1 = gm.line1.gameObject;
         _line2 = gm.line2.gameObject;
 
-        // for (int i = 0; i < bottleControllerList.Count; i++)
-        // {
-        //     MainThread_SetBottlePosition(bottleControllerList.Count,bottleControllerList[i].HelperBottle,i);
-        //     bottleControllerList[i].transform.position = bottleControllerList[i].HelperBottle.GetOpenPosition();
-        // }
+        // reset parent position
+        _line1.transform.parent.position = Vector3.zero;
 
 
-        //AlignBottles();
+        for (int i = 0; i < bottleControllerList.Count; i++)
+        {
+            // New parenting
+            bottleControllerList[i].transform.SetParent(null);
+            bottleControllerList[i].HelperBottle.ParentNum = FindParent(bottleControllerList.Count, i);
+
+            if (bottleControllerList[i].HelperBottle.ParentNum == 0)
+                bottleControllerList[i].transform.SetParent(_line1.transform);
+            else if (bottleControllerList[i].HelperBottle.ParentNum == 1)
+                bottleControllerList[i].transform.SetParent(_line2.transform);
+
+            // new bottle positioning
+            bottleControllerList[i].transform.position = Vector3.zero;
+            bottleControllerList[i].HelperBottle.FindPositionAndAssignToPos(bottleControllerList.Count, i,
+                bottleDistanceX, bottleStartPosY, bottleDistanceY);
+            bottleControllerList[i].transform.position = bottleControllerList[i].HelperBottle.GetOpenPosition();
+        }
+
+        // align bottles
+        AlignBottles();
+
+        // set origin position of bottles
+        for (int i = 0; i < bottleControllerList.Count; i++)
+        {
+            bottleControllerList[i].SetOriginalPositionTo(bottleControllerList[i].transform.position);
+        }
+
+        // set is bottle added
+        _line1.transform.parent.GetComponent<LevelParent>().isBottleAdded = true;
+
+        // saving prefab
+        PrefabUtility.SaveAsPrefabAsset(_line1.transform.parent.gameObject, _line1.transform.parent
+            .GetComponent<LevelParent>().LevelDataHolder.PrefabPath);
     }
 
-
-    private int FindParent(float numberOfBottleToCreate)
+    private int FindParent(float numberOfBottleToCreate, int createdBottles)
     {
-        return (_createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
+        return (createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
     }
 
     private void GetRandomColorForBottle(Bottle tempBottle, bool matchState)
@@ -270,19 +300,22 @@ public class LevelMaker : MonoBehaviour
             newBottle.NumberOfColorsInBottle = _data.CreatedBottles[i].NumberOfColorsInBottle;
             newBottle.transform.position = _data.CreatedBottles[i].GetOpenPosition();
             _data.CreatedBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
-
-
-            if (_data.CreatedBottles[i].ParentNum == 0)
-            {
-                newBottle.transform.SetParent(_line1.transform);
-            }
-            else if (_data.CreatedBottles[i].ParentNum == 1)
-            {
-                newBottle.transform.SetParent(_line2.transform);
-            }
+            Parenting(i, newBottle);
         }
 
         AlignBottles();
+    }
+
+    private void Parenting(int i, BottleController newBottle)
+    {
+        if (_data.CreatedBottles[i].ParentNum == 0)
+        {
+            newBottle.transform.SetParent(_line1.transform);
+        }
+        else if (_data.CreatedBottles[i].ParentNum == 1)
+        {
+            newBottle.transform.SetParent(_line2.transform);
+        }
     }
 
     private BottleController InitializeBottle()
@@ -353,11 +386,12 @@ public class LevelMaker : MonoBehaviour
     // using by inspector gui
     public void SaveLevelAsPrefab()
     {
+        // creating level prefab
         string levelPrefabPath = "Assets/Prefabs/Levels/" + "Level" + ".prefab";
         levelPrefabPath = AssetDatabase.GenerateUniqueAssetPath(levelPrefabPath);
         var obj = PrefabUtility.SaveAsPrefabAssetAndConnect(_levelParent, levelPrefabPath, InteractionMode.UserAction);
 
-
+        // creating Level ScriptableObject and assign values
         var level = ScriptableObject.CreateInstance<Level>();
         level.LevelPrefab = obj.GetComponent<LevelParent>();
         string levelScriptableObjectPath = "Assets/SCOB/Level/" + "Level_" + ".asset";
@@ -369,8 +403,11 @@ public class LevelMaker : MonoBehaviour
         level.PrefabPath = levelPrefabPath;
         level.SCOB_Path = levelScriptableObjectPath;
 
+        // assign level scriptable object to level prefab
+        obj.GetComponent<LevelParent>().LevelDataHolder = level;
+
         EventManager.SaveLevel?.Invoke(level);
-        
+
         EditorUtility.SetDirty(obj);
         EditorUtility.SetDirty(level);
 

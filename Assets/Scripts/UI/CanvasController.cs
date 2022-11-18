@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanvasController : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class CanvasController : MonoBehaviour
     [Header("Texts")] [SerializeField] private TMP_Text remainingUndoText;
     [SerializeField] private TMP_Text LevelText;
 
+    [Header("One More Bottle Button")] [SerializeField]
+    private GameObject buttonGameObject;
+
+    [SerializeField] private Color notIntractableColor;
+
     private GameManager _gm;
 
     private void OnEnable()
@@ -18,6 +24,8 @@ public class CanvasController : MonoBehaviour
         EventManager.LoadNextLevel += CloseLevelCompetePanel;
         EventManager.UpdateRemainingUndo += UpdateRemainingUndo;
         EventManager.UpdateLevelText += UpdateLevelText;
+        EventManager.AddExtraEmptyBottle += MakeAddOneBottleButtonNotIntractable;
+        EventManager.ButtonIntractable += ButtonIntractable;
     }
 
     private void OnDisable()
@@ -26,8 +34,10 @@ public class CanvasController : MonoBehaviour
         EventManager.LoadNextLevel -= CloseLevelCompetePanel;
         EventManager.UpdateRemainingUndo -= UpdateRemainingUndo;
         EventManager.UpdateLevelText -= UpdateLevelText;
+        EventManager.AddExtraEmptyBottle -= MakeAddOneBottleButtonNotIntractable;
+        EventManager.ButtonIntractable -= ButtonIntractable;
     }
-
+    
     private void Start()
     {
         _gm = GameManager.Instance;
@@ -90,5 +100,28 @@ public class CanvasController : MonoBehaviour
     public void OpenMenuTab()
     {
         Debug.Log("Open menu tab");
+    }
+
+    // controlling add extra bottle button intractable
+    private void ButtonIntractable(bool isBottleAdded)
+    {
+        if (!isBottleAdded)
+            MakeAddOneBottleButtonIntractable();
+        else
+            MakeAddOneBottleButtonNotIntractable();
+    }
+    
+    private void MakeAddOneBottleButtonNotIntractable()
+    {
+        var button = buttonGameObject.GetComponent<Button>();
+        button.image.color = notIntractableColor;
+        button.enabled = false;
+    }
+
+    private void MakeAddOneBottleButtonIntractable()
+    {
+        var button = buttonGameObject.GetComponent<Button>();
+        button.image.color = Color.white;
+        button.enabled = true; 
     }
 }

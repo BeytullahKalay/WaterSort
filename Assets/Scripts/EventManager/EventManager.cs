@@ -15,4 +15,5 @@ public static class EventManager
     public static Action CreateLevel;
     public static Action<Level> SaveLevel;
     public static Action AddExtraEmptyBottle;
+    public static Action<bool> ButtonIntractable;
 }

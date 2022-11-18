@@ -10,17 +10,14 @@ public class Data : ScriptableObject
     public long ColorPickerRandomIndex = 0;
 
     [SerializeField] public List<Bottle> CreatedBottles = new List<Bottle>();
-
-
+    
     public long GetBottleColorRandomIndex()
     {
         BottleColorRandomIndex += 50;
         SetDirty();
         return BottleColorRandomIndex - 50;
     }
-
-
-
+    
     public long GetAmountOfExtraBottleIndex()
     {
         ExtraBottleAmountRandomIndex += 50;
@@ -35,7 +32,7 @@ public class Data : ScriptableObject
         return ColorPickerRandomIndex - 50;
     }
     
-    private void SetDirty()
+    private new void SetDirty()
     {
         Dispatcher.Instance.Invoke(() => { EditorUtility.SetDirty(this); });
     }

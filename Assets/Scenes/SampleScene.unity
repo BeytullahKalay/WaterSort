@@ -1150,6 +1150,8 @@ MonoBehaviour:
   inGamePanel: {fileID: 959122741}
   remainingUndoText: {fileID: 255514491}
   LevelText: {fileID: 1161202099}
+  buttonGameObject: {fileID: 2138182964}
+  notIntractableColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
 --- !u!1 &717840062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1186,6 +1188,8 @@ MonoBehaviour:
   lineRenderer: {fileID: 1707376599}
   TotalColorAmount: 0
   InActionBottleList: []
+  line1: {fileID: 0}
+  line2: {fileID: 0}
 --- !u!4 &717840064
 Transform:
   m_ObjectHideFlags: 0
@@ -1386,10 +1390,9 @@ MonoBehaviour:
   bottleStartPosY: 0.55
   bottleDistanceY: 0.3
   bottle: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
-  lineRenderer: {fileID: 1707376599}
   _colorsdb: {fileID: 11400000, guid: 6d91ca5085b4a0046bbe54b4e5ab3429, type: 2}
   _data: {fileID: 11400000, guid: d202f0fa3d134994b9bcc2fe1e7a6914, type: 2}
-  numberOfColorsToCreate: 3
+  numberOfColorsToCreate: 7
   selectedColors:
   - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
   - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
