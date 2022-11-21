@@ -140,8 +140,22 @@ public class LevelMaker : MonoBehaviour
     private void SaveToJson(AllBottles allBottles)
     {
         string json = JsonUtility.ToJson(allBottles);
-        string path = Application.dataPath+"/LevelSavesJSON/AllDataFile" + (PlayerPrefs.GetInt("NamingIndex") % 3 + ".json");
-        File.WriteAllText(path,json);
+        string path;
+        
+        //path = Application.dataPath+"/LevelSavesJSON/AllDataFile" + (PlayerPrefs.GetInt("NamingIndex") % 3 + ".json");
+        
+        // path = Application.dataPath+"/LevelSavesJSON/AllDataFile" + (PlayerPrefs.GetInt("NamingIndex") % 3 + ".json");
+        // File.WriteAllText(path,json);
+        // EventManager.SaveJsonFilePath?.Invoke(path);
+        // PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
+        
+        
+#if UNITY_EDITOR
+        path = Path.Combine(Application.streamingAssetsPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
+#elif UNITY_ANDROID
+        path = Path.Combine(Application.persistentDataPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
+#endif
+        File.WriteAllText(path, json);
         EventManager.SaveJsonFilePath?.Invoke(path);
         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
     }

@@ -40,6 +40,7 @@ public class TutorialLevels : MonoBehaviour
 
             levelManager.gameObject.SetActive(true);
             //EventManager.RestartLevel?.Invoke();
+            
             Destroy(gameObject);
             return false;
         }
