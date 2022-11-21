@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3fe56d4cc2cb243b86e284766bdf54, type: 3}
   m_Name: LevelHolder
   m_EditorClassIdentifier: 
-  JsonPathString:
-  - D:/UnitySaves/WaterSort - Copy/Assets/LevelSavesJSON/AllDataFile1.json
-  - D:/UnitySaves/WaterSort - Copy/Assets/LevelSavesJSON/AllDataFile2.json
-  - D:/UnitySaves/WaterSort - Copy/Assets/LevelSavesJSON/AllDataFile0.json
+  JsonPathString: []

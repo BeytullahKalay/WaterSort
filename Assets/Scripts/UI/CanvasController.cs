@@ -25,7 +25,6 @@ public class CanvasController : MonoBehaviour
         EventManager.UpdateRemainingUndo += UpdateRemainingUndo;
         EventManager.UpdateLevelText += UpdateLevelText;
         EventManager.AddExtraEmptyBottle += MakeAddOneBottleButtonNotIntractable;
-        EventManager.ButtonIntractable += ButtonIntractable;
     }
 
     private void OnDisable()
@@ -35,7 +34,6 @@ public class CanvasController : MonoBehaviour
         EventManager.UpdateRemainingUndo -= UpdateRemainingUndo;
         EventManager.UpdateLevelText -= UpdateLevelText;
         EventManager.AddExtraEmptyBottle -= MakeAddOneBottleButtonNotIntractable;
-        EventManager.ButtonIntractable -= ButtonIntractable;
     }
     
     private void Start()
@@ -107,26 +105,10 @@ public class CanvasController : MonoBehaviour
         Debug.Log("Open menu tab");
     }
 
-    // controlling add extra bottle button intractable
-    private void ButtonIntractable(bool isBottleAdded)
-    {
-        if (!isBottleAdded)
-            MakeAddOneBottleButtonIntractable();
-        else
-            MakeAddOneBottleButtonNotIntractable();
-    }
-    
     private void MakeAddOneBottleButtonNotIntractable()
     {
         var button = buttonGameObject.GetComponent<Button>();
         button.image.color = notIntractableColor;
         button.enabled = false;
-    }
-
-    private void MakeAddOneBottleButtonIntractable()
-    {
-        var button = buttonGameObject.GetComponent<Button>();
-        button.image.color = Color.white;
-        button.enabled = true; 
     }
 }

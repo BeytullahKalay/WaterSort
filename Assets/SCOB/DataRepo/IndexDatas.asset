@@ -12,47 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be13a8d8f8d75e459dc5817a2bba9d8, type: 3}
   m_Name: IndexDatas
   m_EditorClassIdentifier: 
-  BottleColorRandomIndex: 14350
-  ExtraBottleAmountRandomIndex: 2100
-  ColorPickerRandomIndex: 25200
-  CreatedBottles:
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: aba505d3aba505d3cbcc8cdacbcc8cda
-    BottleColors:
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
-    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
-    _openPosition: {x: -1.5, y: 0.30000007, z: 0}
-    _sorted: 0
-  - ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: cbcc8cdacbcc8cda0000201000002010
-    BottleColors:
-    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
-    - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    _openPosition: {x: -1.104, y: 0.30000007, z: 0}
-    _sorted: 1
-  - ParentNum: 1
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: aba505d3aba505d30000201000002010
-    BottleColors:
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0.1882353, g: 0.8352941, b: 0.78431374, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    _openPosition: {x: -1.5, y: -1.5, z: 0}
-    _sorted: 1
-  - ParentNum: 1
-    NumberOfColorsInBottle: 0
-    BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
-    BottleColors:
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    _openPosition: {x: -1.104, y: -1.5, z: 0}
-    _sorted: 1
+  BottleColorRandomIndex: 0
+  ExtraBottleAmountRandomIndex: 0
+  ColorPickerRandomIndex: 0
+  CreatedBottles: []

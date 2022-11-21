@@ -5,7 +5,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private LevelHolder levelHolder;
 
-    [SerializeField] private GameObject _currentLevel;
+    private GameObject _currentLevel;
 
 
     private void Awake()

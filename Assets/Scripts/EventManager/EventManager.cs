@@ -16,6 +16,5 @@ public static class EventManager
     public static Action UpdateLevelText;
     public static Action CreateLevel;
     public static Action AddExtraEmptyBottle;
-    public static Action<bool> ButtonIntractable;
     public static Action<string> SaveJsonFilePath;
 }
