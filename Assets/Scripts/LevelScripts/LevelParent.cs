@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class LevelParent : MonoBehaviour
 {
-    public Level LevelDataHolder;
-    
     [Space (20)]
     public int numberOfColor;
 

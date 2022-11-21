@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using UnityEngine;
-using UnityEditor;
 
 public class LevelMaker : MonoBehaviour
 {
@@ -43,12 +43,27 @@ public class LevelMaker : MonoBehaviour
     {
         EventManager.CreateLevel += CreateNewLevel_GUIButton;
         EventManager.AddExtraEmptyBottle += AddExtraEmptyBottle;
+        EventManager.CreatePrototype += CreateLevelFromPrototype;
     }
 
     private void OnDisable()
     {
         EventManager.CreateLevel -= CreateNewLevel_GUIButton;
         EventManager.AddExtraEmptyBottle -= AddExtraEmptyBottle;
+        EventManager.CreatePrototype -= CreateLevelFromPrototype;
+    }
+
+    private void Awake()
+    {
+        CheckNamingIndexPlayerPref();
+    }
+    
+    private void CheckNamingIndexPlayerPref()
+    {
+        if (!PlayerPrefs.HasKey("NamingIndex"))
+        {
+            PlayerPrefs.SetInt("NamingIndex",0);
+        }
     }
 
     private void Update()
@@ -67,10 +82,10 @@ public class LevelMaker : MonoBehaviour
 
     private void CreateLevelActions()
     {
-        CreateLevel();
+        CreateLevelPrototype();
     }
 
-    private void CreateLevel()
+    private void CreateLevelPrototype()
     {
         _data.CreatedBottles.Clear();
         _createdBottles = 0;
@@ -93,18 +108,42 @@ public class LevelMaker : MonoBehaviour
         {
             Debug.Log("Solvable");
 
-            //CreateLevelParentAndLineObjects();
-            MainThread_CreateLevelParentAndLineObjects();
-
-            //CreateBottlesAndAssignPositions();
-            MainThread_CreateBottlesAndAssignPositions();
-
-            MainThread_SaveLevelAsPrefab();
+            MainThread_SaveToJson(allBottles);
         }
         else
         {
-            CreateLevel();
+            CreateLevelPrototype();
         }
+    }
+
+    private void CreateLevelFromPrototype(AllBottles prototypeLevel)
+    {
+        MainThread_CreateLevelParentAndLineObjects();
+        MainThread_CreateBottlesAndAssignPositions(prototypeLevel);
+        MainThread_GetLevelParent();
+    }
+
+    private void MainThread_GetLevelParent()
+    {
+        Dispatcher.Instance.Invoke(() =>
+        {
+            EventManager.GetLevelParent?.Invoke(lastCreatedParent);
+
+        });
+    }
+
+    private void MainThread_SaveToJson(AllBottles allBottles)
+    {
+        Dispatcher.Instance.Invoke(()=> SaveToJson(allBottles));
+    }
+
+    private void SaveToJson(AllBottles allBottles)
+    {
+        string json = JsonUtility.ToJson(allBottles);
+        string path = Application.dataPath+"/LevelSavesJSON/AllDataFile" + (PlayerPrefs.GetInt("NamingIndex") % 3 + ".json");
+        File.WriteAllText(path,json);
+        EventManager.SaveJsonFilePath?.Invoke(path);
+        PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
     }
 
     private void RandomizeNumberOfBottle()
@@ -162,7 +201,6 @@ public class LevelMaker : MonoBehaviour
             Bottle tempBottle = new Bottle(i);
             DecreaseTotalWaterCount(tempBottle);
             GetRandomColorForBottle(tempBottle, matchState);
-
 
             MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle, _createdBottles);
 
@@ -237,10 +275,6 @@ public class LevelMaker : MonoBehaviour
 
         // set is bottle added
         _line1.transform.parent.GetComponent<LevelParent>().isBottleAdded = true;
-
-        // saving prefab
-        PrefabUtility.SaveAsPrefabAsset(_line1.transform.parent.gameObject, _line1.transform.parent
-            .GetComponent<LevelParent>().LevelDataHolder.PrefabPath);
     }
 
     private int FindParent(float numberOfBottleToCreate, int createdBottles)
@@ -286,33 +320,33 @@ public class LevelMaker : MonoBehaviour
         }
     }
 
-    private void MainThread_CreateBottlesAndAssignPositions()
+    private void MainThread_CreateBottlesAndAssignPositions(AllBottles allBottles)
     {
-        Dispatcher.Instance.Invoke(() => CreateBottlesAndAssignPositions());
+        Dispatcher.Instance.Invoke(() => CreateBottlesAndAssignPositions(allBottles));
     }
 
-    private void CreateBottlesAndAssignPositions()
+    private void CreateBottlesAndAssignPositions(AllBottles allBottles)
     {
-        for (int i = 0; i < _data.CreatedBottles.Count; i++)
+        for (int i = 0; i < allBottles._allBottles.Count; i++)
         {
             var newBottle = InitializeBottle();
-            newBottle.HelperBottle = _data.CreatedBottles[i];
-            newBottle.NumberOfColorsInBottle = _data.CreatedBottles[i].NumberOfColorsInBottle;
-            newBottle.transform.position = _data.CreatedBottles[i].GetOpenPosition();
-            _data.CreatedBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
-            Parenting(i, newBottle);
+            newBottle.HelperBottle = allBottles._allBottles[i];
+            newBottle.NumberOfColorsInBottle = allBottles._allBottles[i].NumberOfColorsInBottle;
+            newBottle.transform.position = allBottles._allBottles[i].GetOpenPosition();
+            allBottles._allBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
+            Parenting(newBottle);
         }
 
         AlignBottles();
     }
 
-    private void Parenting(int i, BottleController newBottle)
+    private void Parenting(BottleController newBottle)
     {
-        if (_data.CreatedBottles[i].ParentNum == 0)
+        if (newBottle.HelperBottle.ParentNum == 0)
         {
             newBottle.transform.SetParent(_line1.transform);
         }
-        else if (_data.CreatedBottles[i].ParentNum == 1)
+        else if (newBottle.HelperBottle.ParentNum == 1)
         {
             newBottle.transform.SetParent(_line2.transform);
         }
@@ -381,41 +415,5 @@ public class LevelMaker : MonoBehaviour
         {
             return Color.black;
         }
-    }
-
-    // using by inspector gui
-    public void SaveLevelAsPrefab()
-    {
-        // creating level prefab
-        string levelPrefabPath = "Assets/Prefabs/Levels/" + "Level" + ".prefab";
-        levelPrefabPath = AssetDatabase.GenerateUniqueAssetPath(levelPrefabPath);
-        var obj = PrefabUtility.SaveAsPrefabAssetAndConnect(_levelParent, levelPrefabPath, InteractionMode.UserAction);
-
-        // creating Level ScriptableObject and assign values
-        var level = ScriptableObject.CreateInstance<Level>();
-        level.LevelPrefab = obj.GetComponent<LevelParent>();
-        string levelScriptableObjectPath = "Assets/SCOB/Level/" + "Level_" + ".asset";
-        levelScriptableObjectPath = AssetDatabase.GenerateUniqueAssetPath(levelScriptableObjectPath);
-        AssetDatabase.CreateAsset(level, levelScriptableObjectPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
-        level.PrefabPath = levelPrefabPath;
-        level.SCOB_Path = levelScriptableObjectPath;
-
-        // assign level scriptable object to level prefab
-        obj.GetComponent<LevelParent>().LevelDataHolder = level;
-
-        EventManager.SaveLevel?.Invoke(level);
-
-        EditorUtility.SetDirty(obj);
-        EditorUtility.SetDirty(level);
-
-        Destroy(_levelParent);
-    }
-
-    private void MainThread_SaveLevelAsPrefab()
-    {
-        Dispatcher.Instance.Invoke(() => SaveLevelAsPrefab());
     }
 }

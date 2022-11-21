@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Debug = UnityEngine.Debug;
 
+[System.Serializable]
 public class AllBottles
 {
-    private List<Bottle> _allBottles = new List<Bottle>();
+    public List<Bottle> _allBottles = new List<Bottle>();
     
     private int _maxIterationNum = 10000;
     private int _iterationNum = 0;

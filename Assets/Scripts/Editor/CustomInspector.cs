@@ -14,10 +14,5 @@ public class CustomInspector : Editor
         {
             levelMaker.CreateNewLevel_GUIButton();
         }
-        
-        if (GUILayout.Button("Save Level"))
-        {
-            levelMaker.SaveLevelAsPrefab();
-        }
     }
 }

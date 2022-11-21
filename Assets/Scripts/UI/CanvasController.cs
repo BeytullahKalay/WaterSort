@@ -70,8 +70,13 @@ public class CanvasController : MonoBehaviour
     // using by button actions
     public void NextLevelButtonAction()
     {
+        // delete last level and create new level prototype
         EventManager.DeletePlayedLevelAndCreateNewLevel?.Invoke();
+        
+        // load next level
         EventManager.LoadNextLevel?.Invoke();
+        
+        // update level text
         EventManager.UpdateLevelText?.Invoke();
     }
 
