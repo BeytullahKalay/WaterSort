@@ -8,7 +8,7 @@ public static class EventManager
     public static Action<AllBottles> CreatePrototype;
     public static Action<GameObject> GetLevelParent;
     public static Action LoadNextLevel;
-    public static Action DeletePlayedLevelAndCreateNewLevel;
+    public static Action CreateNewLevelForJson;
     public static Action<BottleController, BottleController,int,Color> AddMoveToList;
     public static Action UndoLastMove;
     public static Action<int> UpdateRemainingUndo;

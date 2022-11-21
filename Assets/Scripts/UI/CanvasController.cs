@@ -24,7 +24,9 @@ public class CanvasController : MonoBehaviour
         EventManager.LoadNextLevel += CloseLevelCompetePanel;
         EventManager.UpdateRemainingUndo += UpdateRemainingUndo;
         EventManager.UpdateLevelText += UpdateLevelText;
-        EventManager.AddExtraEmptyBottle += MakeAddOneBottleButtonNotIntractable;
+        EventManager.AddExtraEmptyBottle += MakeAddExtraBottleButtonNotIntractable;
+        EventManager.LoadNextLevel += MakeAddExtraBottleButtonIntractable;
+        EventManager.RestartLevel += MakeAddExtraBottleButtonIntractable;
     }
 
     private void OnDisable()
@@ -33,9 +35,11 @@ public class CanvasController : MonoBehaviour
         EventManager.LoadNextLevel -= CloseLevelCompetePanel;
         EventManager.UpdateRemainingUndo -= UpdateRemainingUndo;
         EventManager.UpdateLevelText -= UpdateLevelText;
-        EventManager.AddExtraEmptyBottle -= MakeAddOneBottleButtonNotIntractable;
+        EventManager.AddExtraEmptyBottle -= MakeAddExtraBottleButtonNotIntractable;
+        EventManager.LoadNextLevel -= MakeAddExtraBottleButtonIntractable;
+        EventManager.RestartLevel -= MakeAddExtraBottleButtonIntractable;
     }
-    
+
     private void Start()
     {
         _gm = GameManager.Instance;
@@ -69,11 +73,11 @@ public class CanvasController : MonoBehaviour
     public void NextLevelButtonAction()
     {
         // delete last level and create new level prototype
-        EventManager.DeletePlayedLevelAndCreateNewLevel?.Invoke();
-        
+        EventManager.CreateNewLevelForJson?.Invoke();
+
         // load next level
         EventManager.LoadNextLevel?.Invoke();
-        
+
         // update level text
         EventManager.UpdateLevelText?.Invoke();
     }
@@ -105,10 +109,17 @@ public class CanvasController : MonoBehaviour
         Debug.Log("Open menu tab");
     }
 
-    private void MakeAddOneBottleButtonNotIntractable()
+    private void MakeAddExtraBottleButtonNotIntractable()
     {
         var button = buttonGameObject.GetComponent<Button>();
         button.image.color = notIntractableColor;
         button.enabled = false;
+    }
+
+    private void MakeAddExtraBottleButtonIntractable()
+    {
+        var button = buttonGameObject.GetComponent<Button>();
+        button.image.color = Color.white;
+        button.enabled = true;
     }
 }

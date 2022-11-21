@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
         EventManager.LevelCompleted += IncreaseLevelIndexOnLevelCompleted;
         EventManager.LoadNextLevel += LoadNextLevel;
         EventManager.RestartLevel += RestartLevel;
-        EventManager.DeletePlayedLevelAndCreateNewLevel += CreateNewLevelForAssets;
+        EventManager.CreateNewLevelForJson += CreateNewLevelForJson;
         EventManager.SaveJsonFilePath += SaveJsonFilePath;
         EventManager.GetLevelParent += GetLevelParent;
     }
@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
         EventManager.LevelCompleted -= IncreaseLevelIndexOnLevelCompleted;
         EventManager.LoadNextLevel -= LoadNextLevel;
         EventManager.RestartLevel -= RestartLevel;
-        EventManager.DeletePlayedLevelAndCreateNewLevel -= CreateNewLevelForAssets;
+        EventManager.CreateNewLevelForJson -= CreateNewLevelForJson;
         EventManager.SaveJsonFilePath -= SaveJsonFilePath;
         EventManager.GetLevelParent -= GetLevelParent;
     }
@@ -71,7 +71,7 @@ public class LevelManager : MonoBehaviour
         CreateLevel();
     }
 
-    private void CreateNewLevelForAssets()
+    private void CreateNewLevelForJson()
     {
         EventManager.CreateLevel?.Invoke();
     }
