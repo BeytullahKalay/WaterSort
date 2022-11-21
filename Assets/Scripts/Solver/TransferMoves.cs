@@ -6,7 +6,7 @@ public class TransferMoves
 {
     private Bottle _from, _to;
     
-    string path = @"D:\UnitySaves\WaterSort - Copy\Solves\Logs.txt";
+    //string path = @"D:\UnitySaves\WaterSort - Copy\Solves\Logs.txt";
 
     private int _lastTransferAmount;
 
@@ -15,20 +15,20 @@ public class TransferMoves
         _from = from;
         _to = to;
 
-        OpenTXT();
+        //OpenTXT();
     }
 
-    private void OpenTXT()
-    {
-        if (!File.Exists(path))
-        {
-            // Create a file to write to.
-            using (StreamWriter sw = File.CreateText(path))
-            {
-                sw.WriteLine("----------- START -----------");
-            }
-        }
-    }
+    //private void OpenTXT()
+    //{
+        // if (!File.Exists(path))
+        // {
+        //     // Create a file to write to.
+        //     using (StreamWriter sw = File.CreateText(path))
+        //     {
+        //         sw.WriteLine("----------- START -----------");
+        //     }
+        // }
+    //}
 
     public bool CheckCanTransfer()
     {
@@ -58,7 +58,7 @@ public class TransferMoves
 
         _lastTransferAmount = _from.GetTopColorAmount();
 
-        WriteDoActionsToTxtFile(_from, _to,false);
+        //WriteDoActionsToTxtFile(_from, _to,false);
 
         _to.CheckIsSorted();
         _to.CalculateTopColorAmount();
@@ -77,7 +77,7 @@ public class TransferMoves
             }
         }
 
-        WriteDoActionsToTxtFile(_to, _from,true);
+        //WriteDoActionsToTxtFile(_to, _from,true);
 
         _to.CheckIsSorted();
         _to.CalculateTopColorAmount();
@@ -86,20 +86,20 @@ public class TransferMoves
         _from.CalculateTopColorAmount();
     }
 
-    private void WriteDoActionsToTxtFile(Bottle from, Bottle to,bool isUndo)
-    {
-        //path = AssetDatabase.GenerateUniqueAssetPath(path);
-        if (isUndo)
-        {
-            List<string> lines = File.ReadAllLines(path).ToList();
-            File.WriteAllLines(path, lines.GetRange(0, lines.Count - 1).ToArray());
-        }
-        else
-        {
-            using (StreamWriter sw = File.AppendText(path))
-            {
-                sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex());
-            }
-        }
-    }
+    // private void WriteDoActionsToTxtFile(Bottle from, Bottle to,bool isUndo)
+    // {
+    //     //path = AssetDatabase.GenerateUniqueAssetPath(path);
+    //     if (isUndo)
+    //     {
+    //         List<string> lines = File.ReadAllLines(path).ToList();
+    //         File.WriteAllLines(path, lines.GetRange(0, lines.Count - 1).ToArray());
+    //     }
+    //     else
+    //     {
+    //         using (StreamWriter sw = File.AppendText(path))
+    //         {
+    //             sw.WriteLine(from.GetBottleIndex() + " --> " + to.GetBottleIndex());
+    //         }
+    //     }
+    // }
 }
