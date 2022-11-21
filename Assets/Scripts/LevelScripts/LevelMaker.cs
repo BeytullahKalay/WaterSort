@@ -150,11 +150,16 @@ public class LevelMaker : MonoBehaviour
         // PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
         
         
-#if UNITY_EDITOR
-        path = Path.Combine(Application.streamingAssetsPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
-#elif UNITY_ANDROID
-        path = Path.Combine(Application.persistentDataPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
-#endif
+// #if UNITY_EDITOR
+//         path = Path.Combine(Application.streamingAssetsPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
+// #elif UNITY_ANDROID
+//         path = Path.Combine(Application.persistentDataPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
+// #endif
+//         File.WriteAllText(path, json);
+//         EventManager.SaveJsonFilePath?.Invoke(path);
+//         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
+        
+        path = Path.Combine(Application.persistentDataPath, (PlayerPrefs.GetInt("NamingIndex") % 3) + ".json");
         File.WriteAllText(path, json);
         EventManager.SaveJsonFilePath?.Invoke(path);
         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
@@ -286,9 +291,6 @@ public class LevelMaker : MonoBehaviour
         {
             bottleControllerList[i].SetOriginalPositionTo(bottleControllerList[i].transform.position);
         }
-
-        // set is bottle added
-        _line1.transform.parent.GetComponent<LevelParent>().isBottleAdded = true;
     }
 
     private int FindParent(float numberOfBottleToCreate, int createdBottles)

@@ -10,9 +10,6 @@ public class LevelParent : MonoBehaviour
     [SerializeField]private Transform _line1;
     [SerializeField]private Transform _line2;
 
-
-    [Space(20)] public bool isBottleAdded;
-
     private void Start()
     {
         GameManager.Instance.TotalColorAmount = numberOfColor;

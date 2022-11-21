@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class UndoLastMoveManager : MonoBehaviour
 {
+
+
+    [SerializeField] private int remainingUndo = 5;
+
+    private int _remainingUndoCounter;
+
+    [SerializeField] private List<Move> _moves = new List<Move>();
+    
     private void OnEnable()
     {
         EventManager.AddMoveToList += AddMoveToList;
         EventManager.UndoLastMove += UndoLastMove;
         EventManager.RestartLevel += ResetUndoActions;
         EventManager.CreateLevel += ResetUndoActions;
+        EventManager.ResetUndoActions += ResetUndoActions;
     }
 
     private void OnDisable()
@@ -18,14 +27,9 @@ public class UndoLastMoveManager : MonoBehaviour
         EventManager.UndoLastMove -= UndoLastMove;
         EventManager.RestartLevel -= ResetUndoActions;
         EventManager.CreateLevel -= ResetUndoActions;
+        EventManager.ResetUndoActions -= ResetUndoActions;
     }
 
-
-    [SerializeField] private int remainingUndo = 5;
-
-    private int _remainingUndoCounter;
-
-    [SerializeField] private List<Move> _moves = new List<Move>();
 
     private void Start()
     {

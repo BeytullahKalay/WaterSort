@@ -39,12 +39,13 @@ public class TutorialLevels : MonoBehaviour
             _isTutorialEnd = true;
 
             levelManager.gameObject.SetActive(true);
-            //EventManager.RestartLevel?.Invoke();
             
+            EventManager.ResetUndoActions?.Invoke();
+
             Destroy(gameObject);
             return false;
         }
-
+        
         return true;
     }
 

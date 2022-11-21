@@ -20,7 +20,6 @@ public class AllBottles
     {
         if (CheckIsOneBottleSorted())
         {
-            Debug.Log("One bottle already sorted");
             return false;
         }
 

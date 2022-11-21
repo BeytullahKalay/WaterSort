@@ -17,4 +17,5 @@ public static class EventManager
     public static Action CreateLevel;
     public static Action AddExtraEmptyBottle;
     public static Action<string> SaveJsonFilePath;
+    public static Action ResetUndoActions;
 }
