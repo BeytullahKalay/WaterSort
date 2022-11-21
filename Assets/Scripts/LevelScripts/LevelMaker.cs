@@ -159,7 +159,7 @@ public class LevelMaker : MonoBehaviour
 //         EventManager.SaveJsonFilePath?.Invoke(path);
 //         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
         
-        path = Path.Combine(Application.persistentDataPath, (PlayerPrefs.GetInt("NamingIndex") % 3) + ".json");
+        path = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetInt("NamingIndex") % 3 + "data.json");
         File.WriteAllText(path, json);
         EventManager.SaveJsonFilePath?.Invoke(path);
         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
