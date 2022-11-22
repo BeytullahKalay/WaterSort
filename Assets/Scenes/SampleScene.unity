@@ -1417,18 +1417,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8cd17dc3aefddc46bcd4708a62259d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottleDistanceX: 0.226
+  bottleDistanceX: 0.06
   bottleStartPosY: 0.55
   bottleDistanceY: 0.3
   bottle: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
   _colorsdb: {fileID: 11400000, guid: 6d91ca5085b4a0046bbe54b4e5ab3429, type: 2}
   _data: {fileID: 11400000, guid: d202f0fa3d134994b9bcc2fe1e7a6914, type: 2}
-  numberOfColorsToCreate: 3
+  numberOfColorsToCreate: 5
   selectedColors:
   - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
   - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
   lastCreatedParent: {fileID: 0}
-  noMatches: 0
+  noMatches: 1
 --- !u!4 &940977538
 Transform:
   m_ObjectHideFlags: 0
@@ -2795,9 +2795,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelManager: {fileID: 656294752}
   tutorialLevels:
-  - {fileID: 716318060096825697, guid: 700da64956ab814418331b8a5db1d6dc, type: 3}
-  - {fileID: 2408804993807925614, guid: 3a1b5d56e36524947bb2775cff4b6d65, type: 3}
-  - {fileID: 8874929621970861812, guid: e0741e247ab9cd1499f714c84453e53a, type: 3}
+  - {fileID: 7635944816532609494, guid: 700da64956ab814418331b8a5db1d6dc, type: 3}
+  - {fileID: 453713492564604725, guid: 3a1b5d56e36524947bb2775cff4b6d65, type: 3}
+  - {fileID: 8842426387400738612, guid: e0741e247ab9cd1499f714c84453e53a, type: 3}
+  - {fileID: 2734260101771235444, guid: c7864cf0a2216cb43ace70bd9e70127e, type: 3}
   levelHolder: {fileID: 11400000, guid: 502a9fdb3a13ca1438be433e3fe042aa, type: 2}
 --- !u!4 &1887899671
 Transform:

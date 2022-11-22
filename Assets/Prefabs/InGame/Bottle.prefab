@@ -245,7 +245,6 @@ MonoBehaviour:
   BottleControllerRef: {fileID: 0}
   LeftRotationPoint: {fileID: 5515774977493658201}
   RightRotationPoint: {fileID: 5515774978242214548}
-  LineRenderer: {fileID: 0}
   BottleIsLocked: 0
   lineRendererPouringDistance: 1.45
   MoveBottleDuration: 0.5
@@ -256,6 +255,13 @@ MonoBehaviour:
   speedMultiplier: 5
   ActionBottles: []
   OnSpeedUp: 0
+  HelperBottle:
+    ParentNum: 0
+    NumberOfColorsInBottle: 0
+    BottleColorsHashCodes: 
+    BottleColors: []
+    _openPosition: {x: 0, y: 0, z: 0}
+    _sorted: 0
 --- !u!1 &5515774977336827027
 GameObject:
   m_ObjectHideFlags: 0

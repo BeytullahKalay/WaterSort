@@ -18,7 +18,6 @@ public class ActionController : MonoBehaviour
     private void CancelSelection()
     {
         if (FirstBottle == null) return;
-
         FirstBottle.OnSelectionCanceled();
         FirstBottle = null;
     }
@@ -73,10 +72,16 @@ public class ActionController : MonoBehaviour
                     if (bottleController.TopColor != FirstBottle.TopColor &&
                         bottleController.NumberOfColorsInBottle > 0)
                     {
+                        
+                        Debug.Log("second bottle top color: "+ bottleController.TopColor.GetHashCode());
+                        Debug.Log("first bottle top color: "+ FirstBottle.TopColor.GetHashCode());
+                        
                         FirstBottle.OnSelectionCanceled();
                         FirstBottle = null;
                         SecondBottle = null;
 
+                        
+                        
                         print("top colors not matching!");
                         return;
                     }

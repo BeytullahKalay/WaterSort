@@ -86,7 +86,9 @@ public class CanvasController : MonoBehaviour
     public void UndoLastMove()
     {
         if (_gm.InActionBottleList.Count == 0)
+        {
             EventManager.UndoLastMove?.Invoke();
+        }
     }
 
     // using by button actions

@@ -16,7 +16,7 @@ public class Bottle
     private int _bottleIndex = -1;
     private int _topColorAmount;
 
-   [SerializeField]private Vector3 _openPosition;
+    [SerializeField] private Vector3 _openPosition;
 
     [SerializeField] private bool _sorted = false;
 
@@ -107,13 +107,14 @@ public class Bottle
     public void FindPositionAndAssignToPos(float numberOfBottleToCreate, int createdBottles, float bottleDistanceX,
         float bottleStartPosY, float bottleDistanceY)
     {
-        var posA = new Vector3(createdBottles % (numberOfBottleToCreate / 2) * bottleDistanceX,
+        var posA = new Vector3(
+            createdBottles % (numberOfBottleToCreate / 2) * (1 / numberOfBottleToCreate + bottleDistanceX),
             bottleStartPosY - bottleDistanceY * Mathf.Floor(createdBottles / (numberOfBottleToCreate / 2)), 0);
-        
+
 
         Vector3 pos = Camera.main.ViewportToWorldPoint(posA);
         pos.z = 0;
-        
+
 
         _openPosition = pos;
     }

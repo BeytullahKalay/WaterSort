@@ -8,12 +8,16 @@ public class GameManager : MonoBehaviour
     {
         EventManager.CheckIsLevelCompleted += CheckLevelIsCompleted;
         EventManager.LevelCompleted += DisableBottlesCollider;
+        EventManager.LevelCompleted += ClearInActionBottleList;
+        EventManager.RestartLevel += ClearInActionBottleList;
     }
 
     private void OnDisable()
     {
         EventManager.CheckIsLevelCompleted -= CheckLevelIsCompleted;
         EventManager.LevelCompleted -= DisableBottlesCollider;
+        EventManager.LevelCompleted -= ClearInActionBottleList;
+        EventManager.RestartLevel -= ClearInActionBottleList;
     }
 
     #region Singleton
@@ -81,6 +85,11 @@ public class GameManager : MonoBehaviour
         {
             EventManager.LevelCompleted?.Invoke();
         }
+    }
+
+    private void ClearInActionBottleList()
+    {
+        InActionBottleList.Clear();
     }
 
     private void DisableBottlesCollider()
