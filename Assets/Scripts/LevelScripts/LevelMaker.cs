@@ -140,26 +140,7 @@ public class LevelMaker : MonoBehaviour
     private void SaveToJson(AllBottles allBottles)
     {
         string json = JsonUtility.ToJson(allBottles);
-        string path;
-        
-        //path = Application.dataPath+"/LevelSavesJSON/AllDataFile" + (PlayerPrefs.GetInt("NamingIndex") % 3 + ".json");
-        
-        // path = Application.dataPath+"/LevelSavesJSON/AllDataFile" + (PlayerPrefs.GetInt("NamingIndex") % 3 + ".json");
-        // File.WriteAllText(path,json);
-        // EventManager.SaveJsonFilePath?.Invoke(path);
-        // PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
-        
-        
-// #if UNITY_EDITOR
-//         path = Path.Combine(Application.streamingAssetsPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
-// #elif UNITY_ANDROID
-//         path = Path.Combine(Application.persistentDataPath,"Data" + (PlayerPrefs.GetInt("NamingIndex") % 3 ,".json"));
-// #endif
-//         File.WriteAllText(path, json);
-//         EventManager.SaveJsonFilePath?.Invoke(path);
-//         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
-        
-        path = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetInt("NamingIndex") % 4 + "data.json");
+        string path = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetInt("NamingIndex") % 4 + "data.json");
         File.WriteAllText(path, json);
         EventManager.SaveJsonFilePath?.Invoke(path);
         PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
@@ -341,15 +322,15 @@ public class LevelMaker : MonoBehaviour
         Dispatcher.Instance.Invoke(() => CreateBottlesAndAssignPositions(allBottles));
     }
 
-    private void CreateBottlesAndAssignPositions(AllBottles allBottles)
+    private void CreateBottlesAndAssignPositions(AllBottles AllBottlesInLevel)
     {
-        for (int i = 0; i < allBottles._allBottles.Count; i++)
+        for (int i = 0; i < AllBottlesInLevel._allBottles.Count; i++)
         {
             var newBottle = InitializeBottle();
-            newBottle.HelperBottle = allBottles._allBottles[i];
-            newBottle.NumberOfColorsInBottle = allBottles._allBottles[i].NumberOfColorsInBottle;
-            newBottle.transform.position = allBottles._allBottles[i].GetOpenPosition();
-            allBottles._allBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
+            newBottle.HelperBottle = AllBottlesInLevel._allBottles[i];
+            newBottle.NumberOfColorsInBottle = AllBottlesInLevel._allBottles[i].NumberOfColorsInBottle;
+            newBottle.transform.position = AllBottlesInLevel._allBottles[i].GetOpenPosition();
+            AllBottlesInLevel._allBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
             Parenting(newBottle);
         }
 
