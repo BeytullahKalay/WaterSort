@@ -144,7 +144,10 @@ public class BottleController : MonoBehaviour
                 }
             }
 
-            _rotationIndex = 3 - (NumberOfColorsInBottle - NumberOfTopColorLayers);
+            
+            // _rotationIndex = 3 - (NumberOfColorsInBottle - NumberOfTopColorLayers);
+            // Debug.Log("In UpdateTopColorValues: " + _rotationIndex);
+
 
             TopColor = BottleColors[NumberOfColorsInBottle - 1];
         }
@@ -308,20 +311,19 @@ public class BottleController : MonoBehaviour
     {
         float angle = 0;
         float lastAngeValue = 0;
-        float desFillAmount = FillAmounts[NumberOfColorsInBottle + _numberOfColorsToTransfer];
 
         _rotateBottle = DOTween.To(() => angle, x => angle = x, _directionMultiplier * RotationValues[_rotationIndex],
-            RotateBottleDuration).SetUpdate(UpdateType.Fixed, true).OnStart(() => CheckSpeedUp(_rotateBottle)).OnUpdate(
-            () =>
+            RotateBottleDuration).SetUpdate(UpdateType.Fixed, true).OnStart(() => CheckSpeedUp(_rotateBottle)).
+            OnUpdate(() =>
             {
-                if (desFillAmount > FillAmountCurve.Evaluate(angle) + 0.005f)
+
+                if (FillAmounts[NumberOfColorsInBottle + _numberOfColorsToTransfer] > FillAmountCurve.Evaluate(angle) + 0.005f)
                 {
                     if (!_lineRenderer.enabled)
                     {
                         // set line position
                         _lineRenderer.SetPosition(0, _chosenRotationPoint.position);
-                        _lineRenderer.SetPosition(1,
-                            _chosenRotationPoint.position - Vector3.up * lineRendererPouringDistance);
+                        _lineRenderer.SetPosition(1, _chosenRotationPoint.position - Vector3.up * lineRendererPouringDistance);
 
                         // enable line renderer
                         _lineRenderer.enabled = true;
@@ -334,12 +336,12 @@ public class BottleController : MonoBehaviour
                     BottleControllerRef.FillUp(
                         FillAmountCurve.Evaluate(lastAngeValue) - FillAmountCurve.Evaluate(angle));
                 }
+                
 
-
-                if (Mathf.Abs(transform.rotation.eulerAngles.z % 270) < 90)
-                {
+                if (Mathf.Abs(WrapAngle(transform.rotation.eulerAngles.z)) <= RotationValues[_rotationIndex])
                     transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
-                }
+                    
+
 
                 lastAngeValue = angle;
 
@@ -354,6 +356,15 @@ public class BottleController : MonoBehaviour
             UpdateTopColorValues();
             RotateBottleBackAndMoveOriginalPosition();
         });
+    }
+    
+    private float WrapAngle(float angle)
+    {
+        angle%=360;
+        if(angle >180)
+            return angle - 360;
+ 
+        return angle;
     }
 
     private void RotateBottleBackAndMoveOriginalPosition()
@@ -399,6 +410,8 @@ public class BottleController : MonoBehaviour
     {
         _rotationIndex = 3 - (NumberOfColorsInBottle -
                               Mathf.Min(numberOfEmptySpacesInSecondBottle, NumberOfTopColorLayers));
+        Debug.Log("In Calculate RotationIndex: " + _rotationIndex);
+
     }
 
     public async Task SpeedUpActions()
