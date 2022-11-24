@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3fe56d4cc2cb243b86e284766bdf54, type: 3}
   m_Name: LevelHolder
   m_EditorClassIdentifier: 
-  JsonPathString: []
+  JsonPathString:
+  - C:/Users/kalay/AppData/LocalLow/DefaultCompany/WaterSort\0data.json
+  - C:/Users/kalay/AppData/LocalLow/DefaultCompany/WaterSort\1data.json
+  - C:/Users/kalay/AppData/LocalLow/DefaultCompany/WaterSort\2data.json
+  - C:/Users/kalay/AppData/LocalLow/DefaultCompany/WaterSort\3data.json

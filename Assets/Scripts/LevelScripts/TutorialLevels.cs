@@ -39,20 +39,33 @@ public class TutorialLevels : MonoBehaviour
             _isTutorialEnd = true;
 
             levelManager.gameObject.SetActive(true);
-            
+
             EventManager.ResetUndoActions?.Invoke();
 
             Destroy(gameObject);
             return false;
         }
-        
+
         return true;
     }
 
     private void Start()
     {
+        CheckIsGameHavePlayerPrefs();
+
         SpawnLevel();
         EventManager.CreateLevel?.Invoke();
+    }
+
+    private void CheckIsGameHavePlayerPrefs()
+    {
+        if (levelHolder.JsonPathString.Count <= 0 && PlayerPrefs.GetInt("LevelIndex") > 0 ||
+            PlayerPrefs.GetInt("NamingIndex") > 0)
+        {
+            PlayerPrefs.SetInt("NamingIndex",0);
+            PlayerPrefs.SetInt("LevelIndex", 0);
+            EventManager.UpdateLevelText?.Invoke();
+        }
     }
 
     private void SpawnLevel()
@@ -73,11 +86,11 @@ public class TutorialLevels : MonoBehaviour
     {
         Destroy(_currentLevel);
         IncreaseLevelIndex();
-        
+
         CheckTutorial();
-        
-        if(!CheckTutorial()) return;
-        
+
+        if (!CheckTutorial()) return;
+
         SpawnLevel();
         EventManager.CreateLevel?.Invoke();
     }
