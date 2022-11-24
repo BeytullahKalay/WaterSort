@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colors:
   - name: Blue
-    color: {r: 0, g: 0, b: 1, a: 1}
+    color: {r: 0.14578143, g: 0.14578143, b: 0.7924528, a: 1}
   - name: Green
-    color: {r: 0, g: 1, b: 0, a: 1}
+    color: {r: 0.12041653, g: 0.7735849, b: 0.12041653, a: 1}
   - name: Red
-    color: {r: 1, g: 0, b: 0, a: 1}
+    color: {r: 0.7169812, g: 0.1251335, b: 0.1251335, a: 1}
   - name: Yellow
-    color: {r: 1, g: 1, b: 0, a: 1}
+    color: {r: 0.8018868, g: 0.8018868, b: 0.1021271, a: 1}
   - name: DarkYellow
     color: {r: 0.33962262, g: 0.32802057, b: 0.011213961, a: 1}
   - name: Purple
-    color: {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
+    color: {r: 0.5691082, g: 0.16647384, b: 0.8207547, a: 1}
   - name: DarkPink
     color: {r: 0.8018868, g: 0.5030705, b: 0.56117374, a: 1}
   - name: Orange
