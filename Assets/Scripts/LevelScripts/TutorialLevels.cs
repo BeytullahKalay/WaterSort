@@ -34,6 +34,8 @@ public class TutorialLevels : MonoBehaviour
 
     private bool CheckTutorial()
     {
+
+
         if (PlayerPrefs.GetInt("LevelIndex") > tutorialLevels.Count - 1)
         {
             _isTutorialEnd = true;
@@ -51,21 +53,8 @@ public class TutorialLevels : MonoBehaviour
 
     private void Start()
     {
-        CheckIsGameHavePlayerPrefs();
-
         SpawnLevel();
         EventManager.CreateLevel?.Invoke();
-    }
-
-    private void CheckIsGameHavePlayerPrefs()
-    {
-        if (levelHolder.JsonPathString.Count <= 0 && PlayerPrefs.GetInt("LevelIndex") > 0 ||
-            PlayerPrefs.GetInt("NamingIndex") > 0)
-        {
-            PlayerPrefs.SetInt("NamingIndex",0);
-            PlayerPrefs.SetInt("LevelIndex", 0);
-            EventManager.UpdateLevelText?.Invoke();
-        }
     }
 
     private void SpawnLevel()
