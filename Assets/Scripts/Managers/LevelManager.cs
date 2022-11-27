@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        // Initialize new json path string list 
+        levelHolder.JsonPathString = new List<string>();
+
         CheckPlayerPrefs();
     }
 
@@ -18,9 +22,9 @@ public class LevelManager : MonoBehaviour
         EventManager.LevelCompleted += IncreaseLevelIndexOnLevelCompleted;
         EventManager.LoadNextLevel += LoadNextLevel;
         EventManager.RestartLevel += RestartLevel;
-        EventManager.CreateNewLevelForJson += CreateNewLevelForJson;
         EventManager.SaveJsonFilePath += SaveJsonFilePath;
         EventManager.GetLevelParent += GetLevelParent;
+        EventManager.CreateNewLevelForJson += CreateNewLevelForJson;
     }
 
     private void OnDisable()
@@ -28,9 +32,9 @@ public class LevelManager : MonoBehaviour
         EventManager.LevelCompleted -= IncreaseLevelIndexOnLevelCompleted;
         EventManager.LoadNextLevel -= LoadNextLevel;
         EventManager.RestartLevel -= RestartLevel;
-        EventManager.CreateNewLevelForJson -= CreateNewLevelForJson;
         EventManager.SaveJsonFilePath -= SaveJsonFilePath;
         EventManager.GetLevelParent -= GetLevelParent;
+        EventManager.CreateNewLevelForJson -= CreateNewLevelForJson;
     }
 
     private void Start()
@@ -41,6 +45,8 @@ public class LevelManager : MonoBehaviour
     private void CreateLevel()
     {
         if (_currentLevel != null) Destroy(_currentLevel);
+
+        levelHolder.GetJsonFile(Paths.LevelHolderPath);
 
         if (levelHolder.JsonPathString.Count > 0)
         {
@@ -56,13 +62,13 @@ public class LevelManager : MonoBehaviour
 
     private void CheckPlayerPrefs()
     {
-        if (!PlayerPrefs.HasKey("LevelIndex"))
-            PlayerPrefs.SetInt("LevelIndex", 0);
+        if (!PlayerPrefs.HasKey(PlayerPrefNames.LevelIndex))
+            PlayerPrefs.SetInt(PlayerPrefNames.LevelIndex, 0);
     }
 
     private void IncreaseLevelIndexOnLevelCompleted()
     {
-        PlayerPrefs.SetInt("LevelIndex", PlayerPrefs.GetInt("LevelIndex") + 1);
+        PlayerPrefs.SetInt(PlayerPrefNames.LevelIndex, PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex) + 1);
     }
 
     private void RestartLevel()
@@ -71,14 +77,9 @@ public class LevelManager : MonoBehaviour
         CreateLevel();
     }
 
-    private void CreateNewLevelForJson()
-    {
-        EventManager.CreateLevel?.Invoke();
-    }
-
     private void SaveJsonFilePath(string s)
     {
-        levelHolder.JsonPathString.Add(s);
+        levelHolder.UpdateAndAdd(Paths.LevelHolderPath, s);
     }
 
     private void GetLevelParent(GameObject levelParent)
@@ -88,7 +89,12 @@ public class LevelManager : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        levelHolder.JsonPathString.RemoveAt(0);
+        levelHolder.UpdateAndRemoveAt(Paths.LevelHolderPath, 0);
         CreateLevel();
+    }
+
+    private void CreateNewLevelForJson()
+    {
+        EventManager.CreateLevel?.Invoke();
     }
 }

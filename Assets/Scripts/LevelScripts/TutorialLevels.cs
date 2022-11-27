@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class TutorialLevels : MonoBehaviour
@@ -34,9 +35,8 @@ public class TutorialLevels : MonoBehaviour
 
     private bool CheckTutorial()
     {
-
-
-        if (PlayerPrefs.GetInt("LevelIndex") > tutorialLevels.Count - 1)
+        
+        if (PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex) > tutorialLevels.Count - 1)
         {
             _isTutorialEnd = true;
 
@@ -54,12 +54,11 @@ public class TutorialLevels : MonoBehaviour
     private void Start()
     {
         SpawnLevel();
-        EventManager.CreateLevel?.Invoke();
     }
 
     private void SpawnLevel()
     {
-        var spawnObj = tutorialLevels[PlayerPrefs.GetInt("LevelIndex")];
+        var spawnObj = tutorialLevels[PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)];
         _currentLevel = Instantiate(spawnObj, spawnObj.transform.position, spawnObj.transform.rotation);
     }
 
@@ -74,6 +73,7 @@ public class TutorialLevels : MonoBehaviour
     private void LoadNextLevel()
     {
         Destroy(_currentLevel);
+
         IncreaseLevelIndex();
 
         CheckTutorial();
@@ -86,11 +86,27 @@ public class TutorialLevels : MonoBehaviour
 
     private void IncreaseLevelIndex()
     {
-        PlayerPrefs.SetInt("LevelIndex", PlayerPrefs.GetInt("LevelIndex") + 1);
+        PlayerPrefs.SetInt(PlayerPrefNames.LevelIndex, PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex) + 1);
     }
 
     private void SaveJsonFilePath(string s)
     {
-        levelHolder.JsonPathString.Add(s);
+        
+        levelHolder.UpdateAndAdd(Paths.LevelHolderPath,s);
+
+        string path = Paths.LevelHolderPath;
+
+        if (File.Exists(path))
+        {
+            string json = JsonUtility.ToJson(levelHolder);
+            File.WriteAllText(path,json);
+        }
+        else
+        {
+            Debug.Log("no level holder data in json. Creating");
+
+            string json = JsonUtility.ToJson(levelHolder);
+            File.WriteAllText(path,json);
+        }
     }
 }

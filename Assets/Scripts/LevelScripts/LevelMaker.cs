@@ -55,14 +55,32 @@ public class LevelMaker : MonoBehaviour
 
     private void Awake()
     {
+        TryGetLevelCreateDataFromJson();
         CheckNamingIndexPlayerPref();
     }
-    
+
+    private void TryGetLevelCreateDataFromJson()
+    {
+        string path = Paths.LevelCreationDataPath;
+        
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            _data = JsonUtility.FromJson<Data>(json);
+        }
+        else
+        {
+            Debug.Log("Data not exists. Creating new one");
+            string json = JsonUtility.ToJson(_data);
+            File.WriteAllText(path, json);
+        }
+    }
+
     private void CheckNamingIndexPlayerPref()
     {
-        if (!PlayerPrefs.HasKey("NamingIndex"))
+        if (!PlayerPrefs.HasKey(PlayerPrefNames.NamingIndex))
         {
-            PlayerPrefs.SetInt("NamingIndex",0);
+            PlayerPrefs.SetInt(PlayerPrefNames.NamingIndex, 0);
         }
     }
 
@@ -75,14 +93,9 @@ public class LevelMaker : MonoBehaviour
     public void CreateNewLevel_GUIButton()
     {
         if (_myThread == null || !_myThread.IsAlive)
-            _myThread = new Thread(CreateLevelActions);
+            _myThread = new Thread(CreateLevelPrototype);
 
         _myThread.Start();
-    }
-
-    private void CreateLevelActions()
-    {
-        CreateLevelPrototype();
     }
 
     private void CreateLevelPrototype()
@@ -109,11 +122,25 @@ public class LevelMaker : MonoBehaviour
             Debug.Log("Solvable");
 
             MainThread_SaveToJson(allBottles);
+            
+            MainThread_SaveLevelCreateDataToJson();
         }
         else
         {
             CreateLevelPrototype();
         }
+    }
+
+    private void MainThread_SaveLevelCreateDataToJson()
+    {
+        Dispatcher.Instance.Invoke(SaveLevelCreateDataToJson);
+    }
+
+    private void SaveLevelCreateDataToJson()
+    {
+        string json = JsonUtility.ToJson(_data);
+        string path = Paths.LevelCreationDataPath;
+        File.WriteAllText(path, json);
     }
 
     private void CreateLevelFromPrototype(AllBottles prototypeLevel)
@@ -125,25 +152,21 @@ public class LevelMaker : MonoBehaviour
 
     private void MainThread_GetLevelParent()
     {
-        Dispatcher.Instance.Invoke(() =>
-        {
-            EventManager.GetLevelParent?.Invoke(lastCreatedParent);
-
-        });
+        Dispatcher.Instance.Invoke(() => { EventManager.GetLevelParent?.Invoke(lastCreatedParent); });
     }
 
     private void MainThread_SaveToJson(AllBottles allBottles)
     {
-        Dispatcher.Instance.Invoke(()=> SaveToJson(allBottles));
+        Dispatcher.Instance.Invoke(() => SaveToJson(allBottles));
     }
 
     private void SaveToJson(AllBottles allBottles)
     {
         string json = JsonUtility.ToJson(allBottles);
-        string path = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetInt("NamingIndex") % 4 + "data.json");
+        string path = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetInt(PlayerPrefNames.NamingIndex) % 4 + "data.json");
         File.WriteAllText(path, json);
         EventManager.SaveJsonFilePath?.Invoke(path);
-        PlayerPrefs.SetInt("NamingIndex",PlayerPrefs.GetInt("NamingIndex") + 1);
+        PlayerPrefs.SetInt(PlayerPrefNames.NamingIndex, PlayerPrefs.GetInt(PlayerPrefNames.NamingIndex) + 1);
     }
 
     private void RandomizeNumberOfBottle()

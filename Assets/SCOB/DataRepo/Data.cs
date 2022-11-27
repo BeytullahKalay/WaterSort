@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Objects/DataRepo")]
-public class Data : ScriptableObject
+
+[System.Serializable]
+public class Data
 {
     public long BottleColorRandomIndex = 0;
     public long ExtraBottleAmountRandomIndex = 0;

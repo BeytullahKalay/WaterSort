@@ -66,7 +66,7 @@ public class CanvasController : MonoBehaviour
 
     private void UpdateLevelText()
     {
-        LevelText.text = "Level " + (PlayerPrefs.GetInt("LevelIndex") + 1).ToString();
+        LevelText.text = "Level " + (PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex) + 1).ToString();
     }
 
     // using by button actions
@@ -101,8 +101,15 @@ public class CanvasController : MonoBehaviour
     // using by button actions
     public void AddOneMoreBottle()
     {
-        Debug.Log("Add one more bottle");
-        EventManager.AddExtraEmptyBottle?.Invoke();
+        if (GameManager.Instance.InActionBottleList.Count == 0)
+        {
+            Debug.Log("Add one more bottle");
+            EventManager.AddExtraEmptyBottle?.Invoke();
+        }
+        else
+        {
+            Debug.Log("In action bottle list more than 0");
+        }
     }
 
     // using by button actions
