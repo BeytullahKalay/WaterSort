@@ -954,7 +954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98774ee44026de44383ca8d532c30614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelHolder: {fileID: 11400000, guid: 502a9fdb3a13ca1438be433e3fe042aa, type: 2}
+  levelHolder:
+    JsonPathString: []
 --- !u!1 &665477394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,12 +1428,12 @@ MonoBehaviour:
     ExtraBottleAmountRandomIndex: 0
     ColorPickerRandomIndex: 0
     CreatedBottles: []
-  numberOfColorsToCreate: 5
+  NumberOfColorsToCreate: 2
   selectedColors:
   - {r: 0.21568628, g: 0.57254905, b: 0.21568628, a: 1}
   - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
   lastCreatedParent: {fileID: 0}
-  noMatches: 1
+  NoMatches: 0
 --- !u!4 &940977538
 Transform:
   m_ObjectHideFlags: 0
@@ -2339,7 +2340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09585e8bc1234a9438e8908e3337fc5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelHolder: {fileID: 11400000, guid: 502a9fdb3a13ca1438be433e3fe042aa, type: 2}
 --- !u!4 &1351169099
 Transform:
   m_ObjectHideFlags: 0
@@ -2879,7 +2879,8 @@ MonoBehaviour:
   - {fileID: 453713492564604725, guid: 3a1b5d56e36524947bb2775cff4b6d65, type: 3}
   - {fileID: 8842426387400738612, guid: e0741e247ab9cd1499f714c84453e53a, type: 3}
   - {fileID: 2734260101771235444, guid: c7864cf0a2216cb43ace70bd9e70127e, type: 3}
-  levelHolder: {fileID: 11400000, guid: 502a9fdb3a13ca1438be433e3fe042aa, type: 2}
+  levelHolder:
+    JsonPathString: []
 --- !u!4 &1887899671
 Transform:
   m_ObjectHideFlags: 0
@@ -3155,6 +3156,104 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2126510484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2126510486}
+  - component: {fileID: 2126510485}
+  m_Layer: 0
+  m_Name: LevelMakerController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2126510485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126510484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed27e0a39f229304e9f9ccff3c8b7e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelMaker: {fileID: 940977537}
+  levelMakerControllers:
+  - LevelBeginningIndex: 0
+    LevelFinishIndex: 4
+    ColorAmount: 5
+    NoMatches: 1
+  - LevelBeginningIndex: 5
+    LevelFinishIndex: 9
+    ColorAmount: 6
+    NoMatches: 0
+  - LevelBeginningIndex: 10
+    LevelFinishIndex: 14
+    ColorAmount: 6
+    NoMatches: 1
+  - LevelBeginningIndex: 15
+    LevelFinishIndex: 19
+    ColorAmount: 7
+    NoMatches: 0
+  - LevelBeginningIndex: 20
+    LevelFinishIndex: 24
+    ColorAmount: 7
+    NoMatches: 1
+  - LevelBeginningIndex: 25
+    LevelFinishIndex: 29
+    ColorAmount: 8
+    NoMatches: 0
+  - LevelBeginningIndex: 30
+    LevelFinishIndex: 39
+    ColorAmount: 8
+    NoMatches: 1
+  - LevelBeginningIndex: 40
+    LevelFinishIndex: 49
+    ColorAmount: 9
+    NoMatches: 0
+  - LevelBeginningIndex: 49
+    LevelFinishIndex: 60
+    ColorAmount: 9
+    NoMatches: 1
+  - LevelBeginningIndex: 61
+    LevelFinishIndex: 74
+    ColorAmount: 10
+    NoMatches: 0
+  - LevelBeginningIndex: 75
+    LevelFinishIndex: 89
+    ColorAmount: 10
+    NoMatches: 1
+  - LevelBeginningIndex: 90
+    LevelFinishIndex: 109
+    ColorAmount: 11
+    NoMatches: 0
+  - LevelBeginningIndex: 110
+    LevelFinishIndex: 150
+    ColorAmount: 11
+    NoMatches: 1
+--- !u!4 &2126510486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126510484}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 540, y: 1080, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2138182964
 GameObject:

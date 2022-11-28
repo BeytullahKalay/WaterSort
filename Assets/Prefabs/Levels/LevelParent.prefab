@@ -903,7 +903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b9ea2b97c84df4c8749351f92248b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfColor: 1
+  NumberOfColor: 1
   _line1: {fileID: 2910982419975410028}
   _line2: {fileID: 330983221288377651}
 --- !u!1 &8416285803053376566

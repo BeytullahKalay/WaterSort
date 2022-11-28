@@ -17,14 +17,13 @@ public class LevelMaker : MonoBehaviour
     [Header("Databases")] [SerializeField] private Colors _colorsdb;
     [SerializeField] private Data _data;
 
-    [Header("Level Maker")] [SerializeField]
-    private int numberOfColorsToCreate = 2;
+    [Header("Level Maker")] public int NumberOfColorsToCreate = 2;
 
     [SerializeField] private List<Color> selectedColors = new List<Color>();
     private List<MyColors> _myColorsList = new List<MyColors>();
 
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
-    [SerializeField] private bool noMatches;
+    public bool NoMatches;
 
 
     private int _createdBottles;
@@ -62,7 +61,7 @@ public class LevelMaker : MonoBehaviour
     private void TryGetLevelCreateDataFromJson()
     {
         string path = Paths.LevelCreationDataPath;
-        
+
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -112,7 +111,7 @@ public class LevelMaker : MonoBehaviour
 
         RandomizeNumberOfBottle();
 
-        CreateBottles(_numberOfBottlesCreate, noMatches);
+        CreateBottles(_numberOfBottlesCreate, NoMatches);
 
         AllBottles allBottles = new AllBottles(_data.CreatedBottles);
         ColorNumerator.NumerateColors(selectedColors);
@@ -121,8 +120,10 @@ public class LevelMaker : MonoBehaviour
         {
             Debug.Log("Solvable");
 
+            allBottles.numberOfColorInLevel = NumberOfColorsToCreate;
+
             MainThread_SaveToJson(allBottles);
-            
+
             MainThread_SaveLevelCreateDataToJson();
         }
         else
@@ -145,7 +146,7 @@ public class LevelMaker : MonoBehaviour
 
     private void CreateLevelFromPrototype(AllBottles prototypeLevel)
     {
-        MainThread_CreateLevelParentAndLineObjects();
+        MainThread_CreateLevelParentAndLineObjects(prototypeLevel.numberOfColorInLevel);
         MainThread_CreateBottlesAndAssignPositions(prototypeLevel);
         MainThread_GetLevelParent();
     }
@@ -163,7 +164,8 @@ public class LevelMaker : MonoBehaviour
     private void SaveToJson(AllBottles allBottles)
     {
         string json = JsonUtility.ToJson(allBottles);
-        string path = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetInt(PlayerPrefNames.NamingIndex) % 4 + "data.json");
+        string path = Path.Combine(Application.persistentDataPath,
+            PlayerPrefs.GetInt(PlayerPrefNames.NamingIndex) % 4 + "data.json");
         File.WriteAllText(path, json);
         EventManager.SaveJsonFilePath?.Invoke(path);
         PlayerPrefs.SetInt(PlayerPrefNames.NamingIndex, PlayerPrefs.GetInt(PlayerPrefNames.NamingIndex) + 1);
@@ -173,12 +175,12 @@ public class LevelMaker : MonoBehaviour
     {
         var hasString = "ExtraBottle " + _data.GetAmountOfExtraBottleIndex().ToString();
         var rand = new Unity.Mathematics.Random((uint)hasString.GetHashCode());
-        _numberOfBottlesCreate = rand.NextInt(numberOfColorsToCreate + 1, numberOfColorsToCreate + 3);
+        _numberOfBottlesCreate = rand.NextInt(NumberOfColorsToCreate + 1, NumberOfColorsToCreate + 3);
     }
 
     private void SelectColorsToCreate()
     {
-        while (selectedColors.Count < numberOfColorsToCreate)
+        while (selectedColors.Count < NumberOfColorsToCreate)
         {
             var selectedColor = _colorsdb.GetRandomColor(_data.GetBottleColorRandomIndex());
 
@@ -196,13 +198,13 @@ public class LevelMaker : MonoBehaviour
         }
     }
 
-    private void MainThread_CreateLevelParentAndLineObjects()
+    private void MainThread_CreateLevelParentAndLineObjects(int numberOfColorInLevel)
     {
         Thread.Sleep(50);
-        Dispatcher.Instance.Invoke(() => CreateLevelParentAndLineObjects());
+        Dispatcher.Instance.Invoke(() => CreateLevelParentAndLineObjects(numberOfColorInLevel));
     }
 
-    private void CreateLevelParentAndLineObjects()
+    private void CreateLevelParentAndLineObjects(int numberOfColorInlevel)
     {
         _levelParent = new GameObject("LevelParent");
         _line1 = new GameObject("Line1");
@@ -210,7 +212,7 @@ public class LevelMaker : MonoBehaviour
         _line2.transform.parent = _line1.transform.parent = _levelParent.transform;
 
         _levelParent.AddComponent<LevelParent>();
-        _levelParent.GetComponent<LevelParent>().numberOfColor = numberOfColorsToCreate;
+        _levelParent.GetComponent<LevelParent>().NumberOfColor = numberOfColorInlevel;
 
         _levelParent.GetComponent<LevelParent>().GetLines(_line1.transform, _line2.transform);
         lastCreatedParent = _levelParent;

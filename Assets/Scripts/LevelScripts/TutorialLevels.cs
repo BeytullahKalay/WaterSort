@@ -19,6 +19,7 @@ public class TutorialLevels : MonoBehaviour
         EventManager.RestartLevel += Restart;
         EventManager.LoadNextLevel += LoadNextLevel;
         EventManager.SaveJsonFilePath += SaveJsonFilePath;
+        EventManager.LevelCompleted += IncreaseLevelIndex;
     }
 
     private void OnDisable()
@@ -26,6 +27,7 @@ public class TutorialLevels : MonoBehaviour
         EventManager.RestartLevel -= Restart;
         EventManager.LoadNextLevel -= LoadNextLevel;
         EventManager.SaveJsonFilePath -= SaveJsonFilePath;
+        EventManager.LevelCompleted -= IncreaseLevelIndex;
     }
 
     private void Awake()
@@ -73,8 +75,6 @@ public class TutorialLevels : MonoBehaviour
     private void LoadNextLevel()
     {
         Destroy(_currentLevel);
-
-        IncreaseLevelIndex();
 
         CheckTutorial();
 

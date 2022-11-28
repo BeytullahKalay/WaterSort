@@ -3,7 +3,7 @@ using UnityEngine;
 public class LevelParent : MonoBehaviour
 {
     [Space (20)]
-    public int numberOfColor;
+    public int NumberOfColor;
 
 
     [Header("Lines")]
@@ -12,7 +12,7 @@ public class LevelParent : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.TotalColorAmount = numberOfColor;
+        GameManager.Instance.TotalColorAmount = NumberOfColor;
         var gm = GameManager.Instance;
         gm.bottleControllers.Clear();
 

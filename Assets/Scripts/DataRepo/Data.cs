@@ -8,7 +8,7 @@ public class Data
     public long BottleColorRandomIndex = 0;
     public long ExtraBottleAmountRandomIndex = 0;
     public long ColorPickerRandomIndex = 0;
-
+    
     [SerializeField] public List<Bottle> CreatedBottles = new List<Bottle>();
     
     public long GetBottleColorRandomIndex()

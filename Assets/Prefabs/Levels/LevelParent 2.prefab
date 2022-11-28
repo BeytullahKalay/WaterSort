@@ -1728,6 +1728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b9ea2b97c84df4c8749351f92248b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfColor: 3
+  NumberOfColor: 3
   _line1: {fileID: 7241999490880185609}
   _line2: {fileID: 7241999490880185609}
