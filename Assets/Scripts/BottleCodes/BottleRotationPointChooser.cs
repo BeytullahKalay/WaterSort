@@ -5,8 +5,8 @@ namespace BottleCodes
 {
     public class BottleRotationPointChooser : MonoBehaviour
     {
-        [SerializeField] private Transform leftRotationPoint;
-        [SerializeField] private Transform rightRotationPoint;
+        public Transform LeftRotationPoint;
+        public Transform RightRotationPoint;
     
         private Vector3 _originalPosition;
         private float _directionMultiplier = 1;
@@ -17,17 +17,17 @@ namespace BottleCodes
         }
 
 
-        public Transform ChoseRotationPoint(BottleManager bottleControllerRef)
+        public ChosenPoint ChoseRotationPoint(BottleManager bottleControllerRef)
         {
             if (transform.position.x > bottleControllerRef.transform.position.x)
             {
                 _directionMultiplier = -1;
-                return leftRotationPoint;
+                return ChosenPoint.Left;
             }
             else
             {
                 _directionMultiplier = 1;
-                return rightRotationPoint;
+                return ChosenPoint.Right;
             }
         }
     }

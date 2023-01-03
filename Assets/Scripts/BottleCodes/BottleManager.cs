@@ -12,22 +12,26 @@ namespace BottleCodes
     public class BottleManager : MonoBehaviour
     {
         private BottleActionListController _bottleActionListController;
-        private BottleRotationPointChooser _bottleRotationPointChooser;
         private BottleReferenceHolder _bottleReferenceHolder;
-        private BottleTransferController _bottleTransferController;
-        private BottleColorManager _bottleColorManager;
         private BottleAnimationController _bottleAnimationController;
         private BottleSortedController _bottleSortedController;
 
+        public BottleTransferController BottleTransferController{ get; private set; }
+        public BottleRotationPointChooser BottleRotationPointChooser{ get; private set; }
+        public BottleColorManager  BottleColorManager { get; private set; }
+
+        public bool BottleIsLocked;
+        
         private void Awake()
         {
             _bottleActionListController = GetComponent<BottleActionListController>();
-            _bottleRotationPointChooser = GetComponent<BottleRotationPointChooser>();
             _bottleReferenceHolder = GetComponent<BottleReferenceHolder>();
-            _bottleTransferController = GetComponent<BottleTransferController>();
-            _bottleColorManager = GetComponent<BottleColorManager>();
+            BottleTransferController = GetComponent<BottleTransferController>();
             _bottleAnimationController = GetComponent<BottleAnimationController>();
             _bottleSortedController = GetComponent<BottleSortedController>();
+            
+            BottleRotationPointChooser = GetComponent<BottleRotationPointChooser>();
+            BottleColorManager = GetComponent<BottleColorManager>();
         }
 
 
@@ -36,24 +40,27 @@ namespace BottleCodes
             //Add Action Bottle To Action Bottle List
             //_bottleActionListController.AddBottleToActionBottleList(this);
 
-           
-            //_bottleRotationPointChooser.ChoseRotationPoint(this);
 
-            
-            // _bottleTransferController.CalculateNumberOfColorsToTransfer(_numberOfColors.NumberOfTopColorLayers,
-            //     _numberOfColors.ColorsInBottle);
-
-            var bottleReferenceColorManager = _bottleReferenceHolder.BottleReference._bottleColorManager;
-            for (int i = 0; i < _bottleTransferController.GetNumberOfColorsToTransfer(_bottleColorManager.NumberOfTopColorLayers,_bottleColorManager.ColorsInBottle); i++)
+            var bottleReferenceColorManager = _bottleReferenceHolder.BottleReference.BottleColorManager;
+            for (int i = 0; i <  GetNumberOfColorsToTransfer(); i++)
             {
-                bottleReferenceColorManager.BottleColors[bottleReferenceColorManager.ColorsInBottle + i] = _bottleColorManager.TopColor;
+                bottleReferenceColorManager.BottleColors[bottleReferenceColorManager.BottleColorsAmount + i] = BottleColorManager.TopColor;
             }
+
             bottleReferenceColorManager.UpdateColorsOnShader();
-            
+
             // calculating rotation index 
             //CalculateRotationIndex(4 - BottleControllerRef.NumberOfColorsInBottle);
 
-            _bottleColorManager.SetRenderingOrderOfRenderers();
+            BottleColorManager.SetRenderingOrderOfRenderers();
+
+            var referenceBottle = _bottleReferenceHolder.BottleReference;
+            _bottleAnimationController.MoveBottle(BottleRotationPointChooser.ChoseRotationPoint(referenceBottle), referenceBottle);
+        }
+
+        public int GetNumberOfColorsToTransfer()
+        {
+           return BottleTransferController.CalculateNumberOfColorToTransfer(BottleColorManager.NumberOfTopColorLayers, BottleColorManager.BottleColorsAmount);
         }
     }
 }

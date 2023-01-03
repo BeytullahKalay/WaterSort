@@ -5,7 +5,7 @@ namespace BottleCodes
 {
     public class BottleSortedController : MonoBehaviour
     {
-        private IEnumerator _coroutine;
+        public IEnumerator CheckIsSortedCO { get; set; }
 
         private GameManager _gm;
 
@@ -16,7 +16,7 @@ namespace BottleCodes
 
         private void Start()
         {
-            _coroutine = CheckIsBottleSorted_Co();
+            CheckIsSortedCO = CheckIsBottleSorted_Co();
         }
 
         private IEnumerator CheckIsBottleSorted_Co()
@@ -30,7 +30,7 @@ namespace BottleCodes
                         _gm.ConfettiParticle.transform.rotation);
                     Destroy(particleFX, 3);
                     EventManager.CheckIsLevelCompleted?.Invoke();
-                    StopCoroutine(_coroutine);
+                    StopCoroutine(CheckIsSortedCO);
                 }
 
                 yield return null;

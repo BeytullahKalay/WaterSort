@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace BottleCodes
 {
+    [RequireComponent(typeof(BottleSortedController))]
     public class BottleColorManager : MonoBehaviour
     {
-        [Range(0, 4)] public int ColorsInBottle = 4;
+        [Range(0, 4)] public int BottleColorsAmount = 4;
         public int NumberOfTopColorLayers;
 
         public SpriteRenderer BottleMaskSR;
@@ -13,12 +15,19 @@ namespace BottleCodes
     
         public Color[] BottleColors;
         public Color TopColor;
-        
+
+        private BottleSortedController _bottleSortedController;
+
+        private void Awake()
+        {
+            _bottleSortedController = GetComponent<BottleSortedController>();
+        }
+
         private void Start()
         {
             BottleMaskSR.material = GameManager.Instance.Mat;
             UpdateColorsOnShader();
-            //UpdateTopColorValues();
+            UpdateTopColorValues();
         }
         
         public void UpdateColorsOnShader()
@@ -29,48 +38,48 @@ namespace BottleCodes
             BottleMaskSR.material.SetColor("_C4", BottleColors[3]);
         }
 
-        private void UpdateTopColorValues(Color []bottleColors,IEnumerator coroutine)
+        public void UpdateTopColorValues()
         {
             // _previousTopColor = TopColor;
             // BottleSorted = false;
-            if (ColorsInBottle != 0)
+            if (BottleColorsAmount != 0)
             {
                 NumberOfTopColorLayers = 1;
 
-                if (ColorsInBottle == 4)
+                if (BottleColorsAmount == 4)
                 {
-                    if (bottleColors[3].Equals(bottleColors[2]))
+                    if (BottleColors[3].Equals(BottleColors[2]))
                     {
                         NumberOfTopColorLayers = 2;
-                        if (bottleColors[2].Equals(bottleColors[1]))
+                        if (BottleColors[2].Equals(BottleColors[1]))
                         {
                             NumberOfTopColorLayers = 3;
-                            if (bottleColors[1].Equals(bottleColors[0]))
+                            if (BottleColors[1].Equals(BottleColors[0]))
                             {
                                 NumberOfTopColorLayers = 4;
                                 print("Bottle Sorted!");
                                 // BottleSorted = true;
-                                StartCoroutine(coroutine);
+                                StartCoroutine(_bottleSortedController.CheckIsSortedCO);
                             }
                         }
                     }
                 }
 
-                else if (ColorsInBottle == 3)
+                else if (BottleColorsAmount == 3)
                 {
-                    if (bottleColors[2].Equals(bottleColors[1]))
+                    if (BottleColors[2].Equals(BottleColors[1]))
                     {
                         NumberOfTopColorLayers = 2;
-                        if (bottleColors[1].Equals(bottleColors[0]))
+                        if (BottleColors[1].Equals(BottleColors[0]))
                         {
                             NumberOfTopColorLayers = 3;
                         }
                     }
                 }
 
-                else if (ColorsInBottle == 2)
+                else if (BottleColorsAmount == 2)
                 {
-                    if (bottleColors[1].Equals(bottleColors[0]))
+                    if (BottleColors[1].Equals(BottleColors[0]))
                     {
                         NumberOfTopColorLayers = 2;
                     }
