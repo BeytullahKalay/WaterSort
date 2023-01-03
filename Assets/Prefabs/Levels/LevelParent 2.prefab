@@ -1730,4 +1730,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfColor: 3
   _line1: {fileID: 7241999490880185609}
-  _line2: {fileID: 0}
+  _line2: {fileID: 7241999490880185609}
