@@ -143,12 +143,6 @@ public class BottleController : MonoBehaviour
                     NumberOfTopColorLayers = 2;
                 }
             }
-
-
-            // _rotationIndex = 3 - (NumberOfColorsInBottle - NumberOfTopColorLayers);
-            // Debug.Log("In UpdateTopColorValues: " + _rotationIndex);
-
-
             TopColor = BottleColors[NumberOfColorsInBottle - 1];
         }
     }
@@ -217,8 +211,8 @@ public class BottleController : MonoBehaviour
         CalculateRotationIndex(4 - BottleControllerRef.NumberOfColorsInBottle);
 
         // setting render order
-        transform.GetComponent<SpriteRenderer>().sortingOrder += 2;
-        BottleMaskSR.sortingOrder += 2;
+        transform.GetComponent<SpriteRenderer>().sortingOrder += 2; // default bottle renderer sorting order
+        BottleMaskSR.sortingOrder += 2;                             // liquid sprite renderer order
 
         // call move bottle
         MoveBottle();
