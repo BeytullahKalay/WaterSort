@@ -5,6 +5,11 @@ public class GameLoader : MonoBehaviour
 {
     [SerializeField] private LevelHolder levelHolder;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     private void Start()
     {
         Debug.Log("Level holder json Count : " + levelHolder.JsonPathString.Count);
