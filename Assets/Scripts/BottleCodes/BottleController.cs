@@ -23,7 +23,6 @@ public class BottleController : MonoBehaviour
     public bool BottleSorted;
 
     // Undo values
-    private int _topColorLayerAmountHolder;
     public Color _previousTopColor;
 
 
@@ -297,10 +296,7 @@ public class BottleController : MonoBehaviour
         float lastAngeValue = 0;
 
         _preRotate = DOTween.To(() => angle, x => angle = x, _directionMultiplier * PreRotateAmount, PreRotateDuration)
-            .SetEase(Ease.OutQuart).SetUpdate(UpdateType.Fixed, true).OnStart(() =>
-            {
-                _topColorLayerAmountHolder = NumberOfTopColorLayers;
-            }).OnUpdate(() =>
+            .SetEase(Ease.OutQuart).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
             {
                 transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, lastAngeValue - angle);
                 lastAngeValue = angle;
@@ -383,8 +379,7 @@ public class BottleController : MonoBehaviour
             {
                 GetComponent<BoxCollider2D>().enabled = true;
                 OnSpeedUp = false;
-                EventManager.AddMoveToList?.Invoke(this, BottleControllerRef, _topColorLayerAmountHolder,
-                    _previousTopColor);
+                EventManager.AddMoveToList?.Invoke(this, BottleControllerRef, _numberOfColorsToTransfer, _previousTopColor);
                 RemoveBottleFromInActionBottleList();
             });
 
