@@ -1,31 +1,51 @@
+using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameLoader : MonoBehaviour
 {
-    [SerializeField] private LevelHolder levelHolder;
+    
+    private void CheckPlayerPrefs()
+    {
+        if (!PlayerPrefs.HasKey(PlayerPrefNames.FirstTime))
+            PlayerPrefs.SetInt(PlayerPrefNames.FirstTime, 0);
 
+        if (PlayerPrefs.GetInt(PlayerPrefNames.FirstTime) == 0)
+            DeleteAllData();
+
+        PlayerPrefs.SetInt(PlayerPrefNames.FirstTime, 20);
+    }
+
+    private void DeleteAllData()
+    {
+        PlayerPrefs.SetInt(PlayerPrefNames.NamingIndex, 0);
+        PlayerPrefs.SetInt(PlayerPrefNames.LevelIndex, 0);
+        EventManager.UpdateLevelText?.Invoke();
+
+        // delete level creation data
+        if (File.Exists(Paths.LevelCreationDataPath))
+        {
+            File.Delete(Paths.LevelCreationDataPath);
+        }
+
+        // delete level data
+        var maxWaterAmountBottleCanTake = 4;
+        for (int i = 0; i < maxWaterAmountBottleCanTake; i++)
+        {
+            if (File.Exists(Application.persistentDataPath + "/" + i + "data.json"))
+                File.Delete(Application.persistentDataPath + "/" + i + "data.json");
+        }
+        
+        // delete level holder data
+        if (File.Exists(Paths.LevelHolderPath))
+        {
+            File.Delete(Paths.LevelHolderPath);
+        }
+    }
+
+    
     private void Awake()
     {
         Application.targetFrameRate = 60;
-    }
-
-    private void Start()
-    {
-        Debug.Log("Level holder json Count : " + levelHolder.JsonPathString.Count);
-        Debug.Log("Level Index : " + PlayerPrefs.GetInt("LevelIndex"));
-        Debug.Log("Naming Index : " + PlayerPrefs.GetInt("NamingIndex"));
-
-        // check level prefs
-        if (levelHolder.JsonPathString.Count <= 0 && (PlayerPrefs.GetInt("LevelIndex") > 0 ||
-                                                      PlayerPrefs.GetInt("NamingIndex") > 0))
-        {
-            PlayerPrefs.SetInt("NamingIndex", 0);
-            PlayerPrefs.SetInt("LevelIndex", 0);
-            EventManager.UpdateLevelText?.Invoke();
-        }
-
-        // Load next Level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        CheckPlayerPrefs();
     }
 }

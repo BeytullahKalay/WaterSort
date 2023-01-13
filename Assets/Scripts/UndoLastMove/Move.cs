@@ -6,25 +6,25 @@ class Move
     private BottleController _firstBottle;
     private BottleController _secondBottle;
 
-    private int _numberOfTopColorLayer;
+    private int _transferColorAmount;
 
     private Color _color;
 
-    public Move(BottleController first, BottleController second, int colorLayerAmount,Color color)
+    public Move(BottleController first, BottleController second, int colorAmountAmount,Color color)
     {
         _firstBottle = first;
         _secondBottle = second;
-        _numberOfTopColorLayer = colorLayerAmount;
+        _transferColorAmount = colorAmountAmount;
         _color = color;
     }
 
     public void UndoMove()
     {
-        _firstBottle.NumberOfColorsInBottle += _numberOfTopColorLayer;
-        _secondBottle.NumberOfColorsInBottle -= _numberOfTopColorLayer;
+        _firstBottle.NumberOfColorsInBottle += _transferColorAmount;
+        _secondBottle.NumberOfColorsInBottle -= _transferColorAmount;
 
 
-        int firstStartIndex = _firstBottle.NumberOfColorsInBottle - _numberOfTopColorLayer;
+        int firstStartIndex = _firstBottle.NumberOfColorsInBottle - _transferColorAmount;
         firstStartIndex = (int)Mathf.Clamp(firstStartIndex,0, Mathf.Infinity);
         
         for (int i = firstStartIndex; i < _firstBottle.NumberOfColorsInBottle; i++)
