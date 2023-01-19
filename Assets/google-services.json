@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "259902704852",
+    "project_id": "watersort-c382c",
+    "storage_bucket": "watersort-c382c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259902704852:android:f9b442b0c89e0860b87f41",
+        "android_client_info": {
+          "package_name": "com.watersortpuzzle.colorsortpuzzle.watercolorsortpuzzle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259902704852-17pd1paj0jl0qq3uq6fkj6hgdk52p7vi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmxali1zai_w3MY-eIAjxv07Ga8r4IsTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259902704852-17pd1paj0jl0qq3uq6fkj6hgdk52p7vi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
