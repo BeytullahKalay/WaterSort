@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
         EventManager.LevelCompleted += DisableBottlesCollider;
         EventManager.LevelCompleted += ClearInActionBottleList;
         EventManager.RestartLevel += ClearInActionBottleList;
+        EventManager.RestartLevel += ResetAllLineRenderers;
     }
 
     private void OnDisable()
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
         EventManager.LevelCompleted -= DisableBottlesCollider;
         EventManager.LevelCompleted -= ClearInActionBottleList;
         EventManager.RestartLevel -= ClearInActionBottleList;
+        EventManager.RestartLevel += ResetAllLineRenderers;
+
     }
 
     #region Singleton
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
     
 
     private ObjectPool<LineRenderer> _pool;
+    private List<LineRenderer> _gettedLineRenderers = new List<LineRenderer>();
 
     private void Start()
     {
@@ -99,10 +103,25 @@ public class GameManager : MonoBehaviour
             bottleController.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
+
+    private void ResetAllLineRenderers()
+    {
+        Debug.Log("release reset!");
+        if(_gettedLineRenderers.Count <= 0) return;
+        
+        foreach (var lineRenderer in _gettedLineRenderers)
+        {
+            lineRenderer.enabled = false;
+            _pool.Release(lineRenderer);
+        }
+        _gettedLineRenderers.Clear();
+    }
     
     public LineRenderer GetLineRenderer()
     {
-        return _pool.Get();
+        var lineRenderer = _pool.Get();
+        _gettedLineRenderers.Add(lineRenderer);
+        return lineRenderer;
     }
 
     public void ReleaseLineRenderer(LineRenderer lr)
