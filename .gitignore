@@ -11,6 +11,10 @@
 /[Mm]emoryCaptures/
 /[Ss]olves/
 /[Rr]ecordings/
+/[Aa]ssets/Editor Default Resources/
+/[Aa]ssets/ExternalDependencyManager/
+/[Aa]ssets/Firebase/
+/[Aa]ssets/Plugins/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
