@@ -57,6 +57,7 @@ public class BottleController : MonoBehaviour
     private float speedMultiplier = 10f;
 
     public List<BottleController> ActionBottles = new List<BottleController>();
+    private Tween _selectedTween;
     private Tween _moveTween;
     private Tween _rotateBottle;
     private Tween _preRotate;
@@ -142,18 +143,21 @@ public class BottleController : MonoBehaviour
                     NumberOfTopColorLayers = 2;
                 }
             }
+
             TopColor = BottleColors[NumberOfColorsInBottle - 1];
         }
     }
 
     public void OnSelected()
     {
-        transform.DOMoveY(_originalPosition.y + .5f, .25f);
+        _selectedTween?.Kill();
+        _selectedTween = transform.DOMoveY(_originalPosition.y + .5f, .25f);
     }
 
     public void OnSelectionCanceled()
     {
-        transform.DOMove(_originalPosition, .25f);
+        _selectedTween?.Kill();
+        _selectedTween = transform.DOMove(_originalPosition, .25f);
     }
 
     public bool IsBottleEmpty()
@@ -211,7 +215,7 @@ public class BottleController : MonoBehaviour
 
         // setting render order
         transform.GetComponent<SpriteRenderer>().sortingOrder += 2; // default bottle renderer sorting order
-        BottleMaskSR.sortingOrder += 2;                             // liquid sprite renderer order
+        BottleMaskSR.sortingOrder += 2; // liquid sprite renderer order
 
         // call move bottle
         MoveBottle();
@@ -271,6 +275,7 @@ public class BottleController : MonoBehaviour
         // lock seconds bottle while action and on completed call rotate bottle
         _moveTween.OnStart(() =>
             {
+                _selectedTween?.Kill();
                 CheckSpeedUp(_moveTween);
 
                 BottleControllerRef.UpdateTopColorValues();
@@ -373,7 +378,8 @@ public class BottleController : MonoBehaviour
             {
                 GetComponent<BoxCollider2D>().enabled = true;
                 OnSpeedUp = false;
-                EventManager.AddMoveToList?.Invoke(this, BottleControllerRef, _numberOfColorsToTransfer, _previousTopColor);
+                EventManager.AddMoveToList?.Invoke(this, BottleControllerRef, _numberOfColorsToTransfer,
+                    _previousTopColor);
                 RemoveBottleFromInActionBottleList();
             });
 

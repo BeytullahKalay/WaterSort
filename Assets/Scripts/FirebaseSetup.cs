@@ -5,6 +5,22 @@ public class FirebaseSetup : MonoBehaviour
 {
     private Firebase.FirebaseApp app;
 
+    private void OnEnable()
+    {
+        EventManager.AddExtraEmptyBottle += OnBottleTake;
+        EventManager.RestartLevel += OnLevelRestart;
+        EventManager.LevelCompleted += OnLevelCompleted;
+        EventManager.LoadNextLevel += OnLevelStart;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.AddExtraEmptyBottle -= OnBottleTake;
+        EventManager.RestartLevel -= OnLevelRestart;
+        EventManager.LevelCompleted -= OnLevelCompleted;
+        EventManager.LoadNextLevel -= OnLevelStart;
+    }
+
     private void Start()
     {
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -33,9 +49,10 @@ public class FirebaseSetup : MonoBehaviour
         FirebaseAnalytics.LogEvent("LEVEL START", "level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
     }
 
-    private void OnLevelEnd()
+    private void OnLevelCompleted()
     {
-        FirebaseAnalytics.LogEvent("LEVEL END", "level_end", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+        FirebaseAnalytics.LogEvent("LEVEL COMPLETED", "level_completed",
+            PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
     }
 
     private void OnLevelRestart()

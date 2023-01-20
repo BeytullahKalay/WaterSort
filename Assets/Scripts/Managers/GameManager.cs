@@ -106,7 +106,6 @@ public class GameManager : MonoBehaviour
 
     private void ResetAllLineRenderers()
     {
-        Debug.Log("release reset!");
         if(_gettedLineRenderers.Count <= 0) return;
         
         foreach (var lineRenderer in _gettedLineRenderers)
