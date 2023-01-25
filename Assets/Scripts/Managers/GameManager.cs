@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
         EventManager.LevelCompleted += ClearInActionBottleList;
         EventManager.RestartLevel += ClearInActionBottleList;
         EventManager.RestartLevel += ResetAllLineRenderers;
+        EventManager.LoadNextLevel += ResetAllLineRenderers;
     }
 
     private void OnDisable()
@@ -19,8 +20,8 @@ public class GameManager : MonoBehaviour
         EventManager.LevelCompleted -= DisableBottlesCollider;
         EventManager.LevelCompleted -= ClearInActionBottleList;
         EventManager.RestartLevel -= ClearInActionBottleList;
-        EventManager.RestartLevel += ResetAllLineRenderers;
-
+        EventManager.RestartLevel -= ResetAllLineRenderers;
+        EventManager.LoadNextLevel -= ResetAllLineRenderers;
     }
 
     #region Singleton
