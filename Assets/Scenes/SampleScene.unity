@@ -1560,6 +1560,7 @@ MonoBehaviour:
   - {r: 0.5882353, g: 0.29411766, b: 0, a: 1}
   lastCreatedParent: {fileID: 0}
   NoMatches: 0
+  RainbowBottle: 0
 --- !u!4 &940977538
 Transform:
   m_ObjectHideFlags: 0
@@ -3427,54 +3428,107 @@ MonoBehaviour:
     LevelFinishIndex: 4
     ColorAmount: 5
     NoMatches: 1
+    RainbowBottle: 0
   - LevelBeginningIndex: 5
-    LevelFinishIndex: 9
+    LevelFinishIndex: 7
     ColorAmount: 6
     NoMatches: 0
-  - LevelBeginningIndex: 10
-    LevelFinishIndex: 14
+    RainbowBottle: 0
+  - LevelBeginningIndex: 8
+    LevelFinishIndex: 11
     ColorAmount: 6
     NoMatches: 1
+    RainbowBottle: 0
+  - LevelBeginningIndex: 12
+    LevelFinishIndex: 14
+    ColorAmount: 12
+    NoMatches: 1
+    RainbowBottle: 1
   - LevelBeginningIndex: 15
-    LevelFinishIndex: 19
+    LevelFinishIndex: 17
     ColorAmount: 7
     NoMatches: 0
-  - LevelBeginningIndex: 20
+    RainbowBottle: 0
+  - LevelBeginningIndex: 18
+    LevelFinishIndex: 20
+    ColorAmount: 7
+    NoMatches: 1
+    RainbowBottle: 0
+  - LevelBeginningIndex: 21
     LevelFinishIndex: 24
     ColorAmount: 7
     NoMatches: 1
+    RainbowBottle: 1
   - LevelBeginningIndex: 25
     LevelFinishIndex: 29
     ColorAmount: 8
     NoMatches: 0
+    RainbowBottle: 0
   - LevelBeginningIndex: 30
+    LevelFinishIndex: 34
+    ColorAmount: 8
+    NoMatches: 1
+    RainbowBottle: 0
+  - LevelBeginningIndex: 35
     LevelFinishIndex: 39
     ColorAmount: 8
     NoMatches: 1
+    RainbowBottle: 1
   - LevelBeginningIndex: 40
-    LevelFinishIndex: 49
+    LevelFinishIndex: 43
     ColorAmount: 9
     NoMatches: 0
+    RainbowBottle: 0
+  - LevelBeginningIndex: 44
+    LevelFinishIndex: 48
+    ColorAmount: 9
+    NoMatches: 1
+    RainbowBottle: 0
   - LevelBeginningIndex: 49
     LevelFinishIndex: 60
     ColorAmount: 9
     NoMatches: 1
+    RainbowBottle: 1
   - LevelBeginningIndex: 61
-    LevelFinishIndex: 74
+    LevelFinishIndex: 63
     ColorAmount: 10
     NoMatches: 0
-  - LevelBeginningIndex: 75
+    RainbowBottle: 0
+  - LevelBeginningIndex: 64
+    LevelFinishIndex: 68
+    ColorAmount: 10
+    NoMatches: 1
+    RainbowBottle: 0
+  - LevelBeginningIndex: 69
     LevelFinishIndex: 89
     ColorAmount: 10
     NoMatches: 1
+    RainbowBottle: 1
   - LevelBeginningIndex: 90
-    LevelFinishIndex: 109
+    LevelFinishIndex: 94
     ColorAmount: 11
     NoMatches: 0
-  - LevelBeginningIndex: 110
-    LevelFinishIndex: 150
+    RainbowBottle: 0
+  - LevelBeginningIndex: 95
+    LevelFinishIndex: 102
     ColorAmount: 11
     NoMatches: 1
+    RainbowBottle: 0
+  - LevelBeginningIndex: 103
+    LevelFinishIndex: 148
+    ColorAmount: 11
+    NoMatches: 1
+    RainbowBottle: 1
+  - LevelBeginningIndex: 149
+    LevelFinishIndex: 155
+    ColorAmount: 12
+    NoMatches: 0
+    RainbowBottle: 0
+  - LevelBeginningIndex: 156
+    LevelFinishIndex: 165
+    ColorAmount: 12
+    NoMatches: 1
+    RainbowBottle: 0
 --- !u!4 &2126510486
 Transform:
   m_ObjectHideFlags: 0

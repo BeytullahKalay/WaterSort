@@ -24,6 +24,7 @@ public class LevelMaker : MonoBehaviour
 
     [Space(20)] [SerializeField] private GameObject lastCreatedParent;
     public bool NoMatches;
+    public bool RainbowBottle;
 
 
     private int _createdBottles;
@@ -111,7 +112,7 @@ public class LevelMaker : MonoBehaviour
 
         RandomizeNumberOfBottle();
 
-        CreateBottles(_numberOfBottlesCreate, NoMatches);
+        CreateBottles(_numberOfBottlesCreate, NoMatches, RainbowBottle);
 
         AllBottles allBottles = new AllBottles(_data.CreatedBottles);
         ColorNumerator.NumerateColors(selectedColors);
@@ -219,13 +220,13 @@ public class LevelMaker : MonoBehaviour
     }
 
 
-    private void CreateBottles(int numberOfBottleToCreate, bool matchState)
+    private void CreateBottles(int numberOfBottleToCreate, bool matchState, bool rainbowBottle)
     {
         for (int i = 0; i < numberOfBottleToCreate; i++)
         {
             Bottle tempBottle = new Bottle(i);
             DecreaseTotalWaterCount(tempBottle);
-            GetRandomColorForBottle(tempBottle, matchState);
+            GetRandomColorForBottle(tempBottle, matchState, rainbowBottle);
 
             MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle, _createdBottles);
 
@@ -304,11 +305,11 @@ public class LevelMaker : MonoBehaviour
         return (createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
     }
 
-    private void GetRandomColorForBottle(Bottle tempBottle, bool matchState)
+    private void GetRandomColorForBottle(Bottle tempBottle, bool matchState, bool rainbowBottle)
     {
         for (int j = 0; j < tempBottle.BottleColorsHashCodes.Length; j++)
         {
-            var color = GetColorFromList(matchState, tempBottle, j - 1);
+            var color = GetColorFromList(matchState, rainbowBottle, tempBottle, j - 1);
             tempBottle.BottleColorsHashCodes[j] = color.GetHashCode();
             tempBottle.BottleColors[j] = color;
         }
@@ -398,28 +399,47 @@ public class LevelMaker : MonoBehaviour
         _line1.transform.parent.position = newParentPos;
     }
 
-    private Color GetColorFromList(bool matchState, Bottle tempBottle, int checkIndex)
+    private Color GetColorFromList(bool matchState, bool rainbowBottle, Bottle tempBottle, int checkIndex)
     {
         if (_myColorsList.Count > 0)
         {
-            var hashString = "GetRandomColor " + _data.GetColorPickerRandomIndex().ToString();
-            var rand = new Unity.Mathematics.Random((uint)hashString.GetHashCode());
-
-            int randomColorIndex = rand.NextInt(0, _myColorsList.Count);
+            var randomColorIndex = GetRandomColorIndex();
             var color = _myColorsList[randomColorIndex].Color;
-
 
             if (checkIndex >= 0)
             {
-                while (matchState && color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(checkIndex))
+                if (rainbowBottle)
                 {
-                    if (_myColorsList.Count < 2) break;
+                    var colorMatched = false;
 
-                    var newHashString = "GetRandomColor " + _data.GetColorPickerRandomIndex().ToString();
-                    var newRandomSeed = new Unity.Mathematics.Random((uint)newHashString.GetHashCode());
+                    do
+                    {
+                        colorMatched = false;
+                        
+                        if (_myColorsList.Count < 2) break;
+                        
+                        for (int i = 0; i <= checkIndex; i++)
+                        {
+                            if (color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(i))
+                            {
+                                randomColorIndex = GetRandomColorIndex();
+                                color = _myColorsList[randomColorIndex].Color;
+                                
+                                colorMatched = true;
+                                break;
+                            }
+                        }
+                    } while (colorMatched);
+                }
+                else
+                {
+                    while (matchState && color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(checkIndex))
+                    {
+                        if (_myColorsList.Count < 2) break;
 
-                    randomColorIndex = newRandomSeed.NextInt(0, _myColorsList.Count);
-                    color = _myColorsList[randomColorIndex].Color;
+                        randomColorIndex = GetRandomColorIndex();
+                        color = _myColorsList[randomColorIndex].Color;
+                    }
                 }
             }
 
@@ -437,5 +457,13 @@ public class LevelMaker : MonoBehaviour
         {
             return Color.black;
         }
+    }
+
+    private int GetRandomColorIndex()
+    {
+        var hashString = "GetRandomColor " + _data.GetColorPickerRandomIndex().ToString();
+        var rand = new Unity.Mathematics.Random((uint)hashString.GetHashCode());
+        int randomColorIndex = rand.NextInt(0, _myColorsList.Count);
+        return randomColorIndex;
     }
 }

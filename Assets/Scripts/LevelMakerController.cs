@@ -48,7 +48,8 @@ public class LevelMakerController : MonoBehaviour
         LevelMakerValue finalValue = new LevelMakerValue
         {
             ColorAmount = 12,
-            NoMatches = true
+            NoMatches = true,
+            RainbowBottle = true,
         };
 
         return finalValue;
@@ -58,6 +59,7 @@ public class LevelMakerController : MonoBehaviour
     {
         levelMaker.NumberOfColorsToCreate = assignValue.ColorAmount;
         levelMaker.NoMatches = assignValue.NoMatches;
+        levelMaker.RainbowBottle = assignValue.RainbowBottle;
     }
     
 }
@@ -69,4 +71,5 @@ public class LevelMakerValue
     public int LevelFinishIndex;
     [Range(0, 12)] public int ColorAmount;
     public bool NoMatches;
+    public bool RainbowBottle;
 }
