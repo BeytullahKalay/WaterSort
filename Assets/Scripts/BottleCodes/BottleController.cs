@@ -67,8 +67,15 @@ public class BottleController : MonoBehaviour
     // Game manager
     private GameManager _gm;
 
+    private Camera _camera;
+
     [Header("Bottle Helper")] [SerializeField]
     public Bottle HelperBottle;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+    }
 
     private void Start()
     {
@@ -231,15 +238,43 @@ public class BottleController : MonoBehaviour
 
     private void ChoseRotationPointAndDirection()
     {
+        var minBottleDistanceToCorner = 1f;
+        
+        var leftOfScreen = _camera.ViewportToWorldPoint(Vector3.zero).x;
+        var rightOfScreen = _camera.ViewportToWorldPoint(Vector3.one).x;
+
+        var distanceToLeft = Mathf.Abs(BottleControllerRef.transform.position.x - leftOfScreen);
+        var distanceToRight = Mathf.Abs(BottleControllerRef.transform.position.x - rightOfScreen);
+        
         if (transform.position.x > BottleControllerRef.transform.position.x)
         {
-            _chosenRotationPoint = LeftRotationPoint;
-            _directionMultiplier = -1;
+            if (minBottleDistanceToCorner >= distanceToLeft)
+            {
+                Debug.Log("here1");
+                _chosenRotationPoint = LeftRotationPoint;
+                _directionMultiplier = -1;
+            }
+            else
+            {
+                Debug.Log("here2");
+                _chosenRotationPoint = RightRotationPoint;
+                _directionMultiplier = 1;  
+            }
         }
         else
         {
-            _chosenRotationPoint = RightRotationPoint;
-            _directionMultiplier = 1;
+            if (minBottleDistanceToCorner >= distanceToRight)
+            {
+                Debug.Log("here3");
+                _chosenRotationPoint = RightRotationPoint;
+                _directionMultiplier = 1;
+            }
+            else
+            {
+                Debug.Log("here4");
+                _chosenRotationPoint = LeftRotationPoint;
+                _directionMultiplier = -1; 
+            }
         }
     }
 
