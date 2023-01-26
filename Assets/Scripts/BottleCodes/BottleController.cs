@@ -248,32 +248,28 @@ public class BottleController : MonoBehaviour
         
         if (transform.position.x > BottleControllerRef.transform.position.x)
         {
-            if (minBottleDistanceToCorner >= distanceToLeft)
-            {
-                Debug.Log("here1");
-                _chosenRotationPoint = LeftRotationPoint;
-                _directionMultiplier = -1;
-            }
-            else
-            {
-                Debug.Log("here2");
-                _chosenRotationPoint = RightRotationPoint;
-                _directionMultiplier = 1;  
-            }
-        }
-        else
-        {
             if (minBottleDistanceToCorner >= distanceToRight)
             {
-                Debug.Log("here3");
                 _chosenRotationPoint = RightRotationPoint;
                 _directionMultiplier = 1;
             }
             else
             {
-                Debug.Log("here4");
                 _chosenRotationPoint = LeftRotationPoint;
-                _directionMultiplier = -1; 
+                _directionMultiplier = -1;
+            }
+        }
+        else
+        {
+            if (minBottleDistanceToCorner >= distanceToLeft)
+            {
+                _chosenRotationPoint = LeftRotationPoint;
+                _directionMultiplier = -1;
+            }
+            else
+            {
+                _chosenRotationPoint = RightRotationPoint;
+                _directionMultiplier = 1;
             }
         }
     }
