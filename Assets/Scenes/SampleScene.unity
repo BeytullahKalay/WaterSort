@@ -632,8 +632,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 714632722}
-        m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
+      - m_Target: {fileID: 714632726}
+        m_TargetAssemblyTypeName: UI.ButtonActions, Assembly-CSharp
         m_MethodName: NextLevelButtonAction
         m_Mode: 1
         m_Arguments:
@@ -1159,6 +1159,9 @@ GameObject:
   - component: {fileID: 714632718}
   - component: {fileID: 714632722}
   - component: {fileID: 714632723}
+  - component: {fileID: 714632724}
+  - component: {fileID: 714632725}
+  - component: {fileID: 714632726}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1263,8 +1266,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelCompletedPanel: {fileID: 1926531509}
   inGamePanel: {fileID: 959122741}
-  remainingUndoText: {fileID: 255514491}
-  LevelText: {fileID: 1161202099}
 --- !u!114 &714632723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1279,6 +1280,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oneMoreBottleButton: {fileID: 2138182964}
   notIntractableColor: {r: 0.6039216, g: 0.6039216, b: 0.6039216, a: 1}
+--- !u!114 &714632724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714632717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a300819d58a4af740a47b30ec133a261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remainingUndoText: {fileID: 255514491}
+--- !u!114 &714632725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714632717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 829ce1de1aa1009408400980280eae94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelText: {fileID: 1161202099}
+--- !u!114 &714632726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714632717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ccc37d93de6124f97e1f969b30efc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &717840062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2216,8 +2255,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 714632722}
-        m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
+      - m_Target: {fileID: 714632726}
+        m_TargetAssemblyTypeName: UI.ButtonActions, Assembly-CSharp
         m_MethodName: OpenMenuTab
         m_Mode: 1
         m_Arguments:
@@ -2721,8 +2760,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 714632722}
-        m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
+      - m_Target: {fileID: 714632726}
+        m_TargetAssemblyTypeName: UI.ButtonActions, Assembly-CSharp
         m_MethodName: UndoLastMove
         m_Mode: 1
         m_Arguments:
@@ -3028,8 +3067,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 714632722}
-        m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
+      - m_Target: {fileID: 714632726}
+        m_TargetAssemblyTypeName: UI.ButtonActions, Assembly-CSharp
         m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
@@ -3644,8 +3683,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 714632722}
-        m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
+      - m_Target: {fileID: 714632726}
+        m_TargetAssemblyTypeName: UI.ButtonActions, Assembly-CSharp
         m_MethodName: AddOneMoreBottle
         m_Mode: 1
         m_Arguments:
