@@ -1158,6 +1158,7 @@ GameObject:
   - component: {fileID: 714632719}
   - component: {fileID: 714632718}
   - component: {fileID: 714632722}
+  - component: {fileID: 714632723}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1264,8 +1265,20 @@ MonoBehaviour:
   inGamePanel: {fileID: 959122741}
   remainingUndoText: {fileID: 255514491}
   LevelText: {fileID: 1161202099}
-  buttonGameObject: {fileID: 2138182964}
-  notIntractableColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
+--- !u!114 &714632723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714632717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8296f3588f249cb4ab6ffd5ca493bd54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oneMoreBottleButton: {fileID: 2138182964}
+  notIntractableColor: {r: 0.6039216, g: 0.6039216, b: 0.6039216, a: 1}
 --- !u!1 &717840062
 GameObject:
   m_ObjectHideFlags: 0
