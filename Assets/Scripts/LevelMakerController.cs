@@ -58,7 +58,7 @@ public class LevelMakerController : MonoBehaviour
 
     private void AssignValues(LevelMakerValue assignValue)
     {
-        levelMaker.NumberOfColorsToCreate = assignValue.ColorAmount;
+        levelMaker.SetNumberOfColorToCreate(assignValue.ColorAmount);
         levelMaker.NoMatches = assignValue.NoMatches;
         levelMaker.RainbowBottle = assignValue.RainbowBottle;
     }

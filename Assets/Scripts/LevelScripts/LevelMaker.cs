@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using System.Threading;
 using Solver;
 using UnityEngine;
 
 namespace LevelScripts
 {
+    [RequireComponent(typeof(LevelColorController))]
     public class LevelMaker : MonoBehaviour
     {
         [Header("Bottle Sorting Values")] [SerializeField] [Range(0, 1)]
@@ -16,13 +16,7 @@ namespace LevelScripts
 
         [SerializeField] private GameObject bottle;
 
-        [Header("Databases")] [SerializeField] private Colors _colorsdb;
         [SerializeField] private Data _data;
-
-        [Header("Level Maker")] public int NumberOfColorsToCreate = 2;
-
-        [SerializeField] private List<Color> selectedColors = new List<Color>();
-        private List<MyColors> _myColorsList = new List<MyColors>();
 
         [Space(20)] [SerializeField] private GameObject lastCreatedParent;
         public bool NoMatches;
@@ -41,6 +35,8 @@ namespace LevelScripts
 
         private Thread _myThread;
 
+        private LevelColorController _levelColorController;
+
         private void OnEnable()
         {
             EventManager.CreateLevel += CreateNewLevel_GUIButton;
@@ -57,7 +53,7 @@ namespace LevelScripts
 
         private void Awake()
         {
-        
+            _levelColorController = GetComponent<LevelColorController>();
             JsonManager.TryGetLevelCreateDataFromJson(_data);
             CheckNamingIndexPlayerPref();
         }
@@ -88,26 +84,26 @@ namespace LevelScripts
         {
             _data.CreatedBottles.Clear();
             _createdBottles = 0;
-            selectedColors.Clear();
+            _levelColorController.SelectedColors.Clear();
 
-            SelectColorsToCreate();
+            _levelColorController.SelectColorsToCreate(_data);
 
-            CreateColorObjects();
+            _levelColorController.CreateColorObjects();
 
-            _totalWaterCount = selectedColors.Count * 4;
+            _totalWaterCount = _levelColorController.SelectedColors.Count * 4;
 
             RandomizeNumberOfBottle();
 
             CreateBottles(_numberOfBottlesCreate, NoMatches, RainbowBottle);
 
             AllBottles allBottles = new AllBottles(_data.CreatedBottles);
-            ColorNumerator.NumerateColors(selectedColors);
+            ColorNumerator.NumerateColors(_levelColorController.SelectedColors);
 
             if (allBottles.IsSolvable())
             {
                 Debug.Log("Solvable");
 
-                allBottles.NumberOfColorInLevel = NumberOfColorsToCreate;
+                allBottles.NumberOfColorInLevel = _levelColorController.NumberOfColorsToCreate;
 
                 MainThread_SaveToJson(allBottles);
 
@@ -150,27 +146,8 @@ namespace LevelScripts
         {
             var hasString = "ExtraBottle " + _data.GetAmountOfExtraBottleIndex().ToString();
             var rand = new Unity.Mathematics.Random((uint)hasString.GetHashCode());
-            _numberOfBottlesCreate = rand.NextInt(NumberOfColorsToCreate + 1, NumberOfColorsToCreate + 3);
-        }
-
-        private void SelectColorsToCreate()
-        {
-            while (selectedColors.Count < NumberOfColorsToCreate)
-            {
-                var selectedColor = _colorsdb.GetRandomColor(_data.GetBottleColorRandomIndex());
-
-                if (!selectedColors.Contains(selectedColor))
-                    selectedColors.Add(selectedColor);
-            }
-        }
-
-        private void CreateColorObjects()
-        {
-            foreach (var color in selectedColors)
-            {
-                MyColors colorObj = new MyColors(color);
-                _myColorsList.Add(colorObj);
-            }
+            _numberOfBottlesCreate = rand.NextInt(_levelColorController.NumberOfColorsToCreate + 1,
+                _levelColorController.NumberOfColorsToCreate + 3);
         }
 
         private void MainThread_CreateLevelParentAndLineObjects(int numberOfColorInLevel)
@@ -179,7 +156,7 @@ namespace LevelScripts
             Dispatcher.Instance.Invoke(() => CreateLevelParentAndLineObjects(numberOfColorInLevel));
         }
 
-        private void CreateLevelParentAndLineObjects(int numberOfColorInlevel)
+        private void CreateLevelParentAndLineObjects(int numberOfColorInLevel)
         {
             _levelParent = new GameObject("LevelParent");
             _line1 = new GameObject("Line1");
@@ -187,7 +164,7 @@ namespace LevelScripts
             _line2.transform.parent = _line1.transform.parent = _levelParent.transform;
 
             _levelParent.AddComponent<LevelParent>();
-            _levelParent.GetComponent<LevelParent>().NumberOfColor = numberOfColorInlevel;
+            _levelParent.GetComponent<LevelParent>().NumberOfColor = numberOfColorInLevel;
 
             _levelParent.GetComponent<LevelParent>().GetLines(_line1.transform, _line2.transform);
             lastCreatedParent = _levelParent;
@@ -200,7 +177,7 @@ namespace LevelScripts
             {
                 Bottle tempBottle = new Bottle(i);
                 DecreaseTotalWaterCount(tempBottle);
-                GetRandomColorForBottle(tempBottle, matchState, rainbowBottle);
+                _levelColorController.GetRandomColorForBottle(tempBottle, matchState, rainbowBottle, _data);
 
                 MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle, _createdBottles);
 
@@ -220,7 +197,8 @@ namespace LevelScripts
 
         private void SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
         {
-            tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX, bottleStartPosY,
+            tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX,
+                bottleStartPosY,
                 bottleDistanceY);
         }
 
@@ -277,31 +255,6 @@ namespace LevelScripts
         private int FindParent(float numberOfBottleToCreate, int createdBottles)
         {
             return (createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
-        }
-
-        private void GetRandomColorForBottle(Bottle tempBottle, bool matchState, bool rainbowBottle)
-        {
-            for (int j = 0; j < tempBottle.BottleColorsHashCodes.Length; j++)
-            {
-                var color = GetColorFromList(matchState, rainbowBottle, tempBottle, j - 1);
-                tempBottle.BottleColorsHashCodes[j] = color.GetHashCode();
-                tempBottle.BottleColors[j] = color;
-            }
-
-            InitializeBottleNumberedStack(tempBottle);
-        }
-
-        private void InitializeBottleNumberedStack(Bottle comingBottle)
-        {
-            foreach (var colorHashCode in comingBottle.BottleColorsHashCodes)
-            {
-                int emptyColorHashCode = 532676608;
-                if (colorHashCode != emptyColorHashCode)
-                    comingBottle.NumberedBottleStack.Push(colorHashCode);
-            }
-
-            comingBottle.CheckIsSorted();
-            comingBottle.CalculateTopColorAmount();
         }
 
         private void DecreaseTotalWaterCount(Bottle tempBottle)
@@ -373,72 +326,9 @@ namespace LevelScripts
             _line1.transform.parent.position = newParentPos;
         }
 
-        private Color GetColorFromList(bool matchState, bool rainbowBottle, Bottle tempBottle, int checkIndex)
+        public void SetNumberOfColorToCreate(int value)
         {
-            if (_myColorsList.Count > 0)
-            {
-                var randomColorIndex = GetRandomColorIndex();
-                var color = _myColorsList[randomColorIndex].Color;
-
-                if (checkIndex >= 0)
-                {
-                    if (rainbowBottle)
-                    {
-                        var colorMatched = false;
-
-                        do
-                        {
-                            colorMatched = false;
-                        
-                            if (_myColorsList.Count < 2) break;
-                        
-                            for (int i = 0; i <= checkIndex; i++)
-                            {
-                                if (color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(i))
-                                {
-                                    randomColorIndex = GetRandomColorIndex();
-                                    color = _myColorsList[randomColorIndex].Color;
-                                
-                                    colorMatched = true;
-                                    break;
-                                }
-                            }
-                        } while (colorMatched);
-                    }
-                    else
-                    {
-                        while (matchState && color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(checkIndex))
-                        {
-                            if (_myColorsList.Count < 2) break;
-
-                            randomColorIndex = GetRandomColorIndex();
-                            color = _myColorsList[randomColorIndex].Color;
-                        }
-                    }
-                }
-
-                _myColorsList[randomColorIndex].Amount++;
-
-                if (_myColorsList[randomColorIndex].MoreThan4())
-                {
-                    _myColorsList.RemoveAt(randomColorIndex);
-                }
-
-
-                return color;
-            }
-            else
-            {
-                return Color.black;
-            }
-        }
-
-        private int GetRandomColorIndex()
-        {
-            var hashString = "GetRandomColor " + _data.GetColorPickerRandomIndex().ToString();
-            var rand = new Unity.Mathematics.Random((uint)hashString.GetHashCode());
-            int randomColorIndex = rand.NextInt(0, _myColorsList.Count);
-            return randomColorIndex;
+            _levelColorController.NumberOfColorsToCreate = value;
         }
     }
 }
