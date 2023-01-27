@@ -3,16 +3,17 @@ using UnityEngine;
 
 namespace Tutorial
 {
+    [RequireComponent(typeof(ColliderController))]
     public class ClickController : MonoBehaviour
     {
 
         public Action OnClicked;
-        
-        private BoxCollider2D _boxCollider2D;
+
+        private ColliderController _colliderController;
 
         private void Awake()
         {
-            _boxCollider2D = GetComponent<BoxCollider2D>();
+            _colliderController = GetComponent<ColliderController>();
         }
 
         private void OnMouseDown()
@@ -22,24 +23,12 @@ namespace Tutorial
 
         public void CallCloseCollider()
         {
-            Invoke(nameof(CloseCollider),.2f);
+            _colliderController.CloseColliderAfter(.1f);
         }
 
         public void CallOpenCollider()
         {
-            Invoke(nameof(OpenCollider),.2f);
+            _colliderController.OpenColliderAfter(.1f);
         }
-
-        private void CloseCollider()
-        {
-            _boxCollider2D.enabled = false;
-        }
-
-        private void OpenCollider()
-        {
-            _boxCollider2D.enabled = true;
-        }
-        
-        
     }
 }
