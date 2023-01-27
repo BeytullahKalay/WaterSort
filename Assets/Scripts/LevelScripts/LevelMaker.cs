@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Solver;
 using UnityEngine;
 
 public class LevelMaker : MonoBehaviour
@@ -121,7 +122,7 @@ public class LevelMaker : MonoBehaviour
         {
             Debug.Log("Solvable");
 
-            allBottles.numberOfColorInLevel = NumberOfColorsToCreate;
+            allBottles.NumberOfColorInLevel = NumberOfColorsToCreate;
 
             MainThread_SaveToJson(allBottles);
 
@@ -147,7 +148,7 @@ public class LevelMaker : MonoBehaviour
 
     private void CreateLevelFromPrototype(AllBottles prototypeLevel)
     {
-        MainThread_CreateLevelParentAndLineObjects(prototypeLevel.numberOfColorInLevel);
+        MainThread_CreateLevelParentAndLineObjects(prototypeLevel.NumberOfColorInLevel);
         MainThread_CreateBottlesAndAssignPositions(prototypeLevel);
         MainThread_GetLevelParent();
     }
