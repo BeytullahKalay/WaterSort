@@ -5,6 +5,8 @@ using UnityEngine;
 namespace LevelScripts
 {
     [RequireComponent(typeof(LevelColorController))]
+    [RequireComponent(typeof(CreateBottlesForLevel))]
+    [RequireComponent(typeof(LevelBottlesAligner))]
     public class LevelMaker : MonoBehaviour
     {
         [Header("Bottle Sorting Values")] [SerializeField] [Range(0, 1)]
@@ -28,14 +30,16 @@ namespace LevelScripts
         private int _totalWaterCount;
 
 
-        private GameObject _levelParent;
-        private GameObject _line1;
-        private GameObject _line2;
+        // private GameObject _levelParent;
+        // private GameObject _line1;
+        // private GameObject _line2;
         private GameObject _obj;
 
         private Thread _myThread;
 
         private LevelColorController _levelColorController;
+        private CreateBottlesForLevel _createBottlesForLevel;
+        private LevelBottlesAligner _levelBottlesAligner;
 
         private void OnEnable()
         {
@@ -54,6 +58,9 @@ namespace LevelScripts
         private void Awake()
         {
             _levelColorController = GetComponent<LevelColorController>();
+            _createBottlesForLevel = GetComponent<CreateBottlesForLevel>();
+            _levelBottlesAligner = GetComponent<LevelBottlesAligner>();
+
             JsonManager.TryGetLevelCreateDataFromJson(_data);
             CheckNamingIndexPlayerPref();
         }
@@ -91,10 +98,11 @@ namespace LevelScripts
             _levelColorController.CreateColorObjects();
 
             _totalWaterCount = _levelColorController.SelectedColors.Count * 4;
+            
+            _numberOfBottlesCreate = LevelMakerHelper.RandomizeNumberOfBottle(_data, _levelColorController);
 
-            RandomizeNumberOfBottle();
-
-            CreateBottles(_numberOfBottlesCreate, NoMatches, RainbowBottle);
+            _createBottlesForLevel.CreateBottles(_numberOfBottlesCreate, NoMatches, RainbowBottle, ref _totalWaterCount,
+                _levelColorController, _data, _createdBottles, MainThread_SetBottlePosition);
 
             AllBottles allBottles = new AllBottles(_data.CreatedBottles);
             ColorNumerator.NumerateColors(_levelColorController.SelectedColors);
@@ -134,7 +142,7 @@ namespace LevelScripts
 
         private void MainThread_GetLevelParent()
         {
-            Dispatcher.Instance.Invoke(() => { EventManager.GetLevelParent?.Invoke(lastCreatedParent); });
+            Dispatcher.Instance.Invoke(() => { EventManager.GetLevelParent?.Invoke(_levelBottlesAligner.LastCreatedParent); });
         }
 
         private void MainThread_SaveToJson(AllBottles allBottles)
@@ -142,52 +150,10 @@ namespace LevelScripts
             Dispatcher.Instance.Invoke(() => JsonManager.SaveToJson(allBottles));
         }
 
-        private void RandomizeNumberOfBottle()
-        {
-            var hasString = "ExtraBottle " + _data.GetAmountOfExtraBottleIndex().ToString();
-            var rand = new Unity.Mathematics.Random((uint)hasString.GetHashCode());
-            _numberOfBottlesCreate = rand.NextInt(_levelColorController.NumberOfColorsToCreate + 1,
-                _levelColorController.NumberOfColorsToCreate + 3);
-        }
-
         private void MainThread_CreateLevelParentAndLineObjects(int numberOfColorInLevel)
         {
             Thread.Sleep(50);
-            Dispatcher.Instance.Invoke(() => CreateLevelParentAndLineObjects(numberOfColorInLevel));
-        }
-
-        private void CreateLevelParentAndLineObjects(int numberOfColorInLevel)
-        {
-            _levelParent = new GameObject("LevelParent");
-            _line1 = new GameObject("Line1");
-            _line2 = new GameObject("Line2");
-            _line2.transform.parent = _line1.transform.parent = _levelParent.transform;
-
-            _levelParent.AddComponent<LevelParent>();
-            _levelParent.GetComponent<LevelParent>().NumberOfColor = numberOfColorInLevel;
-
-            _levelParent.GetComponent<LevelParent>().GetLines(_line1.transform, _line2.transform);
-            lastCreatedParent = _levelParent;
-        }
-
-
-        private void CreateBottles(int numberOfBottleToCreate, bool matchState, bool rainbowBottle)
-        {
-            for (int i = 0; i < numberOfBottleToCreate; i++)
-            {
-                Bottle tempBottle = new Bottle(i);
-                DecreaseTotalWaterCount(tempBottle);
-                _levelColorController.GetRandomColorForBottle(tempBottle, matchState, rainbowBottle, _data);
-
-                MainThread_SetBottlePosition(numberOfBottleToCreate, tempBottle, _createdBottles);
-
-                tempBottle.ParentNum = FindParent(numberOfBottleToCreate, _createdBottles);
-
-                _data.CreatedBottles.Add(tempBottle);
-
-                // increase created bottle amount
-                _createdBottles++;
-            }
+            Dispatcher.Instance.Invoke(() => _levelBottlesAligner.CreateLevelParentAndLineObjects(numberOfColorInLevel));
         }
 
         private void MainThread_SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
@@ -198,8 +164,7 @@ namespace LevelScripts
         private void SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
         {
             tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX,
-                bottleStartPosY,
-                bottleDistanceY);
+                bottleStartPosY, bottleDistanceY);
         }
 
         private void AddExtraEmptyBottle()
@@ -217,11 +182,11 @@ namespace LevelScripts
             bottleControllerList.Add(extraBottle);
 
             // get lines
-            _line1 = gm.line1.gameObject;
-            _line2 = gm.line2.gameObject;
+            _levelBottlesAligner.Line1 = gm.line1.gameObject;
+            _levelBottlesAligner.Line2 = gm.line2.gameObject;
 
             // reset parent position
-            _line1.transform.parent.position = Vector3.zero;
+            _levelBottlesAligner.Line1.transform.parent.position = Vector3.zero;
 
 
             for (int i = 0; i < bottleControllerList.Count; i++)
@@ -231,9 +196,9 @@ namespace LevelScripts
                 bottleControllerList[i].HelperBottle.ParentNum = FindParent(bottleControllerList.Count, i);
 
                 if (bottleControllerList[i].HelperBottle.ParentNum == 0)
-                    bottleControllerList[i].transform.SetParent(_line1.transform);
+                    bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line1.transform);
                 else if (bottleControllerList[i].HelperBottle.ParentNum == 1)
-                    bottleControllerList[i].transform.SetParent(_line2.transform);
+                    bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line2.transform);
 
                 // new bottle positioning
                 bottleControllerList[i].transform.position = Vector3.zero;
@@ -243,7 +208,7 @@ namespace LevelScripts
             }
 
             // align bottles
-            AlignBottles();
+            _levelBottlesAligner.AlignBottles();
 
             // set origin position of bottles
             for (int i = 0; i < bottleControllerList.Count; i++)
@@ -255,19 +220,6 @@ namespace LevelScripts
         private int FindParent(float numberOfBottleToCreate, int createdBottles)
         {
             return (createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
-        }
-
-        private void DecreaseTotalWaterCount(Bottle tempBottle)
-        {
-            if (_totalWaterCount >= 4)
-            {
-                tempBottle.NumberOfColorsInBottle = 4;
-                _totalWaterCount -= 4;
-            }
-            else
-            {
-                tempBottle.NumberOfColorsInBottle = 0;
-            }
         }
 
         private void MainThread_CreateBottlesAndAssignPositions(AllBottles allBottles)
@@ -287,18 +239,18 @@ namespace LevelScripts
                 Parenting(newBottle);
             }
 
-            AlignBottles();
+            _levelBottlesAligner.AlignBottles();
         }
 
         private void Parenting(BottleController newBottle)
         {
             if (newBottle.HelperBottle.ParentNum == 0)
             {
-                newBottle.transform.SetParent(_line1.transform);
+                newBottle.transform.SetParent(_levelBottlesAligner.Line1.transform);
             }
             else if (newBottle.HelperBottle.ParentNum == 1)
             {
-                newBottle.transform.SetParent(_line2.transform);
+                newBottle.transform.SetParent(_levelBottlesAligner.Line2.transform);
             }
         }
 
@@ -311,19 +263,6 @@ namespace LevelScripts
             objBottleControllerScript.BottleSorted = false;
 
             return objBottleControllerScript;
-        }
-
-        private void AlignBottles()
-        {
-            var line1Right = _line1.transform.GetChild(_line1.transform.childCount - 1);
-            var rightOfScreen = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
-            var distanceToRight = Mathf.Abs(rightOfScreen - line1Right.transform.position.x);
-
-
-            var x = Mathf.Abs(distanceToRight / 2);
-            var newParentPos = _line1.transform.parent.position;
-            newParentPos.x = x;
-            _line1.transform.parent.position = newParentPos;
         }
 
         public void SetNumberOfColorToCreate(int value)
