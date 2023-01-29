@@ -21,6 +21,8 @@ public class FirebaseSetup : MonoBehaviour
         EventManager.LoadNextLevel -= OnLevelStart;
     }
 
+    #region Initialize Firebase
+
     private void Start()
     {
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -43,25 +45,31 @@ public class FirebaseSetup : MonoBehaviour
         });
     }
 
+    #endregion
+   
+
     // Analytics Events
     private void OnLevelStart()
     {
-        FirebaseAnalytics.LogEvent("LEVEL START", "level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+        FirebaseAnalytics.LogEvent("level_start",
+            new Parameter("level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
     }
 
     private void OnLevelCompleted()
     {
-        FirebaseAnalytics.LogEvent("LEVEL COMPLETED", "level_completed",
-            PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+        FirebaseAnalytics.LogEvent("level_completed", new Parameter("level_completed",
+            PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
     }
 
     private void OnLevelRestart()
     {
-        FirebaseAnalytics.LogEvent("LEVEL RESTART", "level_restart", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+        FirebaseAnalytics.LogEvent("level_restart",
+            new Parameter("level_restart", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
     }
 
     private void OnBottleTake()
     {
-        FirebaseAnalytics.LogEvent("BOTTLE TAKE", "on_bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+        FirebaseAnalytics.LogEvent("bottle_take",
+            new Parameter("on_bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
     }
 }
