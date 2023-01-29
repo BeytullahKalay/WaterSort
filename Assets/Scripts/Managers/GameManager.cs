@@ -43,23 +43,22 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [Header("Tubes")] public List<BottleController> bottleControllers;
-    
+
     [Header("Particles")] [SerializeField] private GameObject confettiParticle;
 
     [Header("Material")] [SerializeField] private Material mat;
-    
-    [Header("Line Renderer")] [SerializeField] private LineRenderer lineRenderer;
-    
+
+    [Header("Line Renderer")] [SerializeField]
+    private LineRenderer lineRenderer;
+
     [Header("Integers")] public int TotalColorAmount;
 
     [Header("In Action")] [SerializeField]
     public List<BottleController> InActionBottleList = new List<BottleController>();
 
-    [Header("Lines")] 
-    public Transform line1;
+    [Header("Lines")] public Transform line1;
     public Transform line2;
-    
-    
+
 
     private ObjectPool<LineRenderer> _pool;
     private List<LineRenderer> _gettedLineRenderers = new List<LineRenderer>();
@@ -73,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         _pool = new ObjectPool<LineRenderer>(() => { return Instantiate(lineRenderer); },
             lr => { lr.gameObject.SetActive(true); }, lr => { lr.gameObject.SetActive(false); },
-            lr => { Destroy(lr.gameObject); }, false, 10);
+            lr => { Destroy(lr.gameObject); }, true, 10);
     }
 
     private void CheckLevelIsCompleted()
@@ -107,16 +106,17 @@ public class GameManager : MonoBehaviour
 
     private void ResetAllLineRenderers()
     {
-        if(_gettedLineRenderers.Count <= 0) return;
-        
+        if (_gettedLineRenderers.Count <= 0) return;
+
         foreach (var lineRenderer in _gettedLineRenderers)
         {
             lineRenderer.enabled = false;
             _pool.Release(lineRenderer);
         }
+
         _gettedLineRenderers.Clear();
     }
-    
+
     public LineRenderer GetLineRenderer()
     {
         var lineRenderer = _pool.Get();
@@ -126,13 +126,14 @@ public class GameManager : MonoBehaviour
 
     public void ReleaseLineRenderer(LineRenderer lr)
     {
-        _pool.Release(lr);
+        if (_gettedLineRenderers.Contains(lr))
+        {
+            _pool.Release(lr);
+            _gettedLineRenderers.Remove(lr);
+        }
     }
-    
+
     public GameObject ConfettiParticle => confettiParticle;
 
     public Material Mat => mat;
-    
-
-
 }

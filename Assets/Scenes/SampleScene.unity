@@ -3441,7 +3441,7 @@ MonoBehaviour:
     RainbowBottle: 0
   - LevelBeginningIndex: 12
     LevelFinishIndex: 14
-    ColorAmount: 12
+    ColorAmount: 6
     NoMatches: 1
     RainbowBottle: 1
   - LevelBeginningIndex: 15
