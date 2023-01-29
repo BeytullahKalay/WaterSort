@@ -5,21 +5,21 @@ public class FirebaseSetup : MonoBehaviour
 {
     private Firebase.FirebaseApp app;
 
-    private void OnEnable()
-    {
-        EventManager.AddExtraEmptyBottle += OnBottleTake;
-        EventManager.RestartLevel += OnLevelRestart;
-        EventManager.LevelCompleted += OnLevelCompleted;
-        EventManager.LoadNextLevel += OnLevelStart;
-    }
+    // private void OnEnable()
+    // {
+    //     EventManager.AddExtraEmptyBottle += OnBottleTake;
+    //     EventManager.RestartLevel += OnLevelRestart;
+    //     EventManager.LevelCompleted += OnLevelCompleted;
+    //     EventManager.LoadNextLevel += OnLevelStart;
+    // }
 
-    private void OnDisable()
-    {
-        EventManager.AddExtraEmptyBottle -= OnBottleTake;
-        EventManager.RestartLevel -= OnLevelRestart;
-        EventManager.LevelCompleted -= OnLevelCompleted;
-        EventManager.LoadNextLevel -= OnLevelStart;
-    }
+    // private void OnDisable()
+    // {
+    //     EventManager.AddExtraEmptyBottle -= OnBottleTake;
+    //     EventManager.RestartLevel -= OnLevelRestart;
+    //     EventManager.LevelCompleted -= OnLevelCompleted;
+    //     EventManager.LoadNextLevel -= OnLevelStart;
+    // }
 
     #region Initialize Firebase
 
@@ -46,30 +46,36 @@ public class FirebaseSetup : MonoBehaviour
     }
 
     #endregion
-   
+
 
     // Analytics Events
-    private void OnLevelStart()
-    {
-        FirebaseAnalytics.LogEvent("level_start",
-            new Parameter("level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
-    }
+    // private void OnLevelStart()
+    // {
+    //     FirebaseAnalytics.LogEvent("level_start",
+    //         new Parameter("level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    // }
+    //
+    // private void OnLevelCompleted()
+    // {
+    //     FirebaseAnalytics.LogEvent("level_completed", new Parameter("level_completed",
+    //         PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    // }
+    //
+    // private void OnLevelRestart()
+    // {
+    //     FirebaseAnalytics.LogEvent("level_restart",
+    //         new Parameter("level_restart", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    // }
+    //
+    // private void OnBottleTake()
+    // {
+    //     FirebaseAnalytics.LogEvent("bottle_take",
+    //         new Parameter("on_bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    // }
 
-    private void OnLevelCompleted()
-    {
-        FirebaseAnalytics.LogEvent("level_completed", new Parameter("level_completed",
-            PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
-    }
-
-    private void OnLevelRestart()
-    {
-        FirebaseAnalytics.LogEvent("level_restart",
-            new Parameter("level_restart", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
-    }
-
-    private void OnBottleTake()
-    {
-        FirebaseAnalytics.LogEvent("bottle_take",
-            new Parameter("on_bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
-    }
+    // private void TEST()
+    // {
+    //     Firebase.Analytics.FirebaseAnalytics
+    //         .LogEvent("on_bottle_take", "bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+    // }
 }
