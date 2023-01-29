@@ -93,9 +93,15 @@ public class LevelMaker : MonoBehaviour
     public void CreateNewLevel_GUIButton()
     {
         if (_myThread == null || !_myThread.IsAlive)
+        {
             _myThread = new Thread(CreateLevelPrototype);
 
-        _myThread.Start();
+            _myThread.Start();
+        }
+        else
+        {
+            Debug.LogWarning("User try starting started thread!");
+        }
     }
 
     private void CreateLevelPrototype()
@@ -126,6 +132,8 @@ public class LevelMaker : MonoBehaviour
             MainThread_SaveToJson(allBottles);
 
             MainThread_SaveLevelCreateDataToJson();
+            
+            _myThread.Abort();
         }
         else
         {
@@ -415,16 +423,16 @@ public class LevelMaker : MonoBehaviour
                     do
                     {
                         colorMatched = false;
-                        
+
                         if (_myColorsList.Count < 2) break;
-                        
+
                         for (int i = 0; i <= checkIndex; i++)
                         {
                             if (color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(i))
                             {
                                 randomColorIndex = GetRandomColorIndex();
                                 color = _myColorsList[randomColorIndex].Color;
-                                
+
                                 colorMatched = true;
                                 break;
                             }
