@@ -92,10 +92,11 @@ public class LevelMaker : MonoBehaviour
     // using by inspector gui
     public void CreateNewLevel_GUIButton()
     {
-        if (_myThread == null || !_myThread.IsAlive)
+        
+        if (_myThread is not { IsAlive: true })
         {
             _myThread = new Thread(CreateLevelPrototype);
-
+            
             _myThread.Start();
         }
         else
@@ -122,7 +123,7 @@ public class LevelMaker : MonoBehaviour
 
         AllBottles allBottles = new AllBottles(_data.CreatedBottles);
         ColorNumerator.NumerateColors(selectedColors);
-
+        
         if (allBottles.IsSolvable())
         {
             Debug.Log("Solvable");
@@ -132,8 +133,6 @@ public class LevelMaker : MonoBehaviour
             MainThread_SaveToJson(allBottles);
 
             MainThread_SaveLevelCreateDataToJson();
-            
-            _myThread.Abort();
         }
         else
         {
@@ -182,6 +181,7 @@ public class LevelMaker : MonoBehaviour
 
     private void RandomizeNumberOfBottle()
     {
+
         var hasString = "ExtraBottle " + _data.GetAmountOfExtraBottleIndex().ToString();
         var rand = new Unity.Mathematics.Random((uint)hasString.GetHashCode());
         _numberOfBottlesCreate = rand.NextInt(NumberOfColorsToCreate + 1, NumberOfColorsToCreate + 3);
@@ -413,6 +413,7 @@ public class LevelMaker : MonoBehaviour
         {
             var randomColorIndex = GetRandomColorIndex();
             var color = _myColorsList[randomColorIndex].Color;
+            
 
             if (checkIndex >= 0)
             {
@@ -420,16 +421,26 @@ public class LevelMaker : MonoBehaviour
                 {
                     var colorMatched = false;
 
+                    var iteration = 0;
+                    
                     do
                     {
+                        if (iteration > 200) break;
+
+                        iteration++;
+                        
                         colorMatched = false;
 
                         if (_myColorsList.Count < 2) break;
 
+                        Debug.Log("UP11");
+                        
                         for (int i = 0; i <= checkIndex; i++)
                         {
                             if (color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(i))
-                            {
+                            {   
+                                Debug.Log("Pos1");
+
                                 randomColorIndex = GetRandomColorIndex();
                                 color = _myColorsList[randomColorIndex].Color;
 
@@ -445,6 +456,7 @@ public class LevelMaker : MonoBehaviour
                     {
                         if (_myColorsList.Count < 2) break;
 
+                        Debug.Log("Pos2");
                         randomColorIndex = GetRandomColorIndex();
                         color = _myColorsList[randomColorIndex].Color;
                     }

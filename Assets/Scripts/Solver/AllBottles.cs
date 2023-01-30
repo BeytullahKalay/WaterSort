@@ -26,7 +26,7 @@ public class AllBottles
         }
 
         TrySort(null);
-        Debug.Log("Iteration Num: " + _iterationNum);
+        //Debug.Log("Iteration Num: " + _iterationNum);
         return CheckAllBottleSorted();
     }
 
@@ -67,10 +67,7 @@ public class AllBottles
         if (CheckAllBottleSorted()) return;
 
 
-        if (comingMove != null)
-        {
-            comingMove.UndoActions();
-        }
+        comingMove?.UndoActions();
     }
 
     private bool CheckAllBottleSorted()
