@@ -59,9 +59,15 @@ namespace LevelScripts
                 if (rainbowBottle)
                 {
                     var colorMatched = false;
+
+                    var iteration = 0;
                     
                     do
                     {
+                        if(iteration > 200) break;
+
+                        iteration++;
+                        
                         colorMatched = false;
 
                         if (_myColorsList.Count < 2) break;
