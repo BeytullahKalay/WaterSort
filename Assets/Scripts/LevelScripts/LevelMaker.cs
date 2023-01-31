@@ -432,14 +432,11 @@ public class LevelMaker : MonoBehaviour
                         colorMatched = false;
 
                         if (_myColorsList.Count < 2) break;
-
-                        Debug.Log("UP11");
                         
                         for (int i = 0; i <= checkIndex; i++)
                         {
                             if (color.GetHashCode() == tempBottle.GetColorHashCodeAtPosition(i))
                             {   
-                                Debug.Log("Pos1");
 
                                 randomColorIndex = GetRandomColorIndex();
                                 color = _myColorsList[randomColorIndex].Color;
@@ -456,7 +453,6 @@ public class LevelMaker : MonoBehaviour
                     {
                         if (_myColorsList.Count < 2) break;
 
-                        Debug.Log("Pos2");
                         randomColorIndex = GetRandomColorIndex();
                         color = _myColorsList[randomColorIndex].Color;
                     }
