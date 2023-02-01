@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LevelScripts
 {
-    public class JsonManager
+    public static class JsonManager
     {
         public static void TryGetLevelCreateDataFromJson(Data data)
         {

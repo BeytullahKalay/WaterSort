@@ -32,7 +32,7 @@ namespace LevelScripts
         private void FindAndAssignValues()
         {
             _levelValue = FindLevelMakerValue();
-            AssignValues(_levelValue,levelMaker.LevelMakerStateController);
+            AssignValues(_levelValue,levelMaker.BottleCreateBottleState);
         }
 
         private LevelMakerValue FindLevelMakerValue()
@@ -57,11 +57,11 @@ namespace LevelScripts
             return finalValue;
         }
 
-        private void AssignValues(LevelMakerValue assignValue,LevelMakerStateController levelMakerStateController)
+        private void AssignValues(LevelMakerValue assignValue,BottleCreateBottleState bottleCreateBottleState)
         {
             levelMaker.LevelColorController.NumberOfColorsToCreate =assignValue.ColorAmount;
-            levelMakerStateController.NoMatches = assignValue.NoMatches;
-            levelMakerStateController.RainbowBottle = assignValue.RainbowBottle;
+            bottleCreateBottleState.NoMatches = assignValue.NoMatches;
+            bottleCreateBottleState.RainbowBottle = assignValue.RainbowBottle;
         }
     }
 }
