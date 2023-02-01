@@ -6,7 +6,7 @@ namespace LevelScripts
     public class CreateBottlesForLevel : MonoBehaviour
     {
         public void CreateBottles(int numberOfBottleToCreate, bool matchState, bool rainbowBottle,ref int totalWaterCount,
-            LevelColorController levelColorController, Data data, int createdBottles, Action<int, Bottle, int> test)
+            LevelColorController levelColorController, Data data, int createdBottles, Action<int, Bottle, int> MainThread_BottlePosition)
         {
             for (int i = 0; i < numberOfBottleToCreate; i++)
             {
@@ -16,7 +16,7 @@ namespace LevelScripts
                 
                 levelColorController.GetRandomColorForBottle(tempBottle, matchState, rainbowBottle, data);
                 
-                test?.Invoke(numberOfBottleToCreate, tempBottle, createdBottles);
+                MainThread_BottlePosition?.Invoke(numberOfBottleToCreate, tempBottle, createdBottles);
 
                 tempBottle.ParentNum = LevelMakerHelper.FindParent(numberOfBottleToCreate, createdBottles);
 

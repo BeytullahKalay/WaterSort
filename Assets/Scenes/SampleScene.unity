@@ -1578,6 +1578,10 @@ GameObject:
   - component: {fileID: 940977538}
   - component: {fileID: 940977537}
   - component: {fileID: 940977539}
+  - component: {fileID: 940977541}
+  - component: {fileID: 940977540}
+  - component: {fileID: 940977542}
+  - component: {fileID: 940977543}
   m_Layer: 0
   m_Name: LevelMaker
   m_TagString: Untagged
@@ -1597,18 +1601,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8cd17dc3aefddc46bcd4708a62259d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottleDistanceX: 0.06
-  bottleStartPosY: 0.55
-  bottleDistanceY: 0.3
   bottle: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
   _data:
     BottleColorRandomIndex: 0
     ExtraBottleAmountRandomIndex: 0
     ColorPickerRandomIndex: 0
     CreatedBottles: []
-  lastCreatedParent: {fileID: 0}
-  NoMatches: 0
-  RainbowBottle: 0
 --- !u!4 &940977538
 Transform:
   m_ObjectHideFlags: 0
@@ -1639,6 +1637,59 @@ MonoBehaviour:
   _colorsdb: {fileID: 11400000, guid: 6d91ca5085b4a0046bbe54b4e5ab3429, type: 2}
   NumberOfColorsToCreate: 2
   SelectedColors: []
+--- !u!114 &940977540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940977536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb4c81dfeffdd514495776a15f1c31e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &940977541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940977536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04502254c27ce174ca6cce6db1dc2853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &940977542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940977536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e28a36acdcea9442b4c0abe4fea43d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NoMatches: 0
+  RainbowBottle: 0
+--- !u!114 &940977543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940977536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c35557b432eaf249b818dffb1adef40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BottleDistanceX: 0.06
+  BottleStartPosY: 0.55
+  BottleDistanceY: 0.3
 --- !u!1 &959122741
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,7 +2088,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118624778}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

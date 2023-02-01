@@ -4,8 +4,6 @@ namespace LevelScripts
 {
     public class LevelBottlesAligner : MonoBehaviour
     {
-
-
         public GameObject LevelParent { get;  set; }
         public GameObject Line1 { get;  set; }
         public GameObject Line2 { get;  set; }

@@ -8,15 +8,10 @@ namespace LevelScripts
     [RequireComponent(typeof(CreateBottlesForLevel))]
     [RequireComponent(typeof(LevelBottlesAligner))]
     [RequireComponent(typeof(LevelMakerStateController))]
+    [RequireComponent(typeof(LevelMakerBottlePositioning))]
+    
     public class LevelMaker : MonoBehaviour
     {
-        [Header("Bottle Sorting Values")] [SerializeField] [Range(0, 1)]
-        private float bottleDistanceX = .01f;
-
-        [SerializeField] [Range(0, 1)] private float bottleStartPosY = .75f;
-        [SerializeField] [Range(0, 1)] private float bottleDistanceY = .01f;
-
-
         [SerializeField] private GameObject bottle;
 
         [SerializeField] private Data _data;
@@ -34,6 +29,7 @@ namespace LevelScripts
         private CreateBottlesForLevel _createBottlesForLevel;
         private LevelBottlesAligner _levelBottlesAligner;
         private LevelMakerStateController _levelMakerStateController;
+        private LevelMakerBottlePositioning _levelMakerBottlePositioning;
 
         public LevelMakerStateController LevelMakerStateController { get; private set; }
         public LevelColorController LevelColorController { get; private set; }
@@ -58,6 +54,7 @@ namespace LevelScripts
             _createBottlesForLevel = GetComponent<CreateBottlesForLevel>();
             _levelBottlesAligner = GetComponent<LevelBottlesAligner>();
             _levelMakerStateController = GetComponent<LevelMakerStateController>();
+            _levelMakerBottlePositioning = GetComponent<LevelMakerBottlePositioning>();
 
             LevelMakerStateController = _levelMakerStateController;
             LevelColorController = _levelColorController;
@@ -159,13 +156,7 @@ namespace LevelScripts
 
         private void MainThread_SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
         {
-            Dispatcher.Instance.Invoke(() => SetBottlePosition(numberOfBottleToCreate, tempBottle, createdBottles));
-        }
-
-        private void SetBottlePosition(int numberOfBottleToCreate, Bottle tempBottle, int createdBottles)
-        {
-            tempBottle.FindPositionAndAssignToPos(numberOfBottleToCreate, createdBottles, bottleDistanceX,
-                bottleStartPosY, bottleDistanceY);
+            Dispatcher.Instance.Invoke(() => _levelMakerBottlePositioning.SetBottlePosition(numberOfBottleToCreate, tempBottle, createdBottles));
         }
 
         private void AddExtraEmptyBottle()
@@ -204,7 +195,7 @@ namespace LevelScripts
                 // new bottle positioning
                 bottleControllerList[i].transform.position = Vector3.zero;
                 bottleControllerList[i].HelperBottle.FindPositionAndAssignToPos(bottleControllerList.Count, i,
-                    bottleDistanceX, bottleStartPosY, bottleDistanceY);
+                    _levelMakerBottlePositioning.BottleDistanceX, _levelMakerBottlePositioning.BottleStartPosY, _levelMakerBottlePositioning.BottleDistanceY);
                 bottleControllerList[i].transform.position = bottleControllerList[i].HelperBottle.GetOpenPosition();
             }
 
