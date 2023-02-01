@@ -7,6 +7,7 @@ namespace LevelScripts
     [RequireComponent(typeof(LevelColorController))]
     [RequireComponent(typeof(CreateBottlesForLevel))]
     [RequireComponent(typeof(LevelBottlesAligner))]
+    [RequireComponent(typeof(LevelMakerStateController))]
     public class LevelMaker : MonoBehaviour
     {
         [Header("Bottle Sorting Values")] [SerializeField] [Range(0, 1)]
@@ -20,19 +21,11 @@ namespace LevelScripts
 
         [SerializeField] private Data _data;
 
-        [Space(20)] [SerializeField] private GameObject lastCreatedParent;
-        public bool NoMatches;
-        public bool RainbowBottle;
-
 
         private int _createdBottles;
         private int _numberOfBottlesCreate;
         private int _totalWaterCount;
-
-
-        // private GameObject _levelParent;
-        // private GameObject _line1;
-        // private GameObject _line2;
+        
         private GameObject _obj;
 
         private Thread _myThread;
@@ -40,6 +33,9 @@ namespace LevelScripts
         private LevelColorController _levelColorController;
         private CreateBottlesForLevel _createBottlesForLevel;
         private LevelBottlesAligner _levelBottlesAligner;
+        private LevelMakerStateController _levelMakerStateController;
+
+        public LevelMakerStateController LevelMakerStateController { get; private set; }    
 
         private void OnEnable()
         {
@@ -60,6 +56,9 @@ namespace LevelScripts
             _levelColorController = GetComponent<LevelColorController>();
             _createBottlesForLevel = GetComponent<CreateBottlesForLevel>();
             _levelBottlesAligner = GetComponent<LevelBottlesAligner>();
+            _levelMakerStateController = GetComponent<LevelMakerStateController>();
+
+            LevelMakerStateController = _levelMakerStateController;
 
             JsonManager.TryGetLevelCreateDataFromJson(_data);
             CheckNamingIndexPlayerPref();
@@ -101,7 +100,7 @@ namespace LevelScripts
             
             _numberOfBottlesCreate = LevelMakerHelper.RandomizeNumberOfBottle(_data, _levelColorController);
 
-            _createBottlesForLevel.CreateBottles(_numberOfBottlesCreate, NoMatches, RainbowBottle, ref _totalWaterCount,
+            _createBottlesForLevel.CreateBottles(_numberOfBottlesCreate,  _levelMakerStateController.NoMatches,_levelMakerStateController. RainbowBottle, ref _totalWaterCount,
                 _levelColorController, _data, _createdBottles, MainThread_SetBottlePosition);
 
             AllBottles allBottles = new AllBottles(_data.CreatedBottles);
