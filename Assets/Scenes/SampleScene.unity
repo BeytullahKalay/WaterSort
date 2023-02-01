@@ -1582,6 +1582,7 @@ GameObject:
   - component: {fileID: 940977540}
   - component: {fileID: 940977542}
   - component: {fileID: 940977543}
+  - component: {fileID: 940977544}
   m_Layer: 0
   m_Name: LevelMaker
   m_TagString: Untagged
@@ -1690,6 +1691,19 @@ MonoBehaviour:
   BottleDistanceX: 0.06
   BottleStartPosY: 0.55
   BottleDistanceY: 0.3
+--- !u!114 &940977544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940977536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e86932f3b59efa42a70ea813fb07a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bottle: {fileID: 5515774976861772799, guid: 3867749598f4af04d8e29fb86f168040, type: 3}
 --- !u!1 &959122741
 GameObject:
   m_ObjectHideFlags: 0

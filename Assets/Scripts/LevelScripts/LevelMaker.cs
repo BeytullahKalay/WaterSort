@@ -9,6 +9,7 @@ namespace LevelScripts
     [RequireComponent(typeof(LevelBottlesAligner))]
     [RequireComponent(typeof(LevelMakerStateController))]
     [RequireComponent(typeof(LevelMakerBottlePositioning))]
+    [RequireComponent(typeof(LevelMakerCreateBottle))]
     
     public class LevelMaker : MonoBehaviour
     {
@@ -20,8 +21,6 @@ namespace LevelScripts
         private int _createdBottles;
         private int _numberOfBottlesCreate;
         private int _totalWaterCount;
-        
-        private GameObject _obj;
 
         private Thread _myThread;
 
@@ -30,24 +29,12 @@ namespace LevelScripts
         private LevelBottlesAligner _levelBottlesAligner;
         private LevelMakerStateController _levelMakerStateController;
         private LevelMakerBottlePositioning _levelMakerBottlePositioning;
+        private LevelMakerCreateBottle _levelMakerCreateBottle;
 
         public LevelMakerStateController LevelMakerStateController { get; private set; }
         public LevelColorController LevelColorController { get; private set; }
 
-        private void OnEnable()
-        {
-            EventManager.CreateLevel += CreateNewLevel_GUIButton;
-            EventManager.AddExtraEmptyBottle += AddExtraEmptyBottle;
-            EventManager.CreatePrototype += CreateLevelFromPrototype;
-        }
-
-        private void OnDisable()
-        {
-            EventManager.CreateLevel -= CreateNewLevel_GUIButton;
-            EventManager.AddExtraEmptyBottle -= AddExtraEmptyBottle;
-            EventManager.CreatePrototype -= CreateLevelFromPrototype;
-        }
-
+        
         private void Awake()
         {
             _levelColorController = GetComponent<LevelColorController>();
@@ -55,12 +42,25 @@ namespace LevelScripts
             _levelBottlesAligner = GetComponent<LevelBottlesAligner>();
             _levelMakerStateController = GetComponent<LevelMakerStateController>();
             _levelMakerBottlePositioning = GetComponent<LevelMakerBottlePositioning>();
+            _levelMakerCreateBottle = GetComponent<LevelMakerCreateBottle>();
 
             LevelMakerStateController = _levelMakerStateController;
             LevelColorController = _levelColorController;
 
             JsonManager.TryGetLevelCreateDataFromJson(_data);
             CheckNamingIndexPlayerPref();
+        }
+        
+        private void OnEnable()
+        {
+            EventManager.CreateLevel += CreateNewLevel_GUIButton;
+            EventManager.CreatePrototype += CreateLevelFromPrototype;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.CreateLevel -= CreateNewLevel_GUIButton;
+            EventManager.CreatePrototype -= CreateLevelFromPrototype;
         }
 
         private void CheckNamingIndexPlayerPref()
@@ -159,102 +159,9 @@ namespace LevelScripts
             Dispatcher.Instance.Invoke(() => _levelMakerBottlePositioning.SetBottlePosition(numberOfBottleToCreate, tempBottle, createdBottles));
         }
 
-        private void AddExtraEmptyBottle()
-        {
-            var gm = GameManager.Instance;
-
-            // initialize extra bottle
-            Bottle extraBottleHelper = new Bottle(-1);
-            var extraBottle = InitializeBottle();
-            extraBottle.HelperBottle = extraBottleHelper;
-            extraBottle.NumberOfColorsInBottle = 0;
-
-            // add new bottle to list
-            var bottleControllerList = gm.bottleControllers;
-            bottleControllerList.Add(extraBottle);
-
-            // get lines
-            _levelBottlesAligner.Line1 = gm.line1.gameObject;
-            _levelBottlesAligner.Line2 = gm.line2.gameObject;
-
-            // reset parent position
-            _levelBottlesAligner.Line1.transform.parent.position = Vector3.zero;
-
-
-            for (int i = 0; i < bottleControllerList.Count; i++)
-            {
-                // New parenting
-                bottleControllerList[i].transform.SetParent(null);
-                bottleControllerList[i].HelperBottle.ParentNum = FindParent(bottleControllerList.Count, i);
-
-                if (bottleControllerList[i].HelperBottle.ParentNum == 0)
-                    bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line1.transform);
-                else if (bottleControllerList[i].HelperBottle.ParentNum == 1)
-                    bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line2.transform);
-
-                // new bottle positioning
-                bottleControllerList[i].transform.position = Vector3.zero;
-                bottleControllerList[i].HelperBottle.FindPositionAndAssignToPos(bottleControllerList.Count, i,
-                    _levelMakerBottlePositioning.BottleDistanceX, _levelMakerBottlePositioning.BottleStartPosY, _levelMakerBottlePositioning.BottleDistanceY);
-                bottleControllerList[i].transform.position = bottleControllerList[i].HelperBottle.GetOpenPosition();
-            }
-
-            // align bottles
-            _levelBottlesAligner.AlignBottles();
-
-            // set origin position of bottles
-            for (int i = 0; i < bottleControllerList.Count; i++)
-            {
-                bottleControllerList[i].SetOriginalPositionTo(bottleControllerList[i].transform.position);
-            }
-        }
-
-        private int FindParent(float numberOfBottleToCreate, int createdBottles)
-        {
-            return (createdBottles < (numberOfBottleToCreate / 2) ? 0 : 1);
-        }
-
         private void MainThread_CreateBottlesAndAssignPositions(AllBottles allBottles)
         {
-            Dispatcher.Instance.Invoke(() => CreateBottlesAndAssignPositions(allBottles));
-        }
-
-        private void CreateBottlesAndAssignPositions(AllBottles AllBottlesInLevel)
-        {
-            for (int i = 0; i < AllBottlesInLevel._allBottles.Count; i++)
-            {
-                var newBottle = InitializeBottle();
-                newBottle.HelperBottle = AllBottlesInLevel._allBottles[i];
-                newBottle.NumberOfColorsInBottle = AllBottlesInLevel._allBottles[i].NumberOfColorsInBottle;
-                newBottle.transform.position = AllBottlesInLevel._allBottles[i].GetOpenPosition();
-                AllBottlesInLevel._allBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
-                Parenting(newBottle);
-            }
-
-            _levelBottlesAligner.AlignBottles();
-        }
-
-        private void Parenting(BottleController newBottle)
-        {
-            if (newBottle.HelperBottle.ParentNum == 0)
-            {
-                newBottle.transform.SetParent(_levelBottlesAligner.Line1.transform);
-            }
-            else if (newBottle.HelperBottle.ParentNum == 1)
-            {
-                newBottle.transform.SetParent(_levelBottlesAligner.Line2.transform);
-            }
-        }
-
-        private BottleController InitializeBottle()
-        {
-            _obj = Instantiate(bottle, Vector3.zero, Quaternion.identity);
-
-            var objBottleControllerScript = _obj.GetComponent<BottleController>();
-
-            objBottleControllerScript.BottleSorted = false;
-
-            return objBottleControllerScript;
+            Dispatcher.Instance.Invoke(() =>_levelMakerCreateBottle.CreateBottlesAndAssignPositions(allBottles,_levelBottlesAligner));
         }
     }
 }
