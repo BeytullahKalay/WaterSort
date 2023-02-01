@@ -35,7 +35,8 @@ namespace LevelScripts
         private LevelBottlesAligner _levelBottlesAligner;
         private LevelMakerStateController _levelMakerStateController;
 
-        public LevelMakerStateController LevelMakerStateController { get; private set; }    
+        public LevelMakerStateController LevelMakerStateController { get; private set; }
+        public LevelColorController LevelColorController { get; private set; }
 
         private void OnEnable()
         {
@@ -59,6 +60,7 @@ namespace LevelScripts
             _levelMakerStateController = GetComponent<LevelMakerStateController>();
 
             LevelMakerStateController = _levelMakerStateController;
+            LevelColorController = _levelColorController;
 
             JsonManager.TryGetLevelCreateDataFromJson(_data);
             CheckNamingIndexPlayerPref();
@@ -262,11 +264,6 @@ namespace LevelScripts
             objBottleControllerScript.BottleSorted = false;
 
             return objBottleControllerScript;
-        }
-
-        public void SetNumberOfColorToCreate(int value)
-        {
-            _levelColorController.NumberOfColorsToCreate = value;
         }
     }
 }

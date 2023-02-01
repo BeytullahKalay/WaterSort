@@ -59,7 +59,7 @@ namespace LevelScripts
 
         private void AssignValues(LevelMakerValue assignValue,LevelMakerStateController levelMakerStateController)
         {
-            levelMaker.SetNumberOfColorToCreate(assignValue.ColorAmount);
+            levelMaker.LevelColorController.NumberOfColorsToCreate =assignValue.ColorAmount;
             levelMakerStateController.NoMatches = assignValue.NoMatches;
             levelMakerStateController.RainbowBottle = assignValue.RainbowBottle;
         }
