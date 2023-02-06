@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
-  <string name="gcm_defaultSenderId" translatable="false">922376180390</string>
-  <string name="google_storage_bucket" translatable="false">watersort-2620c.appspot.com</string>
-  <string name="project_id" translatable="false">watersort-2620c</string>
-  <string name="google_api_key" translatable="false">AIzaSyD-pUz0OzZ3e5G-1vwFDbZ62NBguJpoLJw</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD-pUz0OzZ3e5G-1vwFDbZ62NBguJpoLJw</string>
-  <string name="google_app_id" translatable="false">1:922376180390:android:586effcef386a6f2e21a67</string>
-  <string name="default_web_client_id" translatable="false">922376180390-4ts04gm1ffmju6hb6eh371oanan9cl38.apps.googleusercontent.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">66959050261</string>
+  <string name="google_storage_bucket" translatable="false">water-sort-puzzle-ad085.appspot.com</string>
+  <string name="project_id" translatable="false">water-sort-puzzle-ad085</string>
+  <string name="google_api_key" translatable="false">AIzaSyCPxAgXvPeGYMUBlxHx0qO4ZtdXLAKXoM8</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCPxAgXvPeGYMUBlxHx0qO4ZtdXLAKXoM8</string>
+  <string name="google_app_id" translatable="false">1:66959050261:android:f9176a2f23860fa80db01c</string>
+  <string name="default_web_client_id" translatable="false">66959050261-oo8gllrasel5e1otltm633o96hejn0sq.apps.googleusercontent.com</string>
 </resources>
