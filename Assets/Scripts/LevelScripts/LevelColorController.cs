@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using DataRepo;
 using Solver;
 using UnityEngine;
-using Random = System.Random;
 
 namespace LevelScripts
 {
@@ -125,8 +122,10 @@ namespace LevelScripts
         {
             var hashString = "GetRandomColor " + data.GetColorPickerRandomIndex().ToString();
             var rand = new Unity.Mathematics.Random((uint)hashString.GetHashCode());
-            var randomColorIndex = rand.NextInt(0, _myColorsList.Count);
 
+            var randomColorIndex = rand.NextInt(0, _myColorsList.Count);
+            
+            //Debug.Log(randomColorIndex);
             return randomColorIndex;
         }
     }

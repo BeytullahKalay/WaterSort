@@ -40,6 +40,7 @@ namespace LevelScripts
             LevelColorController = _colorController;
 
             JsonManager.TryGetLevelCreateDataFromJson(ref Data);
+            
             CheckNamingIndexPlayerPref();
         }
 
@@ -91,7 +92,7 @@ namespace LevelScripts
                 _bottleCreateBottleState.RainbowBottle, ref _totalWaterCount,
                 _colorController, Data, _createdBottles,  _levelMakerMainThreadActions.MainThread_SetBottlePosition);
 
-            AllBottles allBottles = new AllBottles(Data.CreatedBottles);
+            var allBottles = new AllBottles(Data.CreatedBottles);
             ColorNumerator.NumerateColors(_colorController.SelectedColors);
 
             if (allBottles.IsSolvable())
