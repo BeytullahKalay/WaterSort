@@ -7,12 +7,11 @@ namespace LevelScripts
     {
         [SerializeField] private LevelMaker levelMaker;
 
-        [Space(20)] [SerializeField]
-        private List<LevelMakerValue> levelMakerControllers = new List<LevelMakerValue>();
+        [Space(20)] [SerializeField] private List<LevelMakerValue> levelMakerControllers = new List<LevelMakerValue>();
 
         private int _levelIndex;
 
-        private LevelMakerValue _levelValue;
+        private LevelMakerValue _levelMakerValue;
 
         private void OnEnable()
         {
@@ -31,17 +30,17 @@ namespace LevelScripts
 
         private void FindAndAssignValues()
         {
-            _levelValue = FindLevelMakerValue();
-            AssignValues(_levelValue,levelMaker.BottleCreateBottleState);
+            _levelIndex = PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex);
+
+            _levelMakerValue = FindLevelMakerValue();
+            AssignValues(_levelMakerValue, levelMaker.BottleCreateBottleState);
         }
 
         private LevelMakerValue FindLevelMakerValue()
         {
-            _levelIndex = PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex);
             foreach (var levelMakerController in levelMakerControllers)
             {
-                if (_levelIndex >= levelMakerController.LevelBeginningIndex &&
-                    _levelIndex <= levelMakerController.LevelFinishIndex)
+                if (_levelIndex >= levelMakerController.LevelBeginningIndex && _levelIndex <= levelMakerController.LevelFinishIndex)
                 {
                     return levelMakerController;
                 }
@@ -57,9 +56,9 @@ namespace LevelScripts
             return finalValue;
         }
 
-        private void AssignValues(LevelMakerValue assignValue,BottleCreateBottleState bottleCreateBottleState)
+        private void AssignValues(LevelMakerValue assignValue, BottleCreateBottleState bottleCreateBottleState)
         {
-            levelMaker.LevelColorController.NumberOfColorsToCreate =assignValue.ColorAmount;
+            levelMaker.LevelColorController.NumberOfColorsToCreate = assignValue.ColorAmount;
             bottleCreateBottleState.NoMatches = assignValue.NoMatches;
             bottleCreateBottleState.RainbowBottle = assignValue.RainbowBottle;
         }

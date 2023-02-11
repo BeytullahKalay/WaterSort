@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using DataRepo;
 using Solver;
 using UnityEngine;
+using Random = System.Random;
 
 namespace LevelScripts
 {
@@ -19,7 +23,6 @@ namespace LevelScripts
             while (SelectedColors.Count < NumberOfColorsToCreate)
             {
                 var selectedColor = _colorsdb.GetRandomColor(data.GetBottleColorRandomIndex());
-
                 if (!SelectedColors.Contains(selectedColor))
                     SelectedColors.Add(selectedColor);
             }
@@ -61,13 +64,13 @@ namespace LevelScripts
                     var colorMatched = false;
 
                     var iteration = 0;
-                    
+
                     do
                     {
-                        if(iteration > 200) break;
+                        if (iteration > 200) break;
 
                         iteration++;
-                        
+
                         colorMatched = false;
 
                         if (_myColorsList.Count < 2) break;
@@ -75,14 +78,13 @@ namespace LevelScripts
                         for (int i = 0; i <= checkIndex; i++)
                         {
                             if (color.GetHashCode() != tempBottle.GetColorHashCodeAtPosition(i)) continue;
-                            
+
                             randomColorIndex = GetRandomColorIndex(data);
                             color = _myColorsList[randomColorIndex].Color;
 
                             colorMatched = true;
                             break;
                         }
-                        
                     } while (colorMatched);
                 }
                 else
@@ -110,7 +112,7 @@ namespace LevelScripts
         {
             foreach (var colorHashCode in comingBottle.BottleColorsHashCodes)
             {
-                int emptyColorHashCode = 532676608;
+                var emptyColorHashCode = 532676608;
                 if (colorHashCode != emptyColorHashCode)
                     comingBottle.NumberedBottleStack.Push(colorHashCode);
             }
@@ -123,7 +125,8 @@ namespace LevelScripts
         {
             var hashString = "GetRandomColor " + data.GetColorPickerRandomIndex().ToString();
             var rand = new Unity.Mathematics.Random((uint)hashString.GetHashCode());
-            int randomColorIndex = rand.NextInt(0, _myColorsList.Count);
+            var randomColorIndex = rand.NextInt(0, _myColorsList.Count);
+
             return randomColorIndex;
         }
     }

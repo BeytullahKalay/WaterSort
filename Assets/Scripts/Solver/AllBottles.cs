@@ -27,7 +27,6 @@ namespace Solver
             }
 
             TrySort(null);
-            Debug.Log("Iteration Num: " + _iterationNum);
             return CheckAllBottleSorted();
         }
 

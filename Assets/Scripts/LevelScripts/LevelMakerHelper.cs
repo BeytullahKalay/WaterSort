@@ -1,3 +1,5 @@
+using DataRepo;
+
 namespace LevelScripts
 {
     public static class LevelMakerHelper

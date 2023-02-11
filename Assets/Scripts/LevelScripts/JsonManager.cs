@@ -1,4 +1,5 @@
 using System.IO;
+using DataRepo;
 using Solver;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace LevelScripts
 {
     public static class JsonManager
     {
-        public static void TryGetLevelCreateDataFromJson(Data data)
+        public static void TryGetLevelCreateDataFromJson(ref Data data)
         {
             string path = Paths.LevelCreationDataPath;
 
@@ -35,8 +36,8 @@ namespace LevelScripts
     
         public static void SaveLevelCreateDataToJson(ref Data data)
         {
-            string json = JsonUtility.ToJson(data);
-            string path = Paths.LevelCreationDataPath;
+            var json = JsonUtility.ToJson(data);
+            var path = Paths.LevelCreationDataPath;
             File.WriteAllText(path, json);
         }
     }

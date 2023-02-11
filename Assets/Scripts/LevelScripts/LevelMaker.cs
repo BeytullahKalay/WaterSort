@@ -1,4 +1,5 @@
 using System.Threading;
+using DataRepo;
 using Solver;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace LevelScripts
     [RequireComponent(typeof(LevelMakerMainThreadActions))]
     public class LevelMaker : MonoBehaviour
     {
-        [SerializeField] private Data _data;
+        public Data Data;
 
 
         private int _createdBottles;
@@ -26,7 +27,6 @@ namespace LevelScripts
 
         public BottleCreateBottleState BottleCreateBottleState { get; private set; }
         public LevelColorController LevelColorController { get; private set; }
-        public Data Data { get; private set; }
 
 
         private void Awake()
@@ -39,8 +39,7 @@ namespace LevelScripts
             BottleCreateBottleState = _bottleCreateBottleState;
             LevelColorController = _colorController;
 
-            Data = _data;
-            JsonManager.TryGetLevelCreateDataFromJson(_data);
+            JsonManager.TryGetLevelCreateDataFromJson(ref Data);
             CheckNamingIndexPlayerPref();
         }
 
@@ -76,23 +75,23 @@ namespace LevelScripts
 
         private void CreateLevelPrototype()
         {
-            _data.CreatedBottles.Clear();
+            Data.CreatedBottles.Clear();
             _createdBottles = 0;
             _colorController.SelectedColors.Clear();
 
-            _colorController.SelectColorsToCreate(_data);
+            _colorController.SelectColorsToCreate(Data);
 
             _colorController.CreateColorObjects();
 
             _totalWaterCount = _colorController.SelectedColors.Count * 4;
 
-            _numberOfBottlesCreate = LevelMakerHelper.RandomizeNumberOfBottle(_data, _colorController);
+            _numberOfBottlesCreate = LevelMakerHelper.RandomizeNumberOfBottle(Data, _colorController);
 
             _createBottlesForLevel.CreateBottles(_numberOfBottlesCreate, _bottleCreateBottleState.NoMatches,
                 _bottleCreateBottleState.RainbowBottle, ref _totalWaterCount,
-                _colorController, _data, _createdBottles,  _levelMakerMainThreadActions.MainThread_SetBottlePosition);
+                _colorController, Data, _createdBottles,  _levelMakerMainThreadActions.MainThread_SetBottlePosition);
 
-            AllBottles allBottles = new AllBottles(_data.CreatedBottles);
+            AllBottles allBottles = new AllBottles(Data.CreatedBottles);
             ColorNumerator.NumerateColors(_colorController.SelectedColors);
 
             if (allBottles.IsSolvable())
