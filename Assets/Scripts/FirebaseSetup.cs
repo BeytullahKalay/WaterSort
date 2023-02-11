@@ -12,7 +12,7 @@ public class FirebaseSetup : MonoBehaviour
     //     EventManager.LevelCompleted += OnLevelCompleted;
     //     EventManager.LoadNextLevel += OnLevelStart;
     // }
-
+    //
     // private void OnDisable()
     // {
     //     EventManager.AddExtraEmptyBottle -= OnBottleTake;
@@ -21,7 +21,7 @@ public class FirebaseSetup : MonoBehaviour
     //     EventManager.LoadNextLevel -= OnLevelStart;
     // }
 
-    #region Initialize Firebase
+    #region Initialization
 
     private void Start()
     {
@@ -48,34 +48,26 @@ public class FirebaseSetup : MonoBehaviour
     #endregion
 
 
-    // Analytics Events
+
+    // // Analytics Events
     // private void OnLevelStart()
     // {
-    //     FirebaseAnalytics.LogEvent("level_start",
-    //         new Parameter("level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    //     FirebaseAnalytics.LogEvent("LEVEL START", "level_start", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
     // }
     //
     // private void OnLevelCompleted()
     // {
-    //     FirebaseAnalytics.LogEvent("level_completed", new Parameter("level_completed",
-    //         PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    //     FirebaseAnalytics.LogEvent("LEVEL COMPLETED", "level_completed",
+    //         PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
     // }
     //
     // private void OnLevelRestart()
     // {
-    //     FirebaseAnalytics.LogEvent("level_restart",
-    //         new Parameter("level_restart", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
+    //     FirebaseAnalytics.LogEvent("LEVEL RESTART", "level_restart", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
     // }
     //
     // private void OnBottleTake()
     // {
-    //     FirebaseAnalytics.LogEvent("bottle_take",
-    //         new Parameter("on_bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex)));
-    // }
-
-    // private void TEST()
-    // {
-    //     Firebase.Analytics.FirebaseAnalytics
-    //         .LogEvent("on_bottle_take", "bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
+    //     FirebaseAnalytics.LogEvent("BOTTLE TAKE", "on_bottle_take", PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex));
     // }
 }

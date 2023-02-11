@@ -34,8 +34,6 @@ public class LevelParent : MonoBehaviour
         {
             foreach (Transform grandChild in child)
             {
-                //gm.bottleControllers.Add(grandChild.GetComponent<BottleController>());
-
                 if (grandChild.TryGetComponent(out BottleController controller))
                 {
                     gm.bottleControllers.Add(controller);

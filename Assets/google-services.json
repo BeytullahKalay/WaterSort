@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "922376180390",
-    "project_id": "watersort-2620c",
-    "storage_bucket": "watersort-2620c.appspot.com"
+    "project_number": "66959050261",
+    "project_id": "water-sort-puzzle-ad085",
+    "storage_bucket": "water-sort-puzzle-ad085.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:922376180390:android:586effcef386a6f2e21a67",
+        "mobilesdk_app_id": "1:66959050261:android:f9176a2f23860fa80db01c",
         "android_client_info": {
           "package_name": "com.watersortpuzzle.colorsortpuzzle.watercolorsortpuzzle"
         }
       },
       "oauth_client": [
         {
-          "client_id": "922376180390-4ts04gm1ffmju6hb6eh371oanan9cl38.apps.googleusercontent.com",
+          "client_id": "66959050261-oo8gllrasel5e1otltm633o96hejn0sq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD-pUz0OzZ3e5G-1vwFDbZ62NBguJpoLJw"
+          "current_key": "AIzaSyCPxAgXvPeGYMUBlxHx0qO4ZtdXLAKXoM8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "922376180390-4ts04gm1ffmju6hb6eh371oanan9cl38.apps.googleusercontent.com",
+              "client_id": "66959050261-oo8gllrasel5e1otltm633o96hejn0sq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

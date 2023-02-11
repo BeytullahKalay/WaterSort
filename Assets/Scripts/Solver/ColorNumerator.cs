@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ColorNumerator
+namespace Solver
 {
-    public static Dictionary<Color, int> colorsNumerator = new Dictionary<Color, int>();
-
-    public static void NumerateColors(List<Color> colors)
+    public static class ColorNumerator
     {
-        colorsNumerator.Clear();
-        for (int i = 0; i < colors.Count; i++)
+        public static Dictionary<Color, int> colorsNumerator = new Dictionary<Color, int>();
+
+        public static void NumerateColors(List<Color> colors)
         {
-            colorsNumerator.Add(colors[i], i);
+            colorsNumerator.Clear();
+            for (int i = 0; i < colors.Count; i++)
+            {
+                colorsNumerator.Add(colors[i], i);
+            }
         }
     }
 }

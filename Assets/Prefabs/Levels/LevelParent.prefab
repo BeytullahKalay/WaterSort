@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 3296966876814566252}
   - component: {fileID: 3700932809669179933}
   - component: {fileID: 1066724665256325487}
+  - component: {fileID: 5669863953303255863}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -361,6 +362,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e28aba59e8aa004408f4fec531ae17ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5669863953303255863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844075148383431542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7454b191587651e41b177eddfa2b1fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1576752062264768502
@@ -764,6 +777,7 @@ GameObject:
   - component: {fileID: 8010946536834949336}
   - component: {fileID: 7127669339211315845}
   - component: {fileID: 5776788532120601499}
+  - component: {fileID: 8343485049500104556}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -1030,6 +1044,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28aba59e8aa004408f4fec531ae17ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8343485049500104556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7418222024446119717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7454b191587651e41b177eddfa2b1fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7522217797141358304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3979405435574529346}
+  - component: {fileID: 511112015170197015}
+  m_Layer: 0
+  m_Name: AddOneBottenTutorialController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3979405435574529346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522217797141358304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9201030127528360011}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &511112015170197015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522217797141358304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfbc29b53f2fc6b44b3e240f69bfcd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addOneMoreBottleButton: {fileID: 0}
 --- !u!1 &7635944816532609494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,6 +1134,7 @@ Transform:
   - {fileID: 330983221288377651}
   - {fileID: 6149456758046860148}
   - {fileID: 5831808294845562921}
+  - {fileID: 3979405435574529346}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

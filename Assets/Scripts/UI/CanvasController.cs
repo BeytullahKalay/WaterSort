@@ -1,134 +1,35 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CanvasController : MonoBehaviour
+namespace UI
 {
-    [Header("Panels")] [SerializeField] private GameObject levelCompletedPanel;
-    [SerializeField] private GameObject inGamePanel;
-
-
-    [Header("Texts")] [SerializeField] private TMP_Text remainingUndoText;
-    [SerializeField] private TMP_Text LevelText;
-
-    [Header("One More Bottle Button")] [SerializeField]
-    private GameObject buttonGameObject;
-
-    [SerializeField] private Color notIntractableColor;
-
-    private GameManager _gm;
-
-    private void OnEnable()
+    public class CanvasController : MonoBehaviour
     {
-        EventManager.LevelCompleted += OpenLevelCompletePanel;
-        EventManager.LoadNextLevel += CloseLevelCompetePanel;
-        EventManager.UpdateRemainingUndo += UpdateRemainingUndo;
-        EventManager.UpdateLevelText += UpdateLevelText;
-        EventManager.AddExtraEmptyBottle += MakeAddExtraBottleButtonNotIntractable;
-        EventManager.LoadNextLevel += MakeAddExtraBottleButtonIntractable;
-        EventManager.RestartLevel += MakeAddExtraBottleButtonIntractable;
-    }
+        [Header("Panels")] [SerializeField] private GameObject levelCompletedPanel;
+        [SerializeField] private GameObject inGamePanel;
 
-    private void OnDisable()
-    {
-        EventManager.LevelCompleted -= OpenLevelCompletePanel;
-        EventManager.LoadNextLevel -= CloseLevelCompetePanel;
-        EventManager.UpdateRemainingUndo -= UpdateRemainingUndo;
-        EventManager.UpdateLevelText -= UpdateLevelText;
-        EventManager.AddExtraEmptyBottle -= MakeAddExtraBottleButtonNotIntractable;
-        EventManager.LoadNextLevel -= MakeAddExtraBottleButtonIntractable;
-        EventManager.RestartLevel -= MakeAddExtraBottleButtonIntractable;
-    }
-
-    private void Start()
-    {
-        _gm = GameManager.Instance;
-        UpdateLevelText();
-    }
-
-    private void OpenLevelCompletePanel()
-    {
-        print("LevelCompleted");
-        levelCompletedPanel.SetActive(true);
-        inGamePanel.SetActive(false);
-    }
-
-    private void CloseLevelCompetePanel()
-    {
-        levelCompletedPanel.SetActive(false);
-        inGamePanel.SetActive(true);
-    }
-
-    private void UpdateRemainingUndo(int remainingUndo)
-    {
-        remainingUndoText.text = remainingUndo.ToString();
-    }
-
-    private void UpdateLevelText()
-    {
-        LevelText.text = "Level " + (PlayerPrefs.GetInt(PlayerPrefNames.LevelIndex) + 1).ToString();
-    }
-
-    // using by button actions
-    public void NextLevelButtonAction()
-    {
-        // delete last level and create new level prototype
-        EventManager.CreateNewLevelForJson?.Invoke();
-
-        // load next level
-        EventManager.LoadNextLevel?.Invoke();
-
-        // update level text
-        EventManager.UpdateLevelText?.Invoke();
-    }
-
-    // using by button actions
-    public void UndoLastMove()
-    {
-        if (_gm.InActionBottleList.Count == 0)
+        private void OnEnable()
         {
-            EventManager.UndoLastMove?.Invoke();
+            EventManager.LevelCompleted += OpenLevelCompletePanel;
+            EventManager.LoadNextLevel += CloseLevelCompetePanel;
         }
-    }
 
-    // using by button actions
-    public void RestartLevel()
-    {
-        Debug.Log("Restart");
-        EventManager.RestartLevel?.Invoke();
-    }
-
-    // using by button actions
-    public void AddOneMoreBottle()
-    {
-        if (GameManager.Instance.InActionBottleList.Count == 0)
+        private void OnDisable()
         {
-            Debug.Log("Add one more bottle");
-            EventManager.AddExtraEmptyBottle?.Invoke();
+            EventManager.LevelCompleted -= OpenLevelCompletePanel;
+            EventManager.LoadNextLevel -= CloseLevelCompetePanel;
         }
-        else
+
+        private void OpenLevelCompletePanel()
         {
-            Debug.Log("In action bottle list more than 0");
+            print("LevelCompleted");
+            levelCompletedPanel.SetActive(true);
+            inGamePanel.SetActive(false);
         }
-    }
 
-    // using by button actions
-    public void OpenMenuTab()
-    {
-        Debug.Log("Open menu tab");
-    }
-
-    private void MakeAddExtraBottleButtonNotIntractable()
-    {
-        var button = buttonGameObject.GetComponent<Button>();
-        button.image.color = notIntractableColor;
-        button.enabled = false;
-    }
-
-    private void MakeAddExtraBottleButtonIntractable()
-    {
-        var button = buttonGameObject.GetComponent<Button>();
-        button.image.color = Color.white;
-        button.enabled = true;
+        private void CloseLevelCompetePanel()
+        {
+            levelCompletedPanel.SetActive(false);
+            inGamePanel.SetActive(true);
+        }
     }
 }
