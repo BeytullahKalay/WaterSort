@@ -5,6 +5,8 @@ public class ActionController : MonoBehaviour
     public BottleController FirstBottle;
     public BottleController SecondBottle;
 
+    private Camera _camera;
+
     private void OnEnable()
     {
         EventManager.UndoLastMove += CancelSelection;
@@ -13,6 +15,11 @@ public class ActionController : MonoBehaviour
     private void OnDisable()
     {
         EventManager.UndoLastMove -= CancelSelection;
+    }
+
+    private void Start()
+    {
+        _camera = Camera.main;
     }
 
     private void CancelSelection()
@@ -24,88 +31,83 @@ public class ActionController : MonoBehaviour
 
     private async void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!Input.GetMouseButtonDown(0)) return;
+        
+        var mousePos2D = GetMousePos2D();
+
+        var hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+        if (hit.collider == null) return;
+        
+        if (!hit.collider.TryGetComponent(out BottleController bottleController)) return;
+        
+        if (FirstBottle == null)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+            if (bottleController.IsBottleEmpty()) return;
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            if (bottleController.BottleIsLocked) await bottleController.SpeedUpActions();
 
-            if (hit.collider == null) return;
-
-            if (hit.collider.GetComponent<BottleController>() == null) return;
-
-            var bottleController = hit.collider.GetComponent<BottleController>();
-            
-
-            if (FirstBottle == null)
+            FirstBottle = bottleController;
+            FirstBottle.OnSelected();
+        }
+        else
+        {
+            if (FirstBottle == bottleController)
             {
-                if (bottleController.IsBottleEmpty()) return;
-
-                if (bottleController.BottleIsLocked)
-                {
-                    await bottleController.SpeedUpActions();
-                }
-
-                FirstBottle = bottleController;
-                FirstBottle.OnSelected();
+                FirstBottle.OnSelectionCanceled();
+                FirstBottle = null;
             }
             else
             {
-                if (FirstBottle == bottleController)
+                if (bottleController.NumberOfColorsInBottle >= 4)
                 {
                     FirstBottle.OnSelectionCanceled();
                     FirstBottle = null;
+                    SecondBottle = null;
+
+                    print("second bottle full!");
+                    return;
+                }
+
+                if (bottleController.TopColor != FirstBottle.TopColor &&
+                    bottleController.NumberOfColorsInBottle > 0)
+                {
+                    Debug.Log("second bottle top color: "+ bottleController.TopColor.GetHashCode());
+                    Debug.Log("first bottle top color: "+ FirstBottle.TopColor.GetHashCode());
+                        
+                    FirstBottle.OnSelectionCanceled();
+                    FirstBottle = null;
+                    SecondBottle = null;
+                    
+                    print("top colors not matching!");
+                    return;
+                }
+
+                SecondBottle = bottleController;
+
+                FirstBottle.BottleControllerRef = SecondBottle;
+                SecondBottle.BottleControllerRef = FirstBottle;
+                SecondBottle.ActionBottles.Add(FirstBottle);
+
+                if (SecondBottle.FillBottleCheck(FirstBottle.TopColor))
+                {
+                    FirstBottle.StartColorTransfer();
+                    FirstBottle = null;
+                    SecondBottle = null;
                 }
                 else
                 {
-                    if (bottleController.NumberOfColorsInBottle >= 4)
-                    {
-                        FirstBottle.OnSelectionCanceled();
-                        FirstBottle = null;
-                        SecondBottle = null;
-
-                        print("second bottle full!");
-                        return;
-                    }
-
-                    if (bottleController.TopColor != FirstBottle.TopColor &&
-                        bottleController.NumberOfColorsInBottle > 0)
-                    {
-                        
-                        Debug.Log("second bottle top color: "+ bottleController.TopColor.GetHashCode());
-                        Debug.Log("first bottle top color: "+ FirstBottle.TopColor.GetHashCode());
-                        
-                        FirstBottle.OnSelectionCanceled();
-                        FirstBottle = null;
-                        SecondBottle = null;
-
-                        
-                        
-                        print("top colors not matching!");
-                        return;
-                    }
-
-                    SecondBottle = bottleController;
-
-                    FirstBottle.BottleControllerRef = SecondBottle;
-                    SecondBottle.BottleControllerRef = FirstBottle;
-
-                    SecondBottle.ActionBottles.Add(FirstBottle);
-
-                    if (SecondBottle.FillBottleCheck(FirstBottle.TopColor))
-                    {
-                        FirstBottle.StartColorTransfer();
-                        FirstBottle = null;
-                        SecondBottle = null;
-                    }
-                    else
-                    {
-                        FirstBottle = null;
-                        SecondBottle = null;
-                    }
+                    FirstBottle = null;
+                    SecondBottle = null;
                 }
             }
         }
+    }
+
+    private Vector2 GetMousePos2D()
+    {
+        var mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+        var mousePos2D = new Vector2(mousePos.x, mousePos.y);
+        return mousePos2D;
     }
 }
