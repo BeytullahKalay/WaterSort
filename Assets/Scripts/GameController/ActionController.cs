@@ -32,15 +32,15 @@ public class ActionController : MonoBehaviour
     private async void Update()
     {
         if (!Input.GetMouseButtonDown(0)) return;
-        
+
         var mousePos2D = GetMousePos2D();
 
         var hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
         if (hit.collider == null) return;
-        
+
         if (!hit.collider.TryGetComponent(out BottleController bottleController)) return;
-        
+
         if (FirstBottle == null)
         {
             if (bottleController.IsBottleEmpty()) return;
@@ -52,14 +52,19 @@ public class ActionController : MonoBehaviour
         }
         else
         {
-            if (FirstBottle == bottleController)
+            var isClickedSameBottleAgain = FirstBottle == bottleController;
+            
+            if (isClickedSameBottleAgain)
             {
                 FirstBottle.OnSelectionCanceled();
                 FirstBottle = null;
             }
             else
             {
-                if (bottleController.NumberOfColorsInBottle >= 4)
+                var maxAmountOfBottleCanTake = 4;
+                var isBottleFull = bottleController.NumberOfColorsInBottle >= maxAmountOfBottleCanTake;
+
+                if (isBottleFull)
                 {
                     FirstBottle.OnSelectionCanceled();
                     FirstBottle = null;
@@ -69,16 +74,18 @@ public class ActionController : MonoBehaviour
                     return;
                 }
 
-                if (bottleController.TopColor != FirstBottle.TopColor &&
-                    bottleController.NumberOfColorsInBottle > 0)
+                var isTopColorsNotMatch = bottleController.TopColor != FirstBottle.TopColor &&
+                                          bottleController.NumberOfColorsInBottle > 0;
+                
+                if (isTopColorsNotMatch)
                 {
-                    Debug.Log("second bottle top color: "+ bottleController.TopColor.GetHashCode());
-                    Debug.Log("first bottle top color: "+ FirstBottle.TopColor.GetHashCode());
-                        
+                    Debug.Log("second bottle top color: " + bottleController.TopColor.GetHashCode());
+                    Debug.Log("first bottle top color: " + FirstBottle.TopColor.GetHashCode());
+
                     FirstBottle.OnSelectionCanceled();
                     FirstBottle = null;
                     SecondBottle = null;
-                    
+
                     print("top colors not matching!");
                     return;
                 }
