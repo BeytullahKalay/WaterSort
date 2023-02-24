@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BottleCodes;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -63,7 +64,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         foreach (var bottle in bottleControllers)
         {
-            if (bottle.BottleSorted)
+            if (bottle.BottleData.BottleSorted)
                 completedColorAmount++;
         }
 

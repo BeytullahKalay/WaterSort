@@ -1,3 +1,4 @@
+using BottleCodes;
 using Solver;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace LevelScripts
             Bottle extraBottleHelper = new Bottle(-1);
             var extraBottle = InitializeBottle();
             extraBottle.HelperBottle = extraBottleHelper;
-            extraBottle.NumberOfColorsInBottle = 0;
+            extraBottle.BottleData.NumberOfColorsInBottle = 0;
 
             // add new bottle to list
             var bottleControllerList = gm.bottleControllers;
@@ -90,9 +91,9 @@ namespace LevelScripts
             {
                 var newBottle = InitializeBottle();
                 newBottle.HelperBottle = AllBottlesInLevel._allBottles[i];
-                newBottle.NumberOfColorsInBottle = AllBottlesInLevel._allBottles[i].NumberOfColorsInBottle;
+                newBottle.BottleData.NumberOfColorsInBottle = AllBottlesInLevel._allBottles[i].NumberOfColorsInBottle;
                 newBottle.transform.position = AllBottlesInLevel._allBottles[i].GetOpenPosition();
-                AllBottlesInLevel._allBottles[i].BottleColors.CopyTo(newBottle.BottleColors, 0);
+                AllBottlesInLevel._allBottles[i].BottleColors.CopyTo(newBottle.BottleData.BottleColors, 0);
                 Parenting(newBottle,levelBottlesAligner);
             }
 
@@ -105,7 +106,7 @@ namespace LevelScripts
 
             var objBottleControllerScript = _obj.GetComponent<BottleController>();
 
-            objBottleControllerScript.BottleSorted = false;
+            objBottleControllerScript.BottleData.BottleSorted = false;
 
             return objBottleControllerScript;
         }

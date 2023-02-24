@@ -1,3 +1,4 @@
+using BottleCodes;
 using UnityEngine;
 
 [System.Serializable]
@@ -20,16 +21,16 @@ class Move
 
     public void UndoMove()
     {
-        _firstBottle.NumberOfColorsInBottle += _transferColorAmount;
-        _secondBottle.NumberOfColorsInBottle -= _transferColorAmount;
+        _firstBottle.BottleData.NumberOfColorsInBottle += _transferColorAmount;
+        _secondBottle.BottleData.NumberOfColorsInBottle -= _transferColorAmount;
 
 
-        int firstStartIndex = _firstBottle.NumberOfColorsInBottle - _transferColorAmount;
+        int firstStartIndex = _firstBottle.BottleData.NumberOfColorsInBottle - _transferColorAmount;
         firstStartIndex = (int)Mathf.Clamp(firstStartIndex,0, Mathf.Infinity);
         
-        for (int i = firstStartIndex; i < _firstBottle.NumberOfColorsInBottle; i++)
+        for (int i = firstStartIndex; i < _firstBottle.BottleData.NumberOfColorsInBottle; i++)
         {
-            _firstBottle.BottleColors[i] = _color;
+            _firstBottle.BottleData.BottleColors[i] = _color;
         }
 
         _firstBottle.UpdateAfterUndo();

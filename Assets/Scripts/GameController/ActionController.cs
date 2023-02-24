@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BottleCodes;
+using UnityEngine;
 
 public class ActionController : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class ActionController : MonoBehaviour
             else
             {
                 var maxAmountOfBottleCanTake = 4;
-                var isBottleFull = bottleController.NumberOfColorsInBottle >= maxAmountOfBottleCanTake;
+                var isBottleFull = bottleController.BottleData.NumberOfColorsInBottle >= maxAmountOfBottleCanTake;
 
                 if (isBottleFull)
                 {
@@ -74,13 +75,13 @@ public class ActionController : MonoBehaviour
                     return;
                 }
 
-                var isTopColorsNotMatch = bottleController.TopColor != FirstBottle.TopColor &&
-                                          bottleController.NumberOfColorsInBottle > 0;
+                var isTopColorsNotMatch = bottleController.BottleData.TopColor != FirstBottle.BottleData.TopColor &&
+                                          bottleController.BottleData.NumberOfColorsInBottle > 0;
                 
                 if (isTopColorsNotMatch)
                 {
-                    Debug.Log("second bottle top color: " + bottleController.TopColor.GetHashCode());
-                    Debug.Log("first bottle top color: " + FirstBottle.TopColor.GetHashCode());
+                    Debug.Log("second bottle top color: " + bottleController.BottleData.TopColor.GetHashCode());
+                    Debug.Log("first bottle top color: " + FirstBottle.BottleData.TopColor.GetHashCode());
 
                     FirstBottle.OnSelectionCanceled();
                     FirstBottle = null;
@@ -94,9 +95,9 @@ public class ActionController : MonoBehaviour
 
                 FirstBottle.BottleControllerRef = SecondBottle;
                 SecondBottle.BottleControllerRef = FirstBottle;
-                SecondBottle.ActionBottles.Add(FirstBottle);
+                SecondBottle.BottleData.ActionBottles.Add(FirstBottle);
 
-                if (SecondBottle.FillBottleCheck(FirstBottle.TopColor))
+                if (SecondBottle.FillBottleCheck(FirstBottle.BottleData.TopColor))
                 {
                     FirstBottle.StartColorTransfer();
                     FirstBottle = null;

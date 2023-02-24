@@ -516,6 +516,10 @@ GameObject:
   - component: {fileID: 4513564967325697738}
   - component: {fileID: 3147663501110984013}
   - component: {fileID: 6706771491112734365}
+  - component: {fileID: 8783725546257772332}
+  - component: {fileID: 7352505077694683741}
+  - component: {fileID: 2270159957742805988}
+  - component: {fileID: 5200489940156985338}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -632,13 +636,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 198710601453262607}
-  NumberOfColorsInBottle: 0
+  BottleControllerRef: {fileID: 0}
+  LeftRotationPoint: {fileID: 1399423678807567526}
+  RightRotationPoint: {fileID: 7980810964727379307}
+  BottleIsLocked: 0
+  lineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
+  speedMultiplier: 5
+  OnSpeedUp: 0
+  HelperBottle:
+    ParentNum: 1
+    NumberOfColorsInBottle: 0
+    BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
+    BottleColors:
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    _openPosition: {x: -0.57, y: -1.5, z: 0}
+    _sorted: 1
+--- !u!114 &8783725546257772332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4960503264580296453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e89d48f4805e244ca60a2380dd8c537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   BottleColors:
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 0, a: 1}
   TopColor: {r: 0, g: 0, b: 0, a: 0}
+  NumberOfTopColorLayers: 0
+  NumberOfColorsInBottle: 0
+  ActionBottles: []
+  BottleSorted: 0
+  PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &7352505077694683741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4960503264580296453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   FillAmounts:
   - -0.5
   - -0.29
@@ -646,42 +701,54 @@ MonoBehaviour:
   - 0.13
   - 0.34
   RotationValues:
-  - 54
-  - 71
+  - 62
+  - 73.5
   - 83
   - 90
-  NumberOfTopColorLayers: 0
-  BottleSorted: 0
-  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &2270159957742805988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4960503264580296453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fc997af8e3bcd46a29ce002605c9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5200489940156985338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4960503264580296453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4615ebe09aee0fd459554485251187f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.004109474
-      outSlope: -0.004109474
+      inSlope: -0.000013720926
+      outSlope: -0.000013720926
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.067594424
-    - serializedVersion: 3
-      time: 20
-      value: 0.9
-      inSlope: -0.003865911
-      outSlope: -0.003865911
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.11878614
     - serializedVersion: 3
       time: 90
-      value: 0.47
-      inSlope: -0.016155342
-      outSlope: -0.016155342
-      tangentMode: 0
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.031809233
+      inWeight: 0.33333334
       outWeight: 0.33333334
     m_PreInfinity: 0
     m_PostInfinity: 2
@@ -699,7 +766,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 20
+      time: 39
       value: 0.34
       inSlope: 0
       outSlope: 0
@@ -708,19 +775,19 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 54
+      time: 62
       value: 0.13
-      inSlope: -0.008235294
-      outSlope: -0.008235294
+      inSlope: -0.012173913
+      outSlope: -0.012173913
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 71
+      time: 73.5
       value: -0.08
-      inSlope: -0.014482758
-      outSlope: -0.014482758
+      inSlope: -0.02
+      outSlope: -0.02
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -728,8 +795,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 83
       value: -0.29
-      inSlope: -0.022105264
-      outSlope: -0.022105264
+      inSlope: -0.025454547
+      outSlope: -0.025454547
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -737,39 +804,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 90
       value: -0.5
-      inSlope: -0.00823326
-      outSlope: -0.00823326
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.58103013
+      inWeight: 0.33333334
       outWeight: 0.33333334
-    m_PreInfinity: 0
+    m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  BottleControllerRef: {fileID: 0}
-  LeftRotationPoint: {fileID: 1399423678807567526}
-  RightRotationPoint: {fileID: 7980810964727379307}
-  BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  ActionBottles: []
-  OnSpeedUp: 0
-  HelperBottle:
-    ParentNum: 1
-    NumberOfColorsInBottle: 0
-    BottleColorsHashCodes: 0000c01f0000c01f0000c01f0000c01f
-    BottleColors:
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 0, b: 0, a: 1}
-    _openPosition: {x: -0.57, y: -1.5, z: 0}
-    _sorted: 1
 --- !u!1 &5279864790331335719
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,6 +825,10 @@ GameObject:
   - component: {fileID: 8847090588360656615}
   - component: {fileID: 2880389025681209861}
   - component: {fileID: 1287424052117267192}
+  - component: {fileID: 7048272951130794394}
+  - component: {fileID: 2059832730352277637}
+  - component: {fileID: 3430045501283462232}
+  - component: {fileID: 4218226817501132201}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -898,13 +945,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 5335178947646928493}
-  NumberOfColorsInBottle: 4
+  BottleControllerRef: {fileID: 0}
+  LeftRotationPoint: {fileID: 5035053824319573065}
+  RightRotationPoint: {fileID: 1644948098210986243}
+  BottleIsLocked: 0
+  lineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
+  speedMultiplier: 5
+  OnSpeedUp: 0
+  HelperBottle:
+    ParentNum: 0
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: 0000c0e1000020100000c0e1000040de
+    BottleColors:
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    _openPosition: {x: -0.57, y: 0.30000007, z: 0}
+    _sorted: 1
+--- !u!114 &7048272951130794394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279864790331335719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e89d48f4805e244ca60a2380dd8c537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   BottleColors:
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
-  TopColor: {r: 1, g: 1, b: 0, a: 1}
+  TopColor: {r: 1, g: 1, b: 0, a: 0}
+  NumberOfTopColorLayers: 1
+  NumberOfColorsInBottle: 4
+  ActionBottles: []
+  BottleSorted: 0
+  PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &2059832730352277637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279864790331335719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   FillAmounts:
   - -0.5
   - -0.29
@@ -912,42 +1010,54 @@ MonoBehaviour:
   - 0.13
   - 0.34
   RotationValues:
-  - 54
-  - 71
+  - 62
+  - 73.5
   - 83
   - 90
-  NumberOfTopColorLayers: 1
-  BottleSorted: 0
-  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &3430045501283462232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279864790331335719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fc997af8e3bcd46a29ce002605c9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4218226817501132201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279864790331335719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4615ebe09aee0fd459554485251187f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.004109474
-      outSlope: -0.004109474
+      inSlope: -0.000013720926
+      outSlope: -0.000013720926
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.067594424
-    - serializedVersion: 3
-      time: 20
-      value: 0.9
-      inSlope: -0.003865911
-      outSlope: -0.003865911
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.11878614
     - serializedVersion: 3
       time: 90
-      value: 0.47
-      inSlope: -0.016155342
-      outSlope: -0.016155342
-      tangentMode: 0
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.031809233
+      inWeight: 0.33333334
       outWeight: 0.33333334
     m_PreInfinity: 0
     m_PostInfinity: 2
@@ -965,7 +1075,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 20
+      time: 39
       value: 0.34
       inSlope: 0
       outSlope: 0
@@ -974,19 +1084,19 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 54
+      time: 62
       value: 0.13
-      inSlope: -0.008235294
-      outSlope: -0.008235294
+      inSlope: -0.012173913
+      outSlope: -0.012173913
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 71
+      time: 73.5
       value: -0.08
-      inSlope: -0.014482758
-      outSlope: -0.014482758
+      inSlope: -0.02
+      outSlope: -0.02
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -994,8 +1104,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 83
       value: -0.29
-      inSlope: -0.022105264
-      outSlope: -0.022105264
+      inSlope: -0.025454547
+      outSlope: -0.025454547
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -1003,39 +1113,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 90
       value: -0.5
-      inSlope: -0.00823326
-      outSlope: -0.00823326
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.58103013
+      inWeight: 0.33333334
       outWeight: 0.33333334
-    m_PreInfinity: 0
+    m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  BottleControllerRef: {fileID: 0}
-  LeftRotationPoint: {fileID: 5035053824319573065}
-  RightRotationPoint: {fileID: 1644948098210986243}
-  BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  ActionBottles: []
-  OnSpeedUp: 0
-  HelperBottle:
-    ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 0000c0e1000020100000c0e1000040de
-    BottleColors:
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    _openPosition: {x: -0.57, y: 0.30000007, z: 0}
-    _sorted: 1
 --- !u!1 &6610540447362018211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,6 +1218,10 @@ GameObject:
   - component: {fileID: 6184451133138899801}
   - component: {fileID: 3403214585044739996}
   - component: {fileID: 2140211789082516732}
+  - component: {fileID: 2136865863712830762}
+  - component: {fileID: 4431672003652512406}
+  - component: {fileID: 2467167263144431566}
+  - component: {fileID: 4707495297548398844}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -1248,13 +1338,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 8736506089899474237}
-  NumberOfColorsInBottle: 4
+  BottleControllerRef: {fileID: 0}
+  LeftRotationPoint: {fileID: 6574676606515488901}
+  RightRotationPoint: {fileID: 7158446836851399831}
+  BottleIsLocked: 0
+  lineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
+  speedMultiplier: 5
+  OnSpeedUp: 0
+  HelperBottle:
+    ParentNum: 0
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: 0000c0e1000020100000c0e100002010
+    BottleColors:
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    _openPosition: {x: -1.5, y: 0.30000007, z: 0}
+    _sorted: 0
+--- !u!114 &2136865863712830762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7738508783527801496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e89d48f4805e244ca60a2380dd8c537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   BottleColors:
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
-  TopColor: {r: 0, g: 0, b: 1, a: 1}
+  TopColor: {r: 0, g: 0, b: 1, a: 0}
+  NumberOfTopColorLayers: 1
+  NumberOfColorsInBottle: 4
+  ActionBottles: []
+  BottleSorted: 0
+  PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &4431672003652512406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7738508783527801496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   FillAmounts:
   - -0.5
   - -0.29
@@ -1262,42 +1403,54 @@ MonoBehaviour:
   - 0.13
   - 0.34
   RotationValues:
-  - 54
-  - 71
+  - 62
+  - 73.5
   - 83
   - 90
-  NumberOfTopColorLayers: 1
-  BottleSorted: 0
-  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &2467167263144431566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7738508783527801496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fc997af8e3bcd46a29ce002605c9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4707495297548398844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7738508783527801496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4615ebe09aee0fd459554485251187f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.004109474
-      outSlope: -0.004109474
+      inSlope: -0.000013720926
+      outSlope: -0.000013720926
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.067594424
-    - serializedVersion: 3
-      time: 20
-      value: 0.9
-      inSlope: -0.003865911
-      outSlope: -0.003865911
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.11878614
     - serializedVersion: 3
       time: 90
-      value: 0.47
-      inSlope: -0.016155342
-      outSlope: -0.016155342
-      tangentMode: 0
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.031809233
+      inWeight: 0.33333334
       outWeight: 0.33333334
     m_PreInfinity: 0
     m_PostInfinity: 2
@@ -1315,7 +1468,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 20
+      time: 39
       value: 0.34
       inSlope: 0
       outSlope: 0
@@ -1324,19 +1477,19 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 54
+      time: 62
       value: 0.13
-      inSlope: -0.008235294
-      outSlope: -0.008235294
+      inSlope: -0.012173913
+      outSlope: -0.012173913
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 71
+      time: 73.5
       value: -0.08
-      inSlope: -0.014482758
-      outSlope: -0.014482758
+      inSlope: -0.02
+      outSlope: -0.02
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -1344,8 +1497,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 83
       value: -0.29
-      inSlope: -0.022105264
-      outSlope: -0.022105264
+      inSlope: -0.025454547
+      outSlope: -0.025454547
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -1353,39 +1506,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 90
       value: -0.5
-      inSlope: -0.00823326
-      outSlope: -0.00823326
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.58103013
+      inWeight: 0.33333334
       outWeight: 0.33333334
-    m_PreInfinity: 0
+    m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  BottleControllerRef: {fileID: 0}
-  LeftRotationPoint: {fileID: 6574676606515488901}
-  RightRotationPoint: {fileID: 7158446836851399831}
-  BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  ActionBottles: []
-  OnSpeedUp: 0
-  HelperBottle:
-    ParentNum: 0
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 0000c0e1000020100000c0e100002010
-    BottleColors:
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0, b: 1, a: 1}
-    _openPosition: {x: -1.5, y: 0.30000007, z: 0}
-    _sorted: 0
 --- !u!1 &7747151027054952494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,6 +1527,10 @@ GameObject:
   - component: {fileID: 8596276801191696963}
   - component: {fileID: 3804250373052641373}
   - component: {fileID: 7874894260929713459}
+  - component: {fileID: 7232876659305876806}
+  - component: {fileID: 6323298763470094217}
+  - component: {fileID: 4378365605682024555}
+  - component: {fileID: 5987967487153207960}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -1514,13 +1647,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 8742640159345604254}
-  NumberOfColorsInBottle: 4
+  BottleControllerRef: {fileID: 0}
+  LeftRotationPoint: {fileID: 2431921724636759619}
+  RightRotationPoint: {fileID: 1814969360113940991}
+  BottleIsLocked: 0
+  lineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
+  speedMultiplier: 5
+  OnSpeedUp: 0
+  HelperBottle:
+    ParentNum: 1
+    NumberOfColorsInBottle: 4
+    BottleColorsHashCodes: 00002010000040de000040de000040de
+    BottleColors:
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    _openPosition: {x: -1.5, y: -1.5, z: 0}
+    _sorted: 1
+--- !u!114 &7232876659305876806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747151027054952494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e89d48f4805e244ca60a2380dd8c537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   BottleColors:
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
-  TopColor: {r: 1, g: 1, b: 0, a: 1}
+  TopColor: {r: 1, g: 1, b: 0, a: 0}
+  NumberOfTopColorLayers: 3
+  NumberOfColorsInBottle: 4
+  ActionBottles: []
+  BottleSorted: 0
+  PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &6323298763470094217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747151027054952494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   FillAmounts:
   - -0.5
   - -0.29
@@ -1528,42 +1712,54 @@ MonoBehaviour:
   - 0.13
   - 0.34
   RotationValues:
-  - 54
-  - 71
+  - 62
+  - 73.5
   - 83
   - 90
-  NumberOfTopColorLayers: 3
-  BottleSorted: 0
-  _previousTopColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &4378365605682024555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747151027054952494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fc997af8e3bcd46a29ce002605c9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5987967487153207960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747151027054952494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4615ebe09aee0fd459554485251187f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.004109474
-      outSlope: -0.004109474
+      inSlope: -0.000013720926
+      outSlope: -0.000013720926
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.067594424
-    - serializedVersion: 3
-      time: 20
-      value: 0.9
-      inSlope: -0.003865911
-      outSlope: -0.003865911
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.11878614
     - serializedVersion: 3
       time: 90
-      value: 0.47
-      inSlope: -0.016155342
-      outSlope: -0.016155342
-      tangentMode: 0
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.031809233
+      inWeight: 0.33333334
       outWeight: 0.33333334
     m_PreInfinity: 0
     m_PostInfinity: 2
@@ -1581,7 +1777,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 20
+      time: 39
       value: 0.34
       inSlope: 0
       outSlope: 0
@@ -1590,19 +1786,19 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 54
+      time: 62
       value: 0.13
-      inSlope: -0.008235294
-      outSlope: -0.008235294
+      inSlope: -0.012173913
+      outSlope: -0.012173913
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 71
+      time: 73.5
       value: -0.08
-      inSlope: -0.014482758
-      outSlope: -0.014482758
+      inSlope: -0.02
+      outSlope: -0.02
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -1610,8 +1806,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 83
       value: -0.29
-      inSlope: -0.022105264
-      outSlope: -0.022105264
+      inSlope: -0.025454547
+      outSlope: -0.025454547
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -1619,39 +1815,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 90
       value: -0.5
-      inSlope: -0.00823326
-      outSlope: -0.00823326
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.58103013
+      inWeight: 0.33333334
       outWeight: 0.33333334
-    m_PreInfinity: 0
+    m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  BottleControllerRef: {fileID: 0}
-  LeftRotationPoint: {fileID: 2431921724636759619}
-  RightRotationPoint: {fileID: 1814969360113940991}
-  BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  ActionBottles: []
-  OnSpeedUp: 0
-  HelperBottle:
-    ParentNum: 1
-    NumberOfColorsInBottle: 4
-    BottleColorsHashCodes: 00002010000040de000040de000040de
-    BottleColors:
-    - {r: 0, g: 0, b: 1, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
-    _openPosition: {x: -1.5, y: -1.5, z: 0}
-    _sorted: 1
 --- !u!1 &8497666906366754868
 GameObject:
   m_ObjectHideFlags: 0
