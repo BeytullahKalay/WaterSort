@@ -16,6 +16,14 @@ namespace BottleCodes
         
         public Color PreviousTopColor;
 
-
+        public void DecreaseNumberOfColorsInBottle(int decreaseAmount)
+        {
+            NumberOfColorsInBottle -= decreaseAmount;
+        }
+        
+        public void IncreaseNumberOfColorsInBottle(int increaseAmount)
+        {
+            NumberOfColorsInBottle += increaseAmount;
+        }
     }
 }

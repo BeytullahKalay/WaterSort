@@ -26,7 +26,7 @@ public class ActionController : MonoBehaviour
     private void CancelSelection()
     {
         if (FirstBottle == null) return;
-        FirstBottle.OnSelectionCanceled();
+        FirstBottle.BottleAnimationController.OnSelectionCanceled();
         FirstBottle = null;
     }
 
@@ -46,18 +46,21 @@ public class ActionController : MonoBehaviour
         {
             if (bottleController.IsBottleEmpty()) return;
 
-            if (bottleController.BottleIsLocked) await bottleController.SpeedUpActions();
+            var tweens = bottleController.BottleAnimationController.GetAnimationTweens();
+
+            if (bottleController.BottleIsLocked)
+                await bottleController.BottleAnimationSpeedUp.SpeedUpActions(bottleController.BottleData, tweens);
 
             FirstBottle = bottleController;
-            FirstBottle.OnSelected();
+            FirstBottle.BottleAnimationController.OnSelected();
         }
         else
         {
             var isClickedSameBottleAgain = FirstBottle == bottleController;
-            
+
             if (isClickedSameBottleAgain)
             {
-                FirstBottle.OnSelectionCanceled();
+                FirstBottle.BottleAnimationController.OnSelectionCanceled();
                 FirstBottle = null;
             }
             else
@@ -67,7 +70,7 @@ public class ActionController : MonoBehaviour
 
                 if (isBottleFull)
                 {
-                    FirstBottle.OnSelectionCanceled();
+                    FirstBottle.BottleAnimationController.OnSelectionCanceled();
                     FirstBottle = null;
                     SecondBottle = null;
 
@@ -77,13 +80,13 @@ public class ActionController : MonoBehaviour
 
                 var isTopColorsNotMatch = bottleController.BottleData.TopColor != FirstBottle.BottleData.TopColor &&
                                           bottleController.BottleData.NumberOfColorsInBottle > 0;
-                
+
                 if (isTopColorsNotMatch)
                 {
                     Debug.Log("second bottle top color: " + bottleController.BottleData.TopColor.GetHashCode());
                     Debug.Log("first bottle top color: " + FirstBottle.BottleData.TopColor.GetHashCode());
 
-                    FirstBottle.OnSelectionCanceled();
+                    FirstBottle.BottleAnimationController.OnSelectionCanceled();
                     FirstBottle = null;
                     SecondBottle = null;
 
@@ -93,11 +96,11 @@ public class ActionController : MonoBehaviour
 
                 SecondBottle = bottleController;
 
-                FirstBottle.BottleControllerRef = SecondBottle;
-                SecondBottle.BottleControllerRef = FirstBottle;
+                FirstBottle.BottleTransferController.BottleTransferControllerRef = SecondBottle;
+                SecondBottle.BottleTransferController.BottleTransferControllerRef = FirstBottle;
                 SecondBottle.BottleData.ActionBottles.Add(FirstBottle);
 
-                if (SecondBottle.FillBottleCheck(FirstBottle.BottleData.TopColor))
+                if (SecondBottle.BottleTransferController.FillBottleCheck(FirstBottle.BottleData.TopColor))
                 {
                     FirstBottle.StartColorTransfer();
                     FirstBottle = null;

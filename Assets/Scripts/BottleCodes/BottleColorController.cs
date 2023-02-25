@@ -18,6 +18,11 @@ namespace BottleCodes
             _bottleMaskSR.material.SetFloat("_FillAmount", fillAmount);
         }
 
+        public void SetSARM(float value)
+        {
+            _bottleMaskSR.material.SetFloat("_SARM", value);
+        }
+
         public void FillUp(float fillAmountToAdd)
         {
             _bottleMaskSR.material.SetFloat("_FillAmount",

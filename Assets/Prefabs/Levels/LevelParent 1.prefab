@@ -637,6 +637,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  LineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
 --- !u!1 &4509051386886245346
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,6 +952,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  LineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
 --- !u!1 &4735473141498983612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,6 +1444,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  LineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
 --- !u!1 &6857136878610109968
 GameObject:
   m_ObjectHideFlags: 0

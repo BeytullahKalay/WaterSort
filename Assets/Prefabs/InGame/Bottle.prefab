@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7472254172202889068}
   - component: {fileID: 5333858930554979790}
   - component: {fileID: 8961622391823863738}
+  - component: {fileID: 6975628642237621519}
   m_Layer: 0
   m_Name: Bottle
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515774976861772799}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1, y: 0.79999995, z: 0}
   m_LocalScale: {x: 0.725, y: 1.030625, z: 1}
   m_ConstrainProportionsScale: 0
@@ -132,18 +133,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 5515774977336827029}
-  BottleControllerRef: {fileID: 0}
   LeftRotationPoint: {fileID: 5515774977493658201}
   RightRotationPoint: {fileID: 5515774978242214548}
   BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  OnSpeedUp: 0
   HelperBottle:
     ParentNum: 0
     NumberOfColorsInBottle: 0
@@ -305,8 +297,28 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  LineRendererPouringDistance: 1.45
+  MoveBottleDuration: 0.5
+  RotateBottleDuration: 0.75
+  PreRotateDuration: 0.25
+  PreRotateAmount: 15
+  BottlePouringDistanceIncreasor: 0.2
   LeftRotationPoint: {fileID: 5515774977493658201}
   RightRotationPoint: {fileID: 5515774978242214548}
+--- !u!114 &6975628642237621519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515774976861772799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbccd7befd29f0e44b50ae2f46839184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumberOfColorsToTransfer: 0
+  BottleTransferControllerRef: {fileID: 0}
 --- !u!1 &5515774977336827027
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +418,7 @@ GameObject:
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5515774977493658201
 Transform:
   m_ObjectHideFlags: 0
@@ -437,7 +449,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5515774978242214548
 Transform:
   m_ObjectHideFlags: 0
