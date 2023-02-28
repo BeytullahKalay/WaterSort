@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 1054121288659565499}
   - component: {fileID: 3521122137749020081}
   - component: {fileID: 4894701571167402739}
+  - component: {fileID: 1213637877209790219}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -434,7 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfColorsToTransfer: 0
-  BottleTransferControllerRef: {fileID: 0}
+  BottleControllerRef: {fileID: 0}
 --- !u!114 &4894701571167402739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,7 +449,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnSpeedUp: 0
-  speedMultiplier: 10
+  speedMultiplier: 5
+--- !u!114 &1213637877209790219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844075148383431542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1a0dca865efca4f9c43433ac7a9593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1576752062264768502
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +870,7 @@ GameObject:
   - component: {fileID: 6908813366993292946}
   - component: {fileID: 3098846711563915610}
   - component: {fileID: 1591071472862730929}
+  - component: {fileID: 8367024375658777277}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -1187,7 +1201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfColorsToTransfer: 0
-  BottleTransferControllerRef: {fileID: 0}
+  BottleControllerRef: {fileID: 0}
 --- !u!114 &1591071472862730929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1201,7 +1215,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnSpeedUp: 0
-  speedMultiplier: 10
+  speedMultiplier: 5
+--- !u!114 &8367024375658777277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7418222024446119717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1a0dca865efca4f9c43433ac7a9593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7522217797141358304
 GameObject:
   m_ObjectHideFlags: 0

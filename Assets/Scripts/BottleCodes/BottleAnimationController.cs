@@ -16,21 +16,24 @@ namespace BottleCodes
         public float PreRotateDuration = .25f;
         public float PreRotateAmount = 15f;
         public float BottlePouringDistanceIncreasor = .25f;
-        public float BottlePouringHeightIncreasor = 1f;
 
         [Header("Rotation Points")] public Transform LeftRotationPoint;
         public Transform RightRotationPoint;
         private Transform _chosenRotationPoint;
+
+        [Header("Locker Values")] public bool BottleIsLocked;
+
 
         [Header("Tweens")] private Tween _selectedTween;
         private Tween _moveTween;
         private Tween _rotateBottle;
         private Tween _preRotate;
         private Tween _rotateBottleBack;
+        private Tween _moveBack;
 
 
         private BottleLineRendererController _bottleLineRendererController;
-        
+
 
         private float _directionMultiplier = 1;
 
@@ -121,16 +124,14 @@ namespace BottleCodes
             // if chosen position is left go right
             if (_chosenRotationPoint == LeftRotationPoint)
             {
-                _movePosition = bottleRef.RightRotationPoint.position;
+                _movePosition = bottleRef.BottleAnimationController.RightRotationPoint.position;
                 _movePosition.x += BottlePouringDistanceIncreasor;
             }
             else // if chose position is right go left
             {
-                _movePosition = bottleRef.LeftRotationPoint.position;
+                _movePosition = bottleRef.BottleAnimationController.LeftRotationPoint.position;
                 _movePosition.x -= BottlePouringDistanceIncreasor;
             }
-
-            _movePosition.y += BottlePouringHeightIncreasor;
         }
 
 
@@ -138,7 +139,6 @@ namespace BottleCodes
             FillAndRotationValues fillAndRotationValues, BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController)
         {
-            //InitializeLineRenderer(bottleData);
             _bottleLineRendererController.InitializeLineRenderer(bottleData);
 
 
@@ -153,7 +153,7 @@ namespace BottleCodes
                 }).SetUpdate(UpdateType.Fixed, true)
                 .OnUpdate(() =>
                 {
-                    bottleTransferController.BottleControllerRef.BottleIsLocked = true;
+                    bottleTransferController.BottleControllerRef.BottleAnimationController.BottleIsLocked = true;
                     bottleAnimationSpeedUp.CheckSpeedUp(_moveTween);
                 })
                 .OnComplete(() =>
@@ -162,13 +162,6 @@ namespace BottleCodes
                         bottleColorController, bottleAnimationSpeedUp, bottleController);
                 });
         }
-
-        // private void InitializeLineRenderer(BottleData bottleData)
-        // {
-        //     _lineRenderer = _gm.GetLineRenderer();
-        //     _lineRenderer.startColor = bottleData.TopColor;
-        //     _lineRenderer.endColor = bottleData.TopColor;
-        // }
 
         public void PlayPreRotateTween(BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, FillAndRotationValues fillAndRotationValues,
@@ -195,6 +188,7 @@ namespace BottleCodes
                     lastAngleValue = angle;
                 });
         }
+
 
         private void RotateBottle(FillAndRotationValues fillAndRotationValues,
             BottleTransferController bottleTransferController,
@@ -229,13 +223,13 @@ namespace BottleCodes
                     transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
 
 
-
                     if (rotationPoint > FillAmountCurve.Evaluate(Mathf.Abs(angle)))
                     {
-                        _bottleLineRendererController.SetLineRenderer(_chosenRotationPoint,LineRendererPouringDistance);
-                        
+                        _bottleLineRendererController.SetLineRenderer(_chosenRotationPoint,
+                            LineRendererPouringDistance);
+
                         bottleColorController.SetFillAmount(FillAmountCurve.Evaluate(Mathf.Abs(angle)));
-                        
+
                         bottleControllerRef.BottleColorController.FillUp(
                             FillAmountCurve.Evaluate(Mathf.Abs(lastAngleValue)) -
                             FillAmountCurve.Evaluate(Mathf.Abs(angle)));
@@ -256,22 +250,38 @@ namespace BottleCodes
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController)
         {
             bottleColorController.UpdateTopColorValues(bottleData);
-            
-            bottleTransferController.BottleControllerRef.BottleColorController.UpdateTopColorValues(bottleTransferController.BottleControllerRef.BottleData);
-            
-            RotateBottleBackAndMoveOriginalPosition(bottleData, bottleAnimationSpeedUp, bottleColorController, bottleController);
+
+            bottleTransferController.BottleControllerRef.BottleColorController.UpdateTopColorValues(
+                bottleTransferController.BottleControllerRef.BottleData);
+
+            bottleTransferController.BottleControllerRef.BottleColorController.CheckIsBottleSorted(
+                bottleTransferController.BottleControllerRef.BottleData);
+
+            RotateBottleBackAndMoveOriginalPosition(bottleData, bottleAnimationSpeedUp, bottleColorController,
+                bottleController, bottleTransferController);
         }
 
         private void RotateBottleBackAndMoveOriginalPosition(BottleData bottleData,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleColorController bottleColorController,
-            BottleController bottleController)
+            BottleController bottleController, BottleTransferController bottleTransferController)
         {
-            transform.DOMove(OriginalPosition, MoveBottleDuration);
+            _moveBack = transform.DOMove(OriginalPosition, MoveBottleDuration).SetUpdate(UpdateType.Fixed, true)
+                .OnComplete(
+                    () =>
+                    {
+                        _boxCollider2D.enabled = true;
 
-            //_gm.ReleaseLineRenderer(_lineRenderer);
+                        var bottleRef = bottleTransferController.BottleControllerRef;
+                        bottleRef.BottleData.ActionBottles.Remove(bottleController);
+
+                        if (bottleRef.BottleData.ActionBottles.Count <= 0)
+                            bottleRef.BottleAnimationController.BottleIsLocked = true;
+                    });
+
             _bottleLineRendererController.ReleaseLineRenderer();
 
             var noColorInBottle = bottleData.NumberOfTopColorLayers <= 0;
+
             _rotateBottleBack = transform.DORotate(Vector3.zero, RotateBottleDuration).OnStart(() =>
             {
                 if (noColorInBottle) bottleColorController.SetSARM(1);
@@ -284,25 +294,8 @@ namespace BottleCodes
                 var angle = transform.rotation.eulerAngles.z;
 
                 bottleColorController.SetSARM(ScaleAndRotationMultiplierCurve.Evaluate(angle));
-            }).OnComplete(() =>
-            {
-                RemoveBottleFromInActionBottleList(bottleController);
-                bottleColorController.CheckIsBottleSorted(bottleData);
-            });
+            }).OnComplete(() => { RemoveBottleFromInActionBottleList(bottleController); });
         }
-
-        // private void SetLineRenderer()
-        // {
-        //     if (_lineRenderer.enabled) return;
-        //
-        //     // set line position
-        //     var position = _chosenRotationPoint.position;
-        //     _lineRenderer.SetPosition(0, position);
-        //     _lineRenderer.SetPosition(1, position - Vector3.up * LineRendererPouringDistance);
-        //
-        //     // enable line renderer
-        //     _lineRenderer.enabled = true;
-        // }
 
         private void RemoveBottleFromInActionBottleList(BottleController bottleController)
         {
@@ -311,7 +304,7 @@ namespace BottleCodes
 
         public List<Tween> GetAnimationTweens()
         {
-            return new List<Tween>() { _moveTween, _preRotate, _rotateBottle, _rotateBottleBack };
+            return new List<Tween>() { _moveTween, _preRotate, _rotateBottle, _rotateBottleBack, _moveBack };
         }
 
 

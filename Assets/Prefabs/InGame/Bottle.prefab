@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8961622391823863738}
   - component: {fileID: 6975628642237621519}
   - component: {fileID: 4055861892609307051}
+  - component: {fileID: 9169732321464734842}
   m_Layer: 0
   m_Name: Bottle
   m_TagString: Untagged
@@ -320,7 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfColorsToTransfer: 0
-  BottleTransferControllerRef: {fileID: 0}
+  BottleControllerRef: {fileID: 0}
 --- !u!114 &4055861892609307051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +335,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnSpeedUp: 0
-  speedMultiplier: 10
+  speedMultiplier: 5
+--- !u!114 &9169732321464734842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515774976861772799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1a0dca865efca4f9c43433ac7a9593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5515774977336827027
 GameObject:
   m_ObjectHideFlags: 0

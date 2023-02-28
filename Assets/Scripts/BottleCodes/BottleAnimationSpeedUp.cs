@@ -36,6 +36,8 @@ namespace BottleCodes
             await Task.WhenAll(tasks);
 
             SetSpeedToNormalSpeed(tweens);
+            
+            SetOnSpeedUpToFalse();
         }
 
 
@@ -60,6 +62,11 @@ namespace BottleCodes
             {
                 tween.timeScale = 1f;
             }
+        }
+
+        private void SetOnSpeedUpToFalse()
+        {
+            OnSpeedUp = false;
         }
     }
 }

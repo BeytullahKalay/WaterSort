@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace BottleCodes
@@ -75,17 +74,19 @@ namespace BottleCodes
             }
 
             bottleData.NumberOfTopColorLayers = numberOfTopColorLayers;
-            
         }
 
         public void CheckIsBottleSorted(BottleData bottleData)
         {
-            var isBottleSorted =bottleData.NumberOfTopColorLayers == 4;
+            var isBottleSorted = bottleData.NumberOfTopColorLayers == 4;
+
+            
             if (isBottleSorted)
             {
                 bottleData.BottleSorted = true;
-                if (bottleData.ActionBottles.Count != 0) return;
                 
+                //if (bottleData.ActionBottles.Count != 0) return;
+
                 var particleFX = Instantiate(GameManager.Instance.ConfettiParticle,
                     transform.position + new Vector3(0, .25f, -1),
                     GameManager.Instance.ConfettiParticle.transform.rotation);

@@ -21,18 +21,7 @@ namespace BottleCodes
 
 
         [Header("Bottle Sprite Renderer")] public SpriteRenderer BottleMaskSR;
-
-
-        //[Header("Transfer Values")] public BottleController BottleControllerRef;
-        public Transform LeftRotationPoint;
-        public Transform RightRotationPoint;
-
-
-        //private LineRenderer _lineRenderer;
-        //private int _numberOfColorsToTransfer = 0;
-
-        [Header("Locker Values")] public bool BottleIsLocked;
-
+        
 
         // Game manager
         private GameManager _gm;
