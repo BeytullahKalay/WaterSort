@@ -9,7 +9,7 @@ namespace BottleCodes
         
         public int NumberOfColorsToTransfer = 0;
 
-        public BottleController BottleTransferControllerRef;
+        public BottleController BottleControllerRef;
 
         
         private void Awake()

@@ -29,7 +29,7 @@ namespace BottleCodes
 
 
         //private LineRenderer _lineRenderer;
-        private int _numberOfColorsToTransfer = 0;
+        //private int _numberOfColorsToTransfer = 0;
 
         [Header("Locker Values")] public bool BottleIsLocked;
 
@@ -86,11 +86,11 @@ namespace BottleCodes
             // chose rotation point and direction
             BottleAnimationController.ChoseRotationPointAndDirection(this);
 
-            var bottleControllerRef = BottleTransferController.BottleTransferControllerRef;
+            var bottleControllerRef = BottleTransferController.BottleControllerRef;
             var bottleRefData = bottleControllerRef.BottleData;
 
             // get how many water color will pour
-            _numberOfColorsToTransfer = Mathf.Min(BottleData.NumberOfTopColorLayers,
+            BottleTransferController.NumberOfColorsToTransfer = Mathf.Min(BottleData.NumberOfTopColorLayers,
                 4 - bottleRefData.NumberOfColorsInBottle);
 
             // setting array color values to pouring water color
@@ -128,30 +128,14 @@ namespace BottleCodes
             BottleAnimationController.DisableCollider();
             BottleAnimationController.ChoseMovePosition(BottleTransferController);
 
-            // decrease number of colors in first bottle
-            BottleData.NumberOfColorsInBottle -= _numberOfColorsToTransfer;
-
-            // increase number of colors in seconds bottle
-            BottleTransferController.BottleData.NumberOfColorsInBottle += _numberOfColorsToTransfer;
-
-            // lock seconds bottle while action and on completed call rotate bottle
             BottleAnimationController.PlayMoveTween(BottleTransferController, BottleData, FillAndRotationValues,
                 BottleColorController, BottleAnimationSpeedUp, this);
         }
 
         private void PreRotateBottle()
         {
-            BottleAnimationController.PlayPreRotateTween(BottleColorController, BottleAnimationSpeedUp);
-        }
-
-
-        private float WrapAngle(float angle)
-        {
-            angle %= 360;
-            if (angle > 180)
-                return angle - 360;
-
-            return angle;
+            BottleAnimationController.PlayPreRotateTween(BottleColorController, BottleAnimationSpeedUp,
+                FillAndRotationValues, BottleData);
         }
 
         public void SetOriginalPositionTo(Vector3 position)

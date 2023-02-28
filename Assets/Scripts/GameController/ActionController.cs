@@ -96,8 +96,8 @@ public class ActionController : MonoBehaviour
 
                 SecondBottle = bottleController;
 
-                FirstBottle.BottleTransferController.BottleTransferControllerRef = SecondBottle;
-                SecondBottle.BottleTransferController.BottleTransferControllerRef = FirstBottle;
+                FirstBottle.BottleTransferController.BottleControllerRef = SecondBottle;
+                SecondBottle.BottleTransferController.BottleControllerRef = FirstBottle;
                 SecondBottle.BottleData.ActionBottles.Add(FirstBottle);
 
                 if (SecondBottle.BottleTransferController.FillBottleCheck(FirstBottle.BottleData.TopColor))

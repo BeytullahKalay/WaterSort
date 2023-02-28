@@ -344,6 +344,8 @@ GameObject:
   - component: {fileID: 5815536575786942001}
   - component: {fileID: 5396577559827931812}
   - component: {fileID: 3487393792461988383}
+  - component: {fileID: 8583678215980463473}
+  - component: {fileID: 6677085398706526374}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -460,18 +462,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 1056683647050641872}
-  BottleControllerRef: {fileID: 0}
   LeftRotationPoint: {fileID: 7561212420076816926}
   RightRotationPoint: {fileID: 4289803474807320413}
   BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  OnSpeedUp: 0
   HelperBottle:
     ParentNum: 0
     NumberOfColorsInBottle: 4
@@ -643,6 +636,37 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
+  BottlePouringHeightIncreasor: 0.5
+  LeftRotationPoint: {fileID: 7561212420076816926}
+  RightRotationPoint: {fileID: 4289803474807320413}
+--- !u!114 &8583678215980463473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593861020728476205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbccd7befd29f0e44b50ae2f46839184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumberOfColorsToTransfer: 0
+  BottleTransferControllerRef: {fileID: 0}
+--- !u!114 &6677085398706526374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593861020728476205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e6cf90465ece749b3fad78d5003b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpeedUp: 0
+  speedMultiplier: 10
 --- !u!1 &4509051386886245346
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +683,8 @@ GameObject:
   - component: {fileID: 8615985201174503258}
   - component: {fileID: 9182747215659547593}
   - component: {fileID: 6428848554587938339}
+  - component: {fileID: 4572960114541564639}
+  - component: {fileID: 6116099551416357936}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -775,18 +801,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 366789145644319657}
-  BottleControllerRef: {fileID: 0}
   LeftRotationPoint: {fileID: 4861975670670664401}
   RightRotationPoint: {fileID: 5203502549206520322}
   BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  OnSpeedUp: 0
   HelperBottle:
     ParentNum: 1
     NumberOfColorsInBottle: 0
@@ -958,6 +975,37 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
+  BottlePouringHeightIncreasor: 0.5
+  LeftRotationPoint: {fileID: 4861975670670664401}
+  RightRotationPoint: {fileID: 5203502549206520322}
+--- !u!114 &4572960114541564639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509051386886245346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbccd7befd29f0e44b50ae2f46839184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumberOfColorsToTransfer: 0
+  BottleTransferControllerRef: {fileID: 0}
+--- !u!114 &6116099551416357936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509051386886245346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e6cf90465ece749b3fad78d5003b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpeedUp: 0
+  speedMultiplier: 10
 --- !u!1 &4735473141498983612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1199,8 @@ GameObject:
   - component: {fileID: 7727945957364045913}
   - component: {fileID: 1413436041112516239}
   - component: {fileID: 4019214888567988522}
+  - component: {fileID: 6188831297859902665}
+  - component: {fileID: 4151218419628804478}
   m_Layer: 0
   m_Name: Bottle(Clone)
   m_TagString: Untagged
@@ -1267,18 +1317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 5723859506360104782}
-  BottleControllerRef: {fileID: 0}
   LeftRotationPoint: {fileID: 6435172878791959427}
   RightRotationPoint: {fileID: 8556865767958445620}
   BottleIsLocked: 0
-  lineRendererPouringDistance: 1.45
-  MoveBottleDuration: 0.5
-  RotateBottleDuration: 0.75
-  PreRotateDuration: 0.25
-  PreRotateAmount: 15
-  BottlePouringDistanceIncreasor: 0.2
-  speedMultiplier: 5
-  OnSpeedUp: 0
   HelperBottle:
     ParentNum: 0
     NumberOfColorsInBottle: 4
@@ -1450,6 +1491,37 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
+  BottlePouringHeightIncreasor: 0.5
+  LeftRotationPoint: {fileID: 6435172878791959427}
+  RightRotationPoint: {fileID: 8556865767958445620}
+--- !u!114 &6188831297859902665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5972027433434568387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbccd7befd29f0e44b50ae2f46839184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumberOfColorsToTransfer: 0
+  BottleTransferControllerRef: {fileID: 0}
+--- !u!114 &4151218419628804478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5972027433434568387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e6cf90465ece749b3fad78d5003b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpeedUp: 0
+  speedMultiplier: 10
 --- !u!1 &6857136878610109968
 GameObject:
   m_ObjectHideFlags: 0
