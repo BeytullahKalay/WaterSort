@@ -54,13 +54,17 @@ public class GameManager : MonoSingleton<GameManager>
     private void DefineLineRendererPool()
     {
         _pool = new ObjectPool<LineRenderer>(() => { return Instantiate(lineRenderer); },
-            lr => { lr.gameObject.SetActive(true); }, lr => { lr.gameObject.SetActive(false); },
+            lr => { lr.gameObject.SetActive(true); }, lr =>
+            {
+                lr.gameObject.SetActive(false);
+                lr.enabled = false;
+            },
             lr => { Destroy(lr.gameObject); }, true, 10);
     }
 
     private void CheckLevelIsCompleted()
     {
-        int completedColorAmount = 0;
+        var completedColorAmount = 0;
 
         foreach (var bottle in bottleControllers)
         {
@@ -109,11 +113,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void ReleaseLineRenderer(LineRenderer lr)
     {
-        if (_gettedLineRenderers.Contains(lr))
-        {
-            _pool.Release(lr);
-            _gettedLineRenderers.Remove(lr);
-        }
+        if (!_gettedLineRenderers.Contains(lr)) return;
+        
+        _pool.Release(lr);
+        _gettedLineRenderers.Remove(lr);
     }
 
     public GameObject ConfettiParticle => confettiParticle;

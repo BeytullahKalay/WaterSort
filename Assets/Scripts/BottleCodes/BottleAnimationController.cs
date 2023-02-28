@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BottleCodes
 {
+    [RequireComponent(typeof(BottleLineRendererController))]
     public class BottleAnimationController : MonoBehaviour
     {
         [Header("Animation Curves")] public AnimationCurve ScaleAndRotationMultiplierCurve;
@@ -28,6 +29,9 @@ namespace BottleCodes
         private Tween _rotateBottleBack;
 
 
+        private BottleLineRendererController _bottleLineRendererController;
+        
+
         private float _directionMultiplier = 1;
 
         public Vector3 OriginalPosition { get; set; }
@@ -37,13 +41,13 @@ namespace BottleCodes
 
         private BoxCollider2D _boxCollider2D;
 
-        private LineRenderer _lineRenderer;
 
         private GameManager _gm;
 
 
         private void Awake()
         {
+            _bottleLineRendererController = GetComponent<BottleLineRendererController>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _camera = Camera.main;
         }
@@ -134,7 +138,8 @@ namespace BottleCodes
             FillAndRotationValues fillAndRotationValues, BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController)
         {
-            InitializeLineRenderer(bottleData);
+            //InitializeLineRenderer(bottleData);
+            _bottleLineRendererController.InitializeLineRenderer(bottleData);
 
 
             _moveTween = transform.DOMove(_movePosition, MoveBottleDuration);
@@ -158,12 +163,12 @@ namespace BottleCodes
                 });
         }
 
-        private void InitializeLineRenderer(BottleData bottleData)
-        {
-            _lineRenderer = _gm.GetLineRenderer();
-            _lineRenderer.startColor = bottleData.TopColor;
-            _lineRenderer.endColor = bottleData.TopColor;
-        }
+        // private void InitializeLineRenderer(BottleData bottleData)
+        // {
+        //     _lineRenderer = _gm.GetLineRenderer();
+        //     _lineRenderer.startColor = bottleData.TopColor;
+        //     _lineRenderer.endColor = bottleData.TopColor;
+        // }
 
         public void PlayPreRotateTween(BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, FillAndRotationValues fillAndRotationValues,
@@ -227,7 +232,8 @@ namespace BottleCodes
 
                     if (rotationPoint > FillAmountCurve.Evaluate(Mathf.Abs(angle)))
                     {
-                        SetLineRenderer();
+                        _bottleLineRendererController.SetLineRenderer(_chosenRotationPoint,LineRendererPouringDistance);
+                        
                         bottleColorController.SetFillAmount(FillAmountCurve.Evaluate(Mathf.Abs(angle)));
                         
                         bottleControllerRef.BottleColorController.FillUp(
@@ -262,7 +268,8 @@ namespace BottleCodes
         {
             transform.DOMove(OriginalPosition, MoveBottleDuration);
 
-            _gm.ReleaseLineRenderer(_lineRenderer);
+            //_gm.ReleaseLineRenderer(_lineRenderer);
+            _bottleLineRendererController.ReleaseLineRenderer();
 
             var noColorInBottle = bottleData.NumberOfTopColorLayers <= 0;
             _rotateBottleBack = transform.DORotate(Vector3.zero, RotateBottleDuration).OnStart(() =>
@@ -277,21 +284,25 @@ namespace BottleCodes
                 var angle = transform.rotation.eulerAngles.z;
 
                 bottleColorController.SetSARM(ScaleAndRotationMultiplierCurve.Evaluate(angle));
-            }).OnComplete(() => { RemoveBottleFromInActionBottleList(bottleController); });
+            }).OnComplete(() =>
+            {
+                RemoveBottleFromInActionBottleList(bottleController);
+                bottleColorController.CheckIsBottleSorted(bottleData);
+            });
         }
 
-        private void SetLineRenderer()
-        {
-            if (_lineRenderer.enabled) return;
-
-            // set line position
-            var position = _chosenRotationPoint.position;
-            _lineRenderer.SetPosition(0, position);
-            _lineRenderer.SetPosition(1, position - Vector3.up * LineRendererPouringDistance);
-
-            // enable line renderer
-            _lineRenderer.enabled = true;
-        }
+        // private void SetLineRenderer()
+        // {
+        //     if (_lineRenderer.enabled) return;
+        //
+        //     // set line position
+        //     var position = _chosenRotationPoint.position;
+        //     _lineRenderer.SetPosition(0, position);
+        //     _lineRenderer.SetPosition(1, position - Vector3.up * LineRendererPouringDistance);
+        //
+        //     // enable line renderer
+        //     _lineRenderer.enabled = true;
+        // }
 
         private void RemoveBottleFromInActionBottleList(BottleController bottleController)
         {

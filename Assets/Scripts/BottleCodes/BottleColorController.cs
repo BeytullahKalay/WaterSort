@@ -84,14 +84,13 @@ namespace BottleCodes
             if (isBottleSorted)
             {
                 bottleData.BottleSorted = true;
-                if (bottleData.ActionBottles.Count == 0)
-                {
-                    var particleFX = Instantiate(GameManager.Instance.ConfettiParticle,
-                        transform.position + new Vector3(0, .25f, -1),
-                        GameManager.Instance.ConfettiParticle.transform.rotation);
-                    Destroy(particleFX, 3);
-                    EventManager.CheckIsLevelCompleted?.Invoke(); 
-                }
+                if (bottleData.ActionBottles.Count != 0) return;
+                
+                var particleFX = Instantiate(GameManager.Instance.ConfettiParticle,
+                    transform.position + new Vector3(0, .25f, -1),
+                    GameManager.Instance.ConfettiParticle.transform.rotation);
+                Destroy(particleFX, 3);
+                EventManager.CheckIsLevelCompleted?.Invoke();
             }
             else
             {
