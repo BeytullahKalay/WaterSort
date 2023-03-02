@@ -44,12 +44,16 @@ namespace BottleCodes.Animation
 
         private GameManager _gm;
 
+        private FillAndRotationValues _fillAndRotationValues;
+
 
         private void Awake()
         {
             _bottleLineRendererController = GetComponent<BottleLineRendererController>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _camera = Camera.main;
+            _fillAndRotationValues = FillAndRotationValues.Instance;
+
         }
 
         private void Start()
@@ -132,8 +136,7 @@ namespace BottleCodes.Animation
         }
 
 
-        public void PlayMoveTween(BottleTransferController bottleTransferController, BottleData bottleData,
-            FillAndRotationValues fillAndRotationValues, BottleColorController bottleColorController,
+        public void PlayMoveTween(BottleTransferController bottleTransferController, BottleData bottleData, BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController)
         {
             _bottleLineRendererController.InitializeLineRenderer(bottleData);
@@ -161,7 +164,7 @@ namespace BottleCodes.Animation
                 bottleAnimationSpeedUp.CheckSpeedUp(_moveTween);
             }).OnComplete(() =>
             {
-                RotateBottle(fillAndRotationValues, bottleTransferController, bottleData,
+                RotateBottle(bottleTransferController, bottleData,
                     bottleColorController, bottleAnimationSpeedUp, bottleController, beforePourAmount);
             });
         }
@@ -197,8 +200,7 @@ namespace BottleCodes.Animation
         #endregion
 
 
-        private void RotateBottle(FillAndRotationValues fillAndRotationValues,
-            BottleTransferController bottleTransferController,
+        private void RotateBottle(BottleTransferController bottleTransferController,
             BottleData bottleData, BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController, int beforePourAmount)
         {
@@ -208,11 +210,11 @@ namespace BottleCodes.Animation
 
             var bottleControllerRef = bottleTransferController.BottleControllerRef;
             var numberOfEmptySpacesInSecondBottle = 4 - beforePourAmount;
-            var rotateValue = fillAndRotationValues.GetRotationValue(bottleData, numberOfEmptySpacesInSecondBottle);
+            var rotateValue = _fillAndRotationValues.GetRotationValue(bottleData, numberOfEmptySpacesInSecondBottle);
             var desRot = _directionMultiplier * rotateValue;
 
 
-            var rotationPoint = fillAndRotationValues.GetFillCurrentAmount(bottleData);
+            var rotationPoint = _fillAndRotationValues.GetFillCurrentAmount(bottleData);
 
 
             _rotateBottle = DOTween.To(() => angle, x => angle = x, desRot, RotateBottleDuration)

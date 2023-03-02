@@ -1,12 +1,9 @@
-﻿using System.Threading.Tasks;
-using BottleCodes.Animation;
-using DG.Tweening;
+﻿using BottleCodes.Animation;
 using UnityEngine;
 
 namespace BottleCodes
 {
     [RequireComponent(typeof(BottleData))]
-    [RequireComponent(typeof(FillAndRotationValues))]
     [RequireComponent(typeof(BottleColorController))]
     [RequireComponent(typeof(BottleAnimationController))]
     [RequireComponent(typeof(BottleTransferController))]
@@ -14,11 +11,11 @@ namespace BottleCodes
     public class BottleController : MonoBehaviour
     {
         public BottleData BottleData { get; private set; }
-        public FillAndRotationValues FillAndRotationValues { get; private set; }
         public BottleColorController BottleColorController { get; private set; }
         public BottleAnimationController BottleAnimationController { get; private set; }
         public BottleTransferController BottleTransferController { get; private set; }
         public BottleAnimationSpeedUp BottleAnimationSpeedUp { get; private set; }
+        public FillAndRotationValues FillAndRotationValues { get; private set; }
 
 
         [Header("Bottle Sprite Renderer")] public SpriteRenderer BottleMaskSR;
@@ -29,17 +26,18 @@ namespace BottleCodes
 
         private SpriteRenderer _bottleSpriteRenderer;
 
+
         [Header("Bottle Helper")] [SerializeField]
         public Bottle HelperBottle;
 
         private void Awake()
         {
             BottleData = GetComponent<BottleData>();
-            FillAndRotationValues = GetComponent<FillAndRotationValues>();
             BottleColorController = GetComponent<BottleColorController>();
             BottleAnimationController = GetComponent<BottleAnimationController>();
             BottleTransferController = GetComponent<BottleTransferController>();
             BottleAnimationSpeedUp = GetComponent<BottleAnimationSpeedUp>();
+            FillAndRotationValues = FillAndRotationValues.Instance;
 
             _bottleSpriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -118,7 +116,7 @@ namespace BottleCodes
             BottleAnimationController.DisableCollider();
             BottleAnimationController.ChoseMovePosition(BottleTransferController);
 
-            BottleAnimationController.PlayMoveTween(BottleTransferController, BottleData, FillAndRotationValues,
+            BottleAnimationController.PlayMoveTween(BottleTransferController, BottleData,
                 BottleColorController, BottleAnimationSpeedUp, this);
         }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BottleCodes
 {
-    public class FillAndRotationValues : MonoBehaviour
+    public class FillAndRotationValues : MonoSingleton<FillAndRotationValues>
     {
         [SerializeField] public float[] FillAmounts;
         [SerializeField] public float[] RotationValues;
