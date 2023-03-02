@@ -72,7 +72,7 @@ namespace BottleCodes
             AddActionBottleToActionBottleList();
 
             // chose rotation point and direction
-            BottleAnimationController.ChoseRotationPointAndDirection(this);
+            BottleAnimationController.ChoseRotationPointAndDirection(BottleTransferController.BottleControllerRef);
 
             var bottleControllerRef = BottleTransferController.BottleControllerRef;
             var bottleRefData = bottleControllerRef.BottleData;

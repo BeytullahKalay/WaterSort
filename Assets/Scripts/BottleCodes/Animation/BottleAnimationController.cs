@@ -53,7 +53,6 @@ namespace BottleCodes.Animation
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _camera = Camera.main;
             _fillAndRotationValues = FillAndRotationValues.Instance;
-
         }
 
         private void Start()
@@ -81,11 +80,11 @@ namespace BottleCodes.Animation
             var leftOfScreen = _camera.ViewportToWorldPoint(Vector3.zero).x;
             var rightOfScreen = _camera.ViewportToWorldPoint(Vector3.one).x;
 
-            var position = bottleControllerRef.transform.position;
-            var distanceToLeft = Mathf.Abs(position.x - leftOfScreen);
-            var distanceToRight = Mathf.Abs(position.x - rightOfScreen);
+            var bottleRefPosition = bottleControllerRef.transform.position;
+            var distanceToLeft = Mathf.Abs(bottleRefPosition.x - leftOfScreen);
+            var distanceToRight = Mathf.Abs(bottleRefPosition.x - rightOfScreen);
 
-            if (transform.position.x > bottleControllerRef.transform.position.x)
+            if (transform.position.x > bottleRefPosition.x)
             {
                 if (minBottleDistanceToCorner >= distanceToRight)
                 {
@@ -136,7 +135,8 @@ namespace BottleCodes.Animation
         }
 
 
-        public void PlayMoveTween(BottleTransferController bottleTransferController, BottleData bottleData, BottleColorController bottleColorController,
+        public void PlayMoveTween(BottleTransferController bottleTransferController, BottleData bottleData,
+            BottleColorController bottleColorController,
             BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController)
         {
             _bottleLineRendererController.InitializeLineRenderer(bottleData);
@@ -242,7 +242,7 @@ namespace BottleCodes.Animation
                             FillAmountCurve.Evaluate(Mathf.Abs(lastAngleValue)) -
                             FillAmountCurve.Evaluate(Mathf.Abs(angle)));
 
-                        
+
                         var fillAmounts = bottleControllerRef.FillAndRotationValues.FillAmounts;
 
                         bottleControllerRef.BottleColorController.ClampFillAmount(
@@ -302,7 +302,7 @@ namespace BottleCodes.Animation
             var angle = WrapAngle(startAngle);
             var lastAngleValue = WrapAngle(startAngle);
 
-            _rotateBottleBack = DOTween.To(() => angle, x => angle = x, 0, RotateBottleDuration).OnStart(() =>
+            _rotateBottleBack = DOTween.To(() => angle, x => angle = x, 0, MoveBottleDuration).OnStart(() =>
             {
                 if (noColorInBottle) bottleColorController.SetSARM(2);
             }).OnUpdate(() =>
