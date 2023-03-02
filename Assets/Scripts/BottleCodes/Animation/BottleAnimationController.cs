@@ -28,8 +28,6 @@ namespace BottleCodes.Animation
         private Tween _moveTween;
         private Tween _rotateBottle;
         private Tween _preRotate;
-        private Tween _rotateBottleBack;
-        private Tween _moveBack;
 
         private BottleLineRendererController _bottleLineRendererController;
 
@@ -155,13 +153,12 @@ namespace BottleCodes.Animation
             _moveTween = transform.DOMove(_movePosition, MoveBottleDuration).OnStart(() =>
             {
                 _selectedTween?.Kill();
-
                 bottleTransferController.BottleColorController.UpdateTopColorValues(bottleTransferController
                     .BottleData);
             }).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
             {
-                bottleTransferController.BottleControllerRef.BottleAnimationController.BottleIsLocked = true;
                 bottleAnimationSpeedUp.CheckSpeedUp(_moveTween);
+                bottleTransferController.BottleControllerRef.BottleAnimationController.BottleIsLocked = true;
             }).OnComplete(() =>
             {
                 RotateBottle(bottleTransferController, bottleData,
@@ -225,9 +222,12 @@ namespace BottleCodes.Animation
 
                     // set bottle color scale to 1
                     bottleControllerRef.BottleColorController.SetSARM(1);
+
                 }).OnUpdate(() =>
                 {
                     bottleAnimationSpeedUp.CheckSpeedUp(_rotateBottle);
+
+                    
                     transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
 
 
@@ -254,47 +254,41 @@ namespace BottleCodes.Animation
                     lastAngleValue = angle;
                 }).OnComplete(() =>
                 {
-                    UpdateColorsAfterPouring(bottleColorController, bottleTransferController, bottleData,
-                        bottleAnimationSpeedUp, bottleController);
+                    bottleColorController.UpdateTopColorValues(bottleData);
 
-                    CheckIsSecondBottleSorted(bottleTransferController);
+                    CheckBottlesAreSorted(bottleController);
 
                     _bottleLineRendererController.ReleaseLineRenderer();
+
+                    RotateBottleBackAndMoveOriginalPosition(bottleData, bottleColorController,
+                        bottleController, bottleTransferController,bottleAnimationSpeedUp);
                 });
         }
 
-        private void UpdateColorsAfterPouring(BottleColorController bottleColorController,
-            BottleTransferController bottleTransferController, BottleData bottleData,
-            BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleController bottleController)
+        private void CheckBottlesAreSorted(BottleController bottleController)
         {
-            bottleColorController.UpdateTopColorValues(bottleData);
-
-            RotateBottleBackAndMoveOriginalPosition(bottleData, bottleAnimationSpeedUp, bottleColorController,
-                bottleController, bottleTransferController);
-        }
-
-        private void CheckIsSecondBottleSorted(BottleTransferController bottleTransferController)
-        {
-            var bottleRef = bottleTransferController.BottleControllerRef;
+            bottleController.BottleColorController.CheckIsBottleSorted(bottleController.BottleData);
+            
+            var bottleRef = bottleController.BottleTransferController.BottleControllerRef;
             bottleRef.BottleColorController.CheckIsBottleSorted(bottleRef.BottleData);
         }
 
-        private void RotateBottleBackAndMoveOriginalPosition(BottleData bottleData,
-            BottleAnimationSpeedUp bottleAnimationSpeedUp, BottleColorController bottleColorController,
-            BottleController bottleController, BottleTransferController bottleTransferController)
+        private void RotateBottleBackAndMoveOriginalPosition(BottleData bottleData, BottleColorController bottleColorController,
+            BottleController bottleController, BottleTransferController bottleTransferController,BottleAnimationSpeedUp bottleAnimationSpeedUp)
         {
-            _moveBack = transform.DOMove(OriginalPosition, MoveBottleDuration).SetUpdate(UpdateType.Fixed, true)
-                .OnComplete(
-                    () =>
-                    {
-                        _boxCollider2D.enabled = true;
+            transform.DOMove(OriginalPosition, MoveBottleDuration).OnStart(() =>
+            {
+                bottleAnimationSpeedUp.OnSpeedUp = false;
+            }).OnComplete(() =>
+            {
+                _boxCollider2D.enabled = true;
 
-                        var bottleRef = bottleTransferController.BottleControllerRef;
-                        bottleRef.BottleData.ActionBottles.Remove(bottleController);
+                var bottleRef = bottleTransferController.BottleControllerRef;
+                bottleRef.BottleData.ActionBottles.Remove(bottleController);
 
-                        if (bottleRef.BottleData.ActionBottles.Count <= 0)
-                            bottleRef.BottleAnimationController.BottleIsLocked = true;
-                    });
+                if (bottleRef.BottleData.ActionBottles.Count <= 0)
+                    bottleRef.BottleAnimationController.BottleIsLocked = true;
+            });
 
 
             var noColorInBottle = bottleData.NumberOfTopColorLayers <= 0;
@@ -302,21 +296,20 @@ namespace BottleCodes.Animation
             var angle = WrapAngle(startAngle);
             var lastAngleValue = WrapAngle(startAngle);
 
-            _rotateBottleBack = DOTween.To(() => angle, x => angle = x, 0, MoveBottleDuration).OnStart(() =>
-            {
-                if (noColorInBottle) bottleColorController.SetSARM(2);
-            }).OnUpdate(() =>
-            {
-                bottleAnimationSpeedUp.CheckSpeedUp(_rotateBottleBack);
+            DOTween.To(() => angle, x => angle = x, 0, MoveBottleDuration)
+                .SetUpdate(UpdateType.Fixed, true).OnStart(() =>
+                {
+                    if (noColorInBottle) bottleColorController.SetSARM(2);
+                }).OnUpdate(() =>
+                {
+                    transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
 
-                transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
+                    lastAngleValue = angle;
 
-                lastAngleValue = angle;
+                    if (noColorInBottle) return;
 
-                if (noColorInBottle) return;
-
-                bottleColorController.SetSARM(ScaleAndRotationMultiplierCurve.Evaluate(angle));
-            }).OnComplete(() => { RemoveBottleFromInActionBottleList(bottleController); });
+                    bottleColorController.SetSARM(ScaleAndRotationMultiplierCurve.Evaluate(angle));
+                }).OnComplete(() => { RemoveBottleFromInActionBottleList(bottleController); });
         }
 
         private void RemoveBottleFromInActionBottleList(BottleController bottleController)
@@ -326,7 +319,7 @@ namespace BottleCodes.Animation
 
         public List<Tween> GetAnimationTweens()
         {
-            return new List<Tween>() { _moveTween, _preRotate, _rotateBottle, _rotateBottleBack, _moveBack };
+            return new List<Tween>() { _moveTween, _preRotate, _rotateBottle};
         }
 
 
