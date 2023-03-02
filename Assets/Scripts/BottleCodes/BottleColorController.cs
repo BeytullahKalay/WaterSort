@@ -28,6 +28,12 @@ namespace BottleCodes
                 _bottleMaskSR.material.GetFloat("_FillAmount") + fillAmountToAdd);
         }
 
+        public void ClampFillAmount(float min, float max)
+        {
+            _bottleMaskSR.material.SetFloat("_FillAmount",
+                Mathf.Clamp(_bottleMaskSR.material.GetFloat("_FillAmount"), min, max));
+        }
+
         public void UpdateColorsOnShader(BottleData bottleData)
         {
             var bottleColors = bottleData.BottleColors;
@@ -48,7 +54,7 @@ namespace BottleCodes
 
         private void FindNumberOfTopLayers(int searchColorLength, BottleData bottleData)
         {
-            var numberOfTopColorLayers = bottleData.NumberOfTopColorLayers;
+            int numberOfTopColorLayers;
             var bottleColors = bottleData.BottleColors;
 
             if (searchColorLength <= 0)
