@@ -150,13 +150,13 @@ namespace BottleCodes.Animation
                 bottleTransferController.BottleControllerRef.BottleData);
 
             #region Move
-            
+
             _moveTween = transform.DOMove(_movePosition, MoveBottleDuration).OnStart(() =>
             {
                 _selectedTween?.Kill();
                 bottleTransferController.BottleColorController.UpdateTopColorValues(bottleTransferController
                     .BottleData);
-                
+
                 bottleData.UpdatePreviousTopColor();
             }).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
             {
@@ -167,10 +167,9 @@ namespace BottleCodes.Animation
                 RotateBottle(bottleTransferController, bottleData,
                     bottleColorController, bottleAnimationSpeedUp, bottleController, beforePourAmount);
             });
-            #endregion
 
+            #endregion
         }
-        
 
 
         #region Pre Rotation
@@ -264,16 +263,16 @@ namespace BottleCodes.Animation
                     CheckBottlesAreSorted(bottleController);
 
                     _bottleLineRendererController.ReleaseLineRenderer();
-                    
+
                     RotateBottleBackAndMoveOriginalPosition(bottleData, bottleColorController,
                         bottleController, bottleTransferController, bottleAnimationSpeedUp, lastTransferAmount);
                 });
         }
-        
+
         #endregion
-        
+
         #region Rotate Bottle Back and Move Original Position
-        
+
         private void RotateBottleBackAndMoveOriginalPosition(BottleData bottleData,
             BottleColorController bottleColorController,
             BottleController bottleController, BottleTransferController bottleTransferController,
@@ -283,21 +282,19 @@ namespace BottleCodes.Animation
             {
                 bottleAnimationSpeedUp.OnSpeedUp = false;
 
-                // if (bottleData.BottleSorted)
-                // {
-                //     AttemptToPlayParticleFX();
-                // }
-                
-                
+                var bottleRef = bottleTransferController.BottleControllerRef;
+                var bottleRefData = bottleRef.BottleData;
+
+                bottleRefData.ActionBottles.Remove(bottleController);
+
+                if (bottleRefData.ActionBottles.Count <= 0)
+                    bottleRef.BottleAnimationController.BottleIsLocked = false;
+
+                if (bottleRefData.BottleSorted && bottleRefData.ActionBottles.Count <= 0)
+                    bottleRef.BottleColorController.PlayParticleFX();
             }).OnComplete(() =>
             {
                 _boxCollider2D.enabled = true;
-
-                var bottleRef = bottleTransferController.BottleControllerRef;
-                bottleRef.BottleData.ActionBottles.Remove(bottleController);
-
-                if (bottleRef.BottleData.ActionBottles.Count <= 0)
-                    bottleRef.BottleAnimationController.BottleIsLocked = false;
 
                 EventManager.AddMoveToList?.Invoke(bottleController, bottleTransferController.BottleControllerRef,
                     lastTransferAmount, bottleData.PreviousTopColor);
@@ -325,14 +322,9 @@ namespace BottleCodes.Animation
                 }).OnComplete(() => { RemoveBottleFromInActionBottleList(bottleController); });
         }
 
-        // private void AttemptToPlayParticleFX()
-        // {
-        //     print("test");
-        // }
-
         #endregion
 
-        
+
         private void CheckBottlesAreSorted(BottleController bottleController)
         {
             bottleController.BottleColorController.CheckIsBottleSorted(bottleController.BottleData);
@@ -340,7 +332,7 @@ namespace BottleCodes.Animation
             var bottleRef = bottleController.BottleTransferController.BottleControllerRef;
             bottleRef.BottleColorController.CheckIsBottleSorted(bottleRef.BottleData);
         }
-        
+
 
         private void RemoveBottleFromInActionBottleList(BottleController bottleController)
         {

@@ -86,16 +86,9 @@ namespace BottleCodes
         {
             var isBottleSorted = bottleData.NumberOfTopColorLayers == 4;
 
-
             if (isBottleSorted)
             {
                 bottleData.BottleSorted = true;
-
-                var particlePosition = transform.position + new Vector3(0, .25f, -1);
-                var particleRotation = GameManager.Instance.ConfettiParticle.transform.rotation;
-                var particleFX = Instantiate(GameManager.Instance.ConfettiParticle, particlePosition, particleRotation);
-                Destroy(particleFX, 3);
-                
                 EventManager.CheckIsLevelCompleted?.Invoke();
             }
             else
@@ -108,6 +101,14 @@ namespace BottleCodes
         {
             var assignValue = Mathf.Clamp(searchColorLength - 1, 0, int.MaxValue);
             bottleData.TopColor = bottleData.BottleColors[assignValue];
+        }
+
+        public void PlayParticleFX()
+        {
+            var particlePosition = transform.position + new Vector3(0, .25f, -1);
+            var particleRotation = GameManager.Instance.ConfettiParticle.transform.rotation;
+            var particleFX = Instantiate(GameManager.Instance.ConfettiParticle, particlePosition, particleRotation);
+            Destroy(particleFX, 3);
         }
     }
 }
