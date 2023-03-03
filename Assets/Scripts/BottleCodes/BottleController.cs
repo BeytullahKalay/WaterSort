@@ -48,9 +48,7 @@ namespace BottleCodes
             BottleMaskSR.material = _gm.Mat;
 
             BottleColorController.SetFillAmount(FillAndRotationValues.GetFillCurrentAmount(BottleData));
-
             BottleColorController.UpdateColorsOnShader(BottleData);
-
             BottleColorController.UpdateTopColorValues(BottleData);
         }
 

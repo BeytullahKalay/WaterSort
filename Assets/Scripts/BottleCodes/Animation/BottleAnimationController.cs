@@ -7,21 +7,25 @@ namespace BottleCodes.Animation
     [RequireComponent(typeof(BottleLineRendererController))]
     public class BottleAnimationController : MonoBehaviour
     {
-        [Header("Animation Curves")] public AnimationCurve ScaleAndRotationMultiplierCurve;
+        [Header("Animation Curves")]
+        public AnimationCurve ScaleAndRotationMultiplierCurve;
         public AnimationCurve FillAmountCurve;
 
-        [Header("Animation Values")] public float LineRendererPouringDistance = 1f;
+        [Header("Animation Values")]
+        public float LineRendererPouringDistance = 1f;
         public float MoveBottleDuration = 5f;
         public float RotateBottleDuration = 1f;
         public float PreRotateDuration = .25f;
         public float PreRotateAmount = 15f;
         public float BottlePouringDistanceIncreasor = .25f;
 
-        [Header("Rotation Points")] public Transform LeftRotationPoint;
+        [Header("Rotation Points")]
+        public Transform LeftRotationPoint;
         public Transform RightRotationPoint;
         private Transform _chosenRotationPoint;
 
-        [Header("Locker Values")] public bool BottleIsLocked;
+        [Header("Locker Values")]
+        public bool BottleIsLocked;
 
 
         [Header("Tweens")] private Tween _selectedTween;

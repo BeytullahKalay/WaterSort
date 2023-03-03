@@ -83,9 +83,6 @@ public class ActionController : MonoBehaviour
 
                 if (isTopColorsNotMatch)
                 {
-                    Debug.Log("second bottle top color: " + bottleController.BottleData.TopColor.GetHashCode());
-                    Debug.Log("first bottle top color: " + FirstBottle.BottleData.TopColor.GetHashCode());
-
                     FirstBottle.BottleAnimationController.OnSelectionCanceled();
                     FirstBottle = null;
                     SecondBottle = null;
