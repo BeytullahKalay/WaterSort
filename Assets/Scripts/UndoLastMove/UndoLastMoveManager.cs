@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class UndoLastMoveManager : MonoBehaviour
 {
-
-
     [SerializeField] private int remainingUndo = 5;
 
     private int _remainingUndoCounter;
@@ -41,7 +39,7 @@ public class UndoLastMoveManager : MonoBehaviour
 
     private void AddMoveToList(BottleController first, BottleController second, int numberOfTopColorLayer,Color color)
     {
-        Move move = new Move(first, second, numberOfTopColorLayer,color);
+        var move = new Move(first, second, numberOfTopColorLayer,color);
 
         if (_moves.Count >= 5) _moves.RemoveAt(0);
 
@@ -56,6 +54,8 @@ public class UndoLastMoveManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("in undo last move");
+        
         var lastMove = _moves.Last();
         _moves.Remove(lastMove);
 

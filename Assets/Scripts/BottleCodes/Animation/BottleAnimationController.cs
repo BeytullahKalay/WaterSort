@@ -149,12 +149,15 @@ namespace BottleCodes.Animation
             bottleTransferController.BottleControllerRef.BottleColorController.UpdateTopColorValues(
                 bottleTransferController.BottleControllerRef.BottleData);
 
-
+            #region Move
+            
             _moveTween = transform.DOMove(_movePosition, MoveBottleDuration).OnStart(() =>
             {
                 _selectedTween?.Kill();
                 bottleTransferController.BottleColorController.UpdateTopColorValues(bottleTransferController
                     .BottleData);
+                
+                bottleData.UpdatePreviousTopColor();
             }).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
             {
                 bottleAnimationSpeedUp.CheckSpeedUp(_moveTween);
@@ -164,7 +167,11 @@ namespace BottleCodes.Animation
                 RotateBottle(bottleTransferController, bottleData,
                     bottleColorController, bottleAnimationSpeedUp, bottleController, beforePourAmount);
             });
+            #endregion
+
         }
+        
+
 
         #region Pre Rotation
 
@@ -196,6 +203,7 @@ namespace BottleCodes.Animation
 
         #endregion
 
+        #region RotateBottle
 
         private void RotateBottle(BottleTransferController bottleTransferController,
             BottleData bottleData, BottleColorController bottleColorController,
@@ -204,14 +212,12 @@ namespace BottleCodes.Animation
             var startAngle = transform.eulerAngles.z;
             var angle = WrapAngle(startAngle);
             var lastAngleValue = WrapAngle(startAngle);
-
             var bottleControllerRef = bottleTransferController.BottleControllerRef;
             var numberOfEmptySpacesInSecondBottle = 4 - beforePourAmount;
             var rotateValue = _fillAndRotationValues.GetRotationValue(bottleData, numberOfEmptySpacesInSecondBottle);
             var desRot = _directionMultiplier * rotateValue;
-
-
             var rotationPoint = _fillAndRotationValues.GetFillCurrentAmount(bottleData);
+            var lastTransferAmount = bottleTransferController.NumberOfColorsToTransfer;
 
 
             _rotateBottle = DOTween.To(() => angle, x => angle = x, desRot, RotateBottleDuration)
@@ -222,12 +228,11 @@ namespace BottleCodes.Animation
 
                     // set bottle color scale to 1
                     bottleControllerRef.BottleColorController.SetSARM(1);
-
                 }).OnUpdate(() =>
                 {
                     bottleAnimationSpeedUp.CheckSpeedUp(_rotateBottle);
 
-                    
+
                     transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
 
 
@@ -259,26 +264,31 @@ namespace BottleCodes.Animation
                     CheckBottlesAreSorted(bottleController);
 
                     _bottleLineRendererController.ReleaseLineRenderer();
-
+                    
                     RotateBottleBackAndMoveOriginalPosition(bottleData, bottleColorController,
-                        bottleController, bottleTransferController,bottleAnimationSpeedUp);
+                        bottleController, bottleTransferController, bottleAnimationSpeedUp, lastTransferAmount);
                 });
         }
-
-        private void CheckBottlesAreSorted(BottleController bottleController)
-        {
-            bottleController.BottleColorController.CheckIsBottleSorted(bottleController.BottleData);
-            
-            var bottleRef = bottleController.BottleTransferController.BottleControllerRef;
-            bottleRef.BottleColorController.CheckIsBottleSorted(bottleRef.BottleData);
-        }
-
-        private void RotateBottleBackAndMoveOriginalPosition(BottleData bottleData, BottleColorController bottleColorController,
-            BottleController bottleController, BottleTransferController bottleTransferController,BottleAnimationSpeedUp bottleAnimationSpeedUp)
+        
+        #endregion
+        
+        #region Rotate Bottle Back and Move Original Position
+        
+        private void RotateBottleBackAndMoveOriginalPosition(BottleData bottleData,
+            BottleColorController bottleColorController,
+            BottleController bottleController, BottleTransferController bottleTransferController,
+            BottleAnimationSpeedUp bottleAnimationSpeedUp, int lastTransferAmount)
         {
             transform.DOMove(OriginalPosition, MoveBottleDuration).OnStart(() =>
             {
                 bottleAnimationSpeedUp.OnSpeedUp = false;
+
+                // if (bottleData.BottleSorted)
+                // {
+                //     AttemptToPlayParticleFX();
+                // }
+                
+                
             }).OnComplete(() =>
             {
                 _boxCollider2D.enabled = true;
@@ -287,7 +297,10 @@ namespace BottleCodes.Animation
                 bottleRef.BottleData.ActionBottles.Remove(bottleController);
 
                 if (bottleRef.BottleData.ActionBottles.Count <= 0)
-                    bottleRef.BottleAnimationController.BottleIsLocked = true;
+                    bottleRef.BottleAnimationController.BottleIsLocked = false;
+
+                EventManager.AddMoveToList?.Invoke(bottleController, bottleTransferController.BottleControllerRef,
+                    lastTransferAmount, bottleData.PreviousTopColor);
             });
 
 
@@ -312,6 +325,23 @@ namespace BottleCodes.Animation
                 }).OnComplete(() => { RemoveBottleFromInActionBottleList(bottleController); });
         }
 
+        // private void AttemptToPlayParticleFX()
+        // {
+        //     print("test");
+        // }
+
+        #endregion
+
+        
+        private void CheckBottlesAreSorted(BottleController bottleController)
+        {
+            bottleController.BottleColorController.CheckIsBottleSorted(bottleController.BottleData);
+
+            var bottleRef = bottleController.BottleTransferController.BottleControllerRef;
+            bottleRef.BottleColorController.CheckIsBottleSorted(bottleRef.BottleData);
+        }
+        
+
         private void RemoveBottleFromInActionBottleList(BottleController bottleController)
         {
             _gm.InActionBottleList.Remove(bottleController);
@@ -319,7 +349,7 @@ namespace BottleCodes.Animation
 
         public List<Tween> GetAnimationTweens()
         {
-            return new List<Tween>() { _moveTween, _preRotate, _rotateBottle};
+            return new List<Tween>() { _moveTween, _preRotate, _rotateBottle };
         }
 
 

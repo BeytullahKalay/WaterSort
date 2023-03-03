@@ -86,15 +86,16 @@ namespace BottleCodes
         {
             var isBottleSorted = bottleData.NumberOfTopColorLayers == 4;
 
-            
+
             if (isBottleSorted)
             {
                 bottleData.BottleSorted = true;
-                
-                var particleFX = Instantiate(GameManager.Instance.ConfettiParticle,
-                    transform.position + new Vector3(0, .25f, -1),
-                    GameManager.Instance.ConfettiParticle.transform.rotation);
+
+                var particlePosition = transform.position + new Vector3(0, .25f, -1);
+                var particleRotation = GameManager.Instance.ConfettiParticle.transform.rotation;
+                var particleFX = Instantiate(GameManager.Instance.ConfettiParticle, particlePosition, particleRotation);
                 Destroy(particleFX, 3);
+                
                 EventManager.CheckIsLevelCompleted?.Invoke();
             }
             else

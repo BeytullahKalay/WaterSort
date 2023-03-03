@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 8048885793462856532}
   - component: {fileID: 1063857781665068703}
   - component: {fileID: 4711509281613900810}
-  - component: {fileID: 659632656563521390}
   - component: {fileID: 3815143536420165204}
   - component: {fileID: 1071075322257885034}
   - component: {fileID: 1144102209794082277}
@@ -166,9 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 3829999624818190727}
-  LeftRotationPoint: {fileID: 2153580618704075459}
-  RightRotationPoint: {fileID: 7589424298355351931}
-  BottleIsLocked: 0
   HelperBottle:
     ParentNum: 0
     NumberOfColorsInBottle: 4
@@ -203,29 +199,6 @@ MonoBehaviour:
   ActionBottles: []
   BottleSorted: 0
   PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &659632656563521390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412952636585995789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FillAmounts:
-  - -0.5
-  - -0.29
-  - -0.08
-  - 0.13
-  - 0.34
-  RotationValues:
-  - 62
-  - 73.5
-  - 83
-  - 90
 --- !u!114 &3815143536420165204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,9 +313,9 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
-  BottlePouringHeightIncreasor: 1
   LeftRotationPoint: {fileID: 2153580618704075459}
   RightRotationPoint: {fileID: 7589424298355351931}
+  BottleIsLocked: 0
 --- !u!114 &1144102209794082277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,7 +705,6 @@ GameObject:
   - component: {fileID: 3666120458359654504}
   - component: {fileID: 6201597455499760816}
   - component: {fileID: 3417609388914854762}
-  - component: {fileID: 6987985953579671740}
   - component: {fileID: 5093187341197127249}
   - component: {fileID: 4258599694408158759}
   - component: {fileID: 1056183074324099975}
@@ -854,9 +826,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 1876993352896301063}
-  LeftRotationPoint: {fileID: 776964131376354028}
-  RightRotationPoint: {fileID: 3524491775946901851}
-  BottleIsLocked: 0
   HelperBottle:
     ParentNum: 1
     NumberOfColorsInBottle: 4
@@ -891,29 +860,6 @@ MonoBehaviour:
   ActionBottles: []
   BottleSorted: 0
   PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &6987985953579671740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3780988532760353999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FillAmounts:
-  - -0.5
-  - -0.29
-  - -0.08
-  - 0.13
-  - 0.34
-  RotationValues:
-  - 62
-  - 73.5
-  - 83
-  - 90
 --- !u!114 &5093187341197127249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1028,9 +974,9 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
-  BottlePouringHeightIncreasor: 1
   LeftRotationPoint: {fileID: 776964131376354028}
   RightRotationPoint: {fileID: 3524491775946901851}
+  BottleIsLocked: 0
 --- !u!114 &1056183074324099975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,7 +1030,6 @@ GameObject:
   - component: {fileID: 1075976185891252759}
   - component: {fileID: 405690077158623542}
   - component: {fileID: 3007500558021506350}
-  - component: {fileID: 4480352795589952593}
   - component: {fileID: 3975535408424914271}
   - component: {fileID: 6770408429966656841}
   - component: {fileID: 1406803759484183051}
@@ -1206,9 +1151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 3600526947881619980}
-  LeftRotationPoint: {fileID: 3543018390416229551}
-  RightRotationPoint: {fileID: 380997263782978564}
-  BottleIsLocked: 0
   HelperBottle:
     ParentNum: 0
     NumberOfColorsInBottle: 4
@@ -1243,29 +1185,6 @@ MonoBehaviour:
   ActionBottles: []
   BottleSorted: 0
   PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &4480352795589952593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6311926780998480703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FillAmounts:
-  - -0.5
-  - -0.29
-  - -0.08
-  - 0.13
-  - 0.34
-  RotationValues:
-  - 62
-  - 73.5
-  - 83
-  - 90
 --- !u!114 &3975535408424914271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,9 +1299,9 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
-  BottlePouringHeightIncreasor: 1
   LeftRotationPoint: {fileID: 3543018390416229551}
   RightRotationPoint: {fileID: 380997263782978564}
+  BottleIsLocked: 0
 --- !u!114 &1406803759484183051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1498,7 +1417,6 @@ GameObject:
   - component: {fileID: 1218819957204621466}
   - component: {fileID: 1614021146494716436}
   - component: {fileID: 743826749105859651}
-  - component: {fileID: 251346698470342293}
   - component: {fileID: 5656549581050169080}
   - component: {fileID: 4047813613106287290}
   - component: {fileID: 40470736794958933}
@@ -1620,9 +1538,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BottleMaskSR: {fileID: 1957775404430826680}
-  LeftRotationPoint: {fileID: 3667485680102482291}
-  RightRotationPoint: {fileID: 7197288386770046481}
-  BottleIsLocked: 0
   HelperBottle:
     ParentNum: 1
     NumberOfColorsInBottle: 0
@@ -1657,29 +1572,6 @@ MonoBehaviour:
   ActionBottles: []
   BottleSorted: 0
   PreviousTopColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &251346698470342293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6596994172530448470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea38fef1adfc762479cf4ddffdbb853d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FillAmounts:
-  - -0.5
-  - -0.29
-  - -0.08
-  - 0.13
-  - 0.34
-  RotationValues:
-  - 62
-  - 73.5
-  - 83
-  - 90
 --- !u!114 &5656549581050169080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1794,9 +1686,9 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
-  BottlePouringHeightIncreasor: 1
   LeftRotationPoint: {fileID: 3667485680102482291}
   RightRotationPoint: {fileID: 7197288386770046481}
+  BottleIsLocked: 0
 --- !u!114 &40470736794958933
 MonoBehaviour:
   m_ObjectHideFlags: 0

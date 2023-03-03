@@ -24,16 +24,19 @@ class Move
         _firstBottle.BottleData.NumberOfColorsInBottle += _transferColorAmount;
         _secondBottle.BottleData.NumberOfColorsInBottle -= _transferColorAmount;
 
-
-        int firstStartIndex = _firstBottle.BottleData.NumberOfColorsInBottle - _transferColorAmount;
+        var firstStartIndex = _firstBottle.BottleData.NumberOfColorsInBottle - _transferColorAmount;
         firstStartIndex = (int)Mathf.Clamp(firstStartIndex,0, Mathf.Infinity);
         
-        for (int i = firstStartIndex; i < _firstBottle.BottleData.NumberOfColorsInBottle; i++)
+        for (var i = firstStartIndex; i < _firstBottle.BottleData.NumberOfColorsInBottle; i++)
         {
             _firstBottle.BottleData.BottleColors[i] = _color;
         }
 
         _firstBottle.UpdateAfterUndo();
         _secondBottle.UpdateAfterUndo();
+        
+        _firstBottle.BottleColorController.CheckIsBottleSorted(_firstBottle.BottleData);
+        _secondBottle.BottleColorController.CheckIsBottleSorted(_secondBottle.BottleData);
+
     }
 }

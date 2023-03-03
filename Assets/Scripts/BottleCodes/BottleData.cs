@@ -25,5 +25,10 @@ namespace BottleCodes
         {
             NumberOfColorsInBottle += increaseAmount;
         }
+
+        public void UpdatePreviousTopColor()
+        {
+            PreviousTopColor = TopColor;
+        }
     }
 }
