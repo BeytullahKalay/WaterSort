@@ -8,6 +8,7 @@ namespace BottleCodes
     [RequireComponent(typeof(BottleAnimationController))]
     [RequireComponent(typeof(BottleTransferController))]
     [RequireComponent(typeof(BottleAnimationSpeedUp))]
+    [RequireComponent(typeof(BottleSpriteRendererOrderController))]
     public class BottleController : MonoBehaviour
     {
         public BottleData BottleData { get; private set; }
@@ -16,19 +17,21 @@ namespace BottleCodes
         public BottleTransferController BottleTransferController { get; private set; }
         public BottleAnimationSpeedUp BottleAnimationSpeedUp { get; private set; }
         public FillAndRotationValues FillAndRotationValues { get; private set; }
+        public BottleSpriteRendererOrderController BottleSpriteRendererOrderController { get; private set; }
+        public SpriteRenderer BottleSpriteRenderer { get; private set; }
 
 
-        [Header("Bottle Sprite Renderer")] public SpriteRenderer BottleMaskSR;
+        [Header("Bottle Sprite Renderer")]
+        public SpriteRenderer BottleMaskSR;
         
 
         // Game manager
         private GameManager _gm;
 
-        private SpriteRenderer _bottleSpriteRenderer;
 
 
-        [Header("Bottle Helper")] [SerializeField]
-        public Bottle HelperBottle;
+        [Header("Bottle Helper")]
+        [SerializeField] public Bottle HelperBottle;
 
         private void Awake()
         {
@@ -37,9 +40,10 @@ namespace BottleCodes
             BottleAnimationController = GetComponent<BottleAnimationController>();
             BottleTransferController = GetComponent<BottleTransferController>();
             BottleAnimationSpeedUp = GetComponent<BottleAnimationSpeedUp>();
+            BottleSpriteRendererOrderController = GetComponent<BottleSpriteRendererOrderController>();
             FillAndRotationValues = FillAndRotationValues.Instance;
 
-            _bottleSpriteRenderer = GetComponent<SpriteRenderer>();
+            BottleSpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Start()
@@ -81,27 +85,19 @@ namespace BottleCodes
 
             // setting array color values to pouring water color
             for (var i = 0; i < BottleTransferController.NumberOfColorsToTransfer; i++)
-            {
                 bottleRefData.BottleColors[bottleRefData.NumberOfColorsInBottle + i] = BottleData.TopColor;
-            }
 
             // updating colors on shader
             bottleControllerRef.BottleColorController.UpdateColorsOnShader(bottleRefData);
 
             // setting render order
-            SetSpriteRendererSortingOrders();
+            BottleSpriteRendererOrderController.SetSortingOrder(BottleSpriteRenderer,BottleMaskSR);
 
             // call move bottle
             MoveBottle();
 
             // call pre rotate bottle
             PreRotateBottle();
-        }
-
-        private void SetSpriteRendererSortingOrders()
-        {
-            _bottleSpriteRenderer.sortingOrder += 2; // default bottle renderer sorting order
-            BottleMaskSR.sortingOrder += 2; // liquid sprite renderer order
         }
 
         private void AddActionBottleToActionBottleList()
