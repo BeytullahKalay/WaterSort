@@ -14,33 +14,33 @@ namespace BottleCodes
 
         public void SetFillAmount(float fillAmount)
         {
-            _bottleMaskSR.material.SetFloat("_FillAmount", fillAmount);
+            _bottleMaskSR.material.SetFloat(ShaderValueNames.FillAmount, fillAmount);
         }
 
         public void SetSARM(float value)
         {
-            _bottleMaskSR.material.SetFloat("_SARM", value);
+            _bottleMaskSR.material.SetFloat(ShaderValueNames.SARM, value);
         }
 
         public void FillUp(float fillAmountToAdd)
         {
-            _bottleMaskSR.material.SetFloat("_FillAmount",
-                _bottleMaskSR.material.GetFloat("_FillAmount") + fillAmountToAdd);
+            _bottleMaskSR.material.SetFloat(ShaderValueNames.FillAmount,
+                _bottleMaskSR.material.GetFloat(ShaderValueNames.FillAmount) + fillAmountToAdd);
         }
 
         public void ClampFillAmount(float min, float max)
         {
-            _bottleMaskSR.material.SetFloat("_FillAmount",
-                Mathf.Clamp(_bottleMaskSR.material.GetFloat("_FillAmount"), min, max));
+            _bottleMaskSR.material.SetFloat(ShaderValueNames.FillAmount,
+                Mathf.Clamp(_bottleMaskSR.material.GetFloat(ShaderValueNames.FillAmount), min, max));
         }
 
         public void UpdateColorsOnShader(BottleData bottleData)
         {
             var bottleColors = bottleData.BottleColors;
-            _bottleMaskSR.material.SetColor("_C1", bottleColors[0]);
-            _bottleMaskSR.material.SetColor("_C2", bottleColors[1]);
-            _bottleMaskSR.material.SetColor("_C3", bottleColors[2]);
-            _bottleMaskSR.material.SetColor("_C4", bottleColors[3]);
+            _bottleMaskSR.material.SetColor(ShaderValueNames.Color1, bottleColors[0]);
+            _bottleMaskSR.material.SetColor(ShaderValueNames.Color2, bottleColors[1]);
+            _bottleMaskSR.material.SetColor(ShaderValueNames.Color3, bottleColors[2]);
+            _bottleMaskSR.material.SetColor(ShaderValueNames.Color4, bottleColors[3]);
         }
 
         public void UpdateTopColorValues(BottleData bottleData)
