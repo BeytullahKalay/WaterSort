@@ -340,9 +340,9 @@ MonoBehaviour:
   - 0.13
   - 0.34
   RotationValues:
-  - 62
-  - 73.5
-  - 83
+  - 64
+  - 75
+  - 84.5
   - 90
 --- !u!4 &220452665
 Transform:
