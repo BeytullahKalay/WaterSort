@@ -5,6 +5,7 @@ using UnityEngine;
 namespace BottleCodes.Animation
 {
     [RequireComponent(typeof(BottleLineRendererController))]
+    [RequireComponent(typeof(BottleFindRotationPointAndDirection))]
     public class BottleAnimationController : MonoBehaviour
     {
         [Header("Animation Curves")] public AnimationCurve ScaleAndRotationMultiplierCurve;
@@ -15,11 +16,6 @@ namespace BottleCodes.Animation
         public float RotateBottleDuration = 1f;
         public float PreRotateDuration = .25f;
         public float PreRotateAmount = 15f;
-        public float BottlePouringDistanceIncreasor = .25f;
-
-        [Header("Rotation Points")] public Transform LeftRotationPoint;
-        public Transform RightRotationPoint;
-        private Transform _chosenRotationPoint;
 
         [Header("Locker Values")] public bool BottleIsLocked;
 
@@ -30,27 +26,22 @@ namespace BottleCodes.Animation
         private Tween _preRotate;
 
         private BottleLineRendererController _bottleLineRendererController;
-
-        private float _directionMultiplier = 1;
+        private BottleFindRotationPointAndDirection _bottleFindRotationPointAndDirection;
 
         public Vector3 OriginalPosition { get; set; }
-        private Vector3 _movePosition;
-
-        private Camera _camera;
 
         private BoxCollider2D _boxCollider2D;
 
         private GameManager _gm;
 
         private FillAndRotationValues _fillAndRotationValues;
-
-
+        
         private void Awake()
         {
             _bottleLineRendererController = GetComponent<BottleLineRendererController>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
-            _camera = Camera.main;
             _fillAndRotationValues = FillAndRotationValues.Instance;
+            _bottleFindRotationPointAndDirection = GetComponent<BottleFindRotationPointAndDirection>();
         }
 
         private void Start()
@@ -71,65 +62,10 @@ namespace BottleCodes.Animation
             _selectedTween = transform.DOMove(OriginalPosition, .25f);
         }
 
-        public void ChoseRotationPointAndDirection(BottleController bottleControllerRef)
-        {
-            var minBottleDistanceToCorner = 1f;
-
-            var leftOfScreen = _camera.ViewportToWorldPoint(Vector3.zero).x;
-            var rightOfScreen = _camera.ViewportToWorldPoint(Vector3.one).x;
-
-            var bottleRefPosition = bottleControllerRef.transform.position;
-            var distanceToLeft = Mathf.Abs(bottleRefPosition.x - leftOfScreen);
-            var distanceToRight = Mathf.Abs(bottleRefPosition.x - rightOfScreen);
-
-            if (transform.position.x > bottleRefPosition.x)
-            {
-                if (minBottleDistanceToCorner >= distanceToRight)
-                {
-                    _chosenRotationPoint = RightRotationPoint;
-                    _directionMultiplier = -1;
-                }
-                else
-                {
-                    _chosenRotationPoint = LeftRotationPoint;
-                    _directionMultiplier = 1;
-                }
-            }
-            else
-            {
-                if (minBottleDistanceToCorner >= distanceToLeft)
-                {
-                    _chosenRotationPoint = LeftRotationPoint;
-                    _directionMultiplier = 1;
-                }
-                else
-                {
-                    _chosenRotationPoint = RightRotationPoint;
-                    _directionMultiplier = -1;
-                }
-            }
-        }
 
         public void DisableCollider()
         {
             _boxCollider2D.enabled = false;
-        }
-
-        public void ChoseMovePosition(BottleTransferController bottleTransferController)
-        {
-            var bottleRef = bottleTransferController.BottleControllerRef;
-
-            // if chosen position is left go right
-            if (_chosenRotationPoint == LeftRotationPoint)
-            {
-                _movePosition = bottleRef.BottleAnimationController.RightRotationPoint.position;
-                _movePosition.x += BottlePouringDistanceIncreasor;
-            }
-            else // if chose position is right go left
-            {
-                _movePosition = bottleRef.BottleAnimationController.LeftRotationPoint.position;
-                _movePosition.x -= BottlePouringDistanceIncreasor;
-            }
         }
 
 
@@ -151,22 +87,23 @@ namespace BottleCodes.Animation
 
             #region Move
 
-            _moveTween = transform.DOMove(_movePosition, MoveBottleDuration).OnStart(() =>
-            {
-                _selectedTween?.Kill();
-                bottleTransferController.BottleColorController.UpdateTopColorValues(bottleTransferController
-                    .BottleData);
+            _moveTween = transform.DOMove(_bottleFindRotationPointAndDirection.MovePosition, MoveBottleDuration)
+                .OnStart(() =>
+                {
+                    _selectedTween?.Kill();
+                    bottleTransferController.BottleColorController.UpdateTopColorValues(bottleTransferController
+                        .BottleData);
 
-                bottleData.UpdatePreviousTopColor();
-            }).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
-            {
-                bottleAnimationSpeedUp.CheckSpeedUp(_moveTween);
-                bottleTransferController.BottleControllerRef.BottleAnimationController.BottleIsLocked = true;
-            }).OnComplete(() =>
-            {
-                RotateBottle(bottleTransferController, bottleData,
-                    bottleColorController, bottleAnimationSpeedUp, bottleController, beforePourAmount);
-            });
+                    bottleData.UpdatePreviousTopColor();
+                }).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
+                {
+                    bottleAnimationSpeedUp.CheckSpeedUp(_moveTween);
+                    bottleTransferController.BottleControllerRef.BottleAnimationController.BottleIsLocked = true;
+                }).OnComplete(() =>
+                {
+                    RotateBottle(bottleTransferController, bottleData,
+                        bottleColorController, bottleAnimationSpeedUp, bottleController, beforePourAmount);
+                });
 
             #endregion
         }
@@ -180,14 +117,15 @@ namespace BottleCodes.Animation
         {
             float angle = 0;
             float lastAngleValue = 0;
-            var desRot = Vector3.forward * (_directionMultiplier * PreRotateAmount);
+            var desRot = Vector3.forward * (_bottleFindRotationPointAndDirection.DirectionMultiplier * PreRotateAmount);
 
             _preRotate = DOTween.To(() => angle, x => angle = x, desRot.z, PreRotateDuration)
                 .SetEase(Ease.OutQuart).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
                 {
                     bottleAnimationSpeedUp.CheckSpeedUp(_preRotate);
 
-                    transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
+                    transform.RotateAround(_bottleFindRotationPointAndDirection.ChosenRotationPoint.position,
+                        Vector3.forward, angle - lastAngleValue);
 
                     if (fillAndRotationValues.GetFillCurrentAmount(bottleData) > FillAmountCurve.Evaluate(angle))
                     {
@@ -214,7 +152,7 @@ namespace BottleCodes.Animation
             var bottleControllerRef = bottleTransferController.BottleControllerRef;
             var numberOfEmptySpacesInSecondBottle = 4 - beforePourAmount;
             var rotateValue = _fillAndRotationValues.GetRotationValue(bottleData, numberOfEmptySpacesInSecondBottle);
-            var desRot = _directionMultiplier * rotateValue;
+            var desRot = _bottleFindRotationPointAndDirection.DirectionMultiplier * rotateValue;
             var rotationPoint = _fillAndRotationValues.GetFillCurrentAmount(bottleData);
             var lastTransferAmount = bottleTransferController.NumberOfColorsToTransfer;
 
@@ -232,12 +170,14 @@ namespace BottleCodes.Animation
                     bottleAnimationSpeedUp.CheckSpeedUp(_rotateBottle);
 
 
-                    transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
+                    transform.RotateAround(_bottleFindRotationPointAndDirection.ChosenRotationPoint.position,
+                        Vector3.forward, angle - lastAngleValue);
 
 
                     if (rotationPoint > FillAmountCurve.Evaluate(Mathf.Abs(angle)))
                     {
-                        _bottleLineRendererController.SetLineRenderer(_chosenRotationPoint,
+                        _bottleLineRendererController.SetLineRenderer(
+                            _bottleFindRotationPointAndDirection.ChosenRotationPoint,
                             LineRendererPouringDistance);
 
                         bottleColorController.SetFillAmount(FillAmountCurve.Evaluate(Mathf.Abs(angle)));
@@ -312,7 +252,7 @@ namespace BottleCodes.Animation
                     if (noColorInBottle) bottleColorController.SetSARM(2);
                 }).OnUpdate(() =>
                 {
-                    transform.RotateAround(_chosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
+                    transform.RotateAround(_bottleFindRotationPointAndDirection.ChosenRotationPoint.position, Vector3.forward, angle - lastAngleValue);
 
                     lastAngleValue = angle;
 

@@ -9,6 +9,7 @@ namespace BottleCodes
     [RequireComponent(typeof(BottleTransferController))]
     [RequireComponent(typeof(BottleAnimationSpeedUp))]
     [RequireComponent(typeof(BottleSpriteRendererOrderController))]
+    [RequireComponent(typeof(BottleFindRotationPointAndDirection))]
     public class BottleController : MonoBehaviour
     {
         public BottleData BottleData { get; private set; }
@@ -19,19 +20,18 @@ namespace BottleCodes
         public FillAndRotationValues FillAndRotationValues { get; private set; }
         public BottleSpriteRendererOrderController BottleSpriteRendererOrderController { get; private set; }
         public SpriteRenderer BottleSpriteRenderer { get; private set; }
+        public BottleFindRotationPointAndDirection BottleFindRotationPointAndDirection { get; private set; }
 
 
-        [Header("Bottle Sprite Renderer")]
-        public SpriteRenderer BottleMaskSR;
-        
+        [Header("Bottle Sprite Renderer")] public SpriteRenderer BottleMaskSR;
+
 
         // Game manager
         private GameManager _gm;
 
 
-
-        [Header("Bottle Helper")]
-        [SerializeField] public Bottle HelperBottle;
+        [Header("Bottle Helper")] [SerializeField]
+        public Bottle HelperBottle;
 
         private void Awake()
         {
@@ -41,9 +41,10 @@ namespace BottleCodes
             BottleTransferController = GetComponent<BottleTransferController>();
             BottleAnimationSpeedUp = GetComponent<BottleAnimationSpeedUp>();
             BottleSpriteRendererOrderController = GetComponent<BottleSpriteRendererOrderController>();
-            FillAndRotationValues = FillAndRotationValues.Instance;
-
+            BottleFindRotationPointAndDirection = GetComponent<BottleFindRotationPointAndDirection>();
             BottleSpriteRenderer = GetComponent<SpriteRenderer>();
+
+            FillAndRotationValues = FillAndRotationValues.Instance;
         }
 
         private void Start()
@@ -74,7 +75,8 @@ namespace BottleCodes
             AddActionBottleToActionBottleList();
 
             // chose rotation point and direction
-            BottleAnimationController.ChoseRotationPointAndDirection(BottleTransferController.BottleControllerRef);
+            BottleFindRotationPointAndDirection.ChoseRotationPointAndDirection(BottleTransferController
+                .BottleControllerRef);
 
             var bottleControllerRef = BottleTransferController.BottleControllerRef;
             var bottleRefData = bottleControllerRef.BottleData;
@@ -91,7 +93,7 @@ namespace BottleCodes
             bottleControllerRef.BottleColorController.UpdateColorsOnShader(bottleRefData);
 
             // setting render order
-            BottleSpriteRendererOrderController.SetSortingOrder(BottleSpriteRenderer,BottleMaskSR);
+            BottleSpriteRendererOrderController.SetSortingOrder(BottleSpriteRenderer, BottleMaskSR);
 
             // call move bottle
             MoveBottle();
@@ -108,7 +110,7 @@ namespace BottleCodes
         private void MoveBottle()
         {
             BottleAnimationController.DisableCollider();
-            BottleAnimationController.ChoseMovePosition(BottleTransferController);
+            BottleFindRotationPointAndDirection.ChoseMovePosition(BottleTransferController);
 
             BottleAnimationController.PlayMoveTween(BottleTransferController, BottleData,
                 BottleColorController, BottleAnimationSpeedUp, this);

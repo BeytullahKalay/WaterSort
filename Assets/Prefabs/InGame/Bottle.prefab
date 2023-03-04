@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 6975628642237621519}
   - component: {fileID: 4055861892609307051}
   - component: {fileID: 9169732321464734842}
+  - component: {fileID: 7839767410659580956}
+  - component: {fileID: 6385917982999685057}
   m_Layer: 0
   m_Name: Bottle
   m_TagString: Untagged
@@ -287,8 +289,6 @@ MonoBehaviour:
   PreRotateDuration: 0.25
   PreRotateAmount: 15
   BottlePouringDistanceIncreasor: 0.2
-  LeftRotationPoint: {fileID: 5515774977493658201}
-  RightRotationPoint: {fileID: 5515774978242214548}
   BottleIsLocked: 0
 --- !u!114 &6975628642237621519
 MonoBehaviour:
@@ -330,6 +330,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1a0dca865efca4f9c43433ac7a9593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7839767410659580956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515774976861772799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e78316e51d2a564e93c73f11a0dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6385917982999685057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515774976861772799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff757062c887ab48be3ac6d33712bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BottlePouringDistanceIncreasor: 0.2
+  LeftRotationPoint: {fileID: 5515774977493658201}
+  RightRotationPoint: {fileID: 5515774978242214548}
+  MovePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &5515774977336827027
 GameObject:
   m_ObjectHideFlags: 0
