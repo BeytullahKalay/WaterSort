@@ -117,13 +117,12 @@ namespace BottleCodes
 
         private void PreRotateBottle()
         {
-            BottleAnimationController.PlayPreRotateTween(BottleColorController, BottleAnimationSpeedUp,
-                FillAndRotationValues, BottleData);
+            BottleAnimationController.PlayPreRotateTween();
         }
 
         public void SetOriginalPositionTo(Vector3 position)
         {
-            BottleAnimationController.OriginalPosition = position;
+            BottleAnimationController.SetOriginalPosition(position);
         }
     }
 }

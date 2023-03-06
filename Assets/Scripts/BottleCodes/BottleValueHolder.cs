@@ -25,7 +25,7 @@ namespace BottleCodes
         public BottleTransferController BottleTransferController { get; private set; }
         public BottleSpriteRendererOrderController BottleSpriteRendererOrderController { get; private set; }
         public Tween SelectedTween { get; set; }
-        public Vector3 OriginalPosition { get; private set; }
+        public Vector3 OriginalPosition { get; set; }
         
         private void Awake()
         {

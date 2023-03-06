@@ -541,8 +541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2155e415a46c5824b94571ab741847e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _preRotateAmount: 0.25
-  _preRotateDuration: 15
+  _preRotateAmount: 15
+  _preRotateDuration: 0.25
 --- !u!1 &1576752062264768502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,8 +1388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2155e415a46c5824b94571ab741847e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _preRotateAmount: 0.25
-  _preRotateDuration: 15
+  _preRotateAmount: 15
+  _preRotateDuration: 0.25
 --- !u!1 &7522217797141358304
 GameObject:
   m_ObjectHideFlags: 0

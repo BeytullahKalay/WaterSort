@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -21,7 +19,7 @@ namespace BottleCodes.Animation
         }
 
 
-        public async Task SpeedUpActions(BottleData bottleData, List<Tween> tweens)
+        public async Task SpeedUpActions(BottleData bottleData)
         {
             var actionBottles = bottleData.ActionBottles;
 
@@ -29,38 +27,22 @@ namespace BottleCodes.Animation
 
             for (var i = 0; i < actionBottles.Count; i++)
             {
-                tasks[i] = actionBottles[i].BottleAnimationSpeedUp
-                    .SpeedUp(tweens);
+                tasks[i] = actionBottles[i].BottleAnimationSpeedUp.SpeedUp();
             }
 
             await Task.WhenAll(tasks);
-
-            SetSpeedToNormalSpeed(tweens);
             
             SetOnSpeedUpToFalse();
         }
 
 
-        private async Task SpeedUp(List<Tween> tweens)
+        private async Task SpeedUp()
         {
             OnSpeedUp = true;
 
             while (OnSpeedUp)
             {
-                foreach (var tween in tweens.Where(tween => tween != null))
-                {
-                    tween.timeScale = speedMultiplier;
-                }
-
                 await Task.Yield();
-            }
-        }
-
-        private void SetSpeedToNormalSpeed(List<Tween> tweens)
-        {
-            foreach (var tween in tweens.Where(tween => tween != null))
-            {
-                tween.timeScale = 1f;
             }
         }
 

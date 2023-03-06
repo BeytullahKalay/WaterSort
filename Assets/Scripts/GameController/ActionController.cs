@@ -45,11 +45,9 @@ public class ActionController : MonoBehaviour
         if (FirstBottle == null)
         {
             if (bottleController.IsBottleEmpty()) return;
-
-            var tweens = bottleController.BottleAnimationController.GetAnimationTweens();
-
+            
             if (bottleController.BottleAnimationController.BottleIsLocked)
-                await bottleController.BottleAnimationSpeedUp.SpeedUpActions(bottleController.BottleData, tweens);
+                await bottleController.BottleAnimationSpeedUp.SpeedUpActions(bottleController.BottleData);
 
             FirstBottle = bottleController;
             FirstBottle.BottleAnimationController.OnSelected();

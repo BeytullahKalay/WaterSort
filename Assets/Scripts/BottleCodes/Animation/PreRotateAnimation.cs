@@ -37,7 +37,7 @@ namespace BottleCodes.Animation
                 .SetEase(Ease.OutQuart).SetUpdate(UpdateType.Fixed, true).OnUpdate(() =>
                 {
                     _bottleValueHolder.BottleAnimationSpeedUp.CheckSpeedUp(_preRotate);
-
+                    
                     transform.RotateAround(
                         _bottleValueHolder.BottleFindRotationPointAndDirection.ChosenRotationPoint.position,
                         Vector3.forward, angle - lastAngleValue);

@@ -15,7 +15,6 @@ namespace BottleCodes.Animation
 
         private GameManager _gm;
         
-        private Vector3 _startPosition;
 
 
         private void Awake()
@@ -26,14 +25,9 @@ namespace BottleCodes.Animation
             _boxCollider2D = GetComponent<BoxCollider2D>();
         }
 
-        private void Start()
-        {
-            _startPosition = transform.position;
-        }
-
         public void RotateBottleBackAndMoveOriginalPosition(int lastTransferAmount)
         {
-            transform.DOMove(_startPosition, moveBottleDuration).OnStart(() =>
+            transform.DOMove(_bottleValueHolder.OriginalPosition, moveBottleDuration).OnStart(() =>
             {
                 _bottleValueHolder.BottleAnimationSpeedUp.OnSpeedUp = false;
 
