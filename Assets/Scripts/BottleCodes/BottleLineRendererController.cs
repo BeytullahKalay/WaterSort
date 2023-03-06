@@ -4,13 +4,16 @@ namespace BottleCodes
 {
     public class BottleLineRendererController : MonoBehaviour
     {
+        [SerializeField] private float _lineRendererPouringDistance = 1f;
         private LineRenderer _lineRenderer;
         private GameManager _gm;
 
+        public float LineRendererPouringDistance { get; private set; }
+
         private void Start()
         {
+            LineRendererPouringDistance = _lineRendererPouringDistance;
             _gm = GameManager.Instance;
-
         }
 
         public void InitializeLineRenderer(BottleData bottleData)
@@ -24,8 +27,8 @@ namespace BottleCodes
         {
             _gm.ReleaseLineRenderer(_lineRenderer);
         }
-        
-        public void SetLineRenderer(Transform chosenRotationPoint,float lineRendererPouringDistance)
+
+        public void SetLineRenderer(Transform chosenRotationPoint, float lineRendererPouringDistance)
         {
             if (_lineRenderer.enabled) return;
 

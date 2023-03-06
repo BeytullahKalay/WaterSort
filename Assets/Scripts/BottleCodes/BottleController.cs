@@ -96,7 +96,7 @@ namespace BottleCodes
             BottleSpriteRendererOrderController.SetSortingOrder(BottleSpriteRenderer, BottleMaskSR);
 
             // call move bottle
-            MoveBottle();
+            StartAnimationChain();
 
             // call pre rotate bottle
             PreRotateBottle();
@@ -107,13 +107,12 @@ namespace BottleCodes
             _gm.InActionBottleList.Add(this);
         }
 
-        private void MoveBottle()
+        private void StartAnimationChain()
         {
             BottleAnimationController.DisableCollider();
             BottleFindRotationPointAndDirection.ChoseMovePosition(BottleTransferController);
 
-            BottleAnimationController.PlayMoveTween(BottleTransferController, BottleData,
-                BottleColorController, BottleAnimationSpeedUp, this);
+            BottleAnimationController.StartAnimationChain();
         }
 
         private void PreRotateBottle()

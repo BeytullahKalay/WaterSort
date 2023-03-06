@@ -4,6 +4,11 @@ namespace BottleCodes
 {
     public class FillAndRotationValues : MonoSingleton<FillAndRotationValues>
     {
+        [Header("Animation Curves")]
+        public AnimationCurve ScaleAndRotationMultiplierCurve;
+        public AnimationCurve FillAmountCurve;
+        
+        [Header("Values")]
         [SerializeField] public float[] FillAmounts;
         [SerializeField] public float[] RotationValues;
 

@@ -55,16 +55,21 @@ namespace LevelScripts
             _levelBottlesAligner.Line1.transform.parent.position = Vector3.zero;
 
 
-            for (int i = 0; i < bottleControllerList.Count; i++)
+            for (var i = 0; i < bottleControllerList.Count; i++)
             {
                 // New parenting
                 bottleControllerList[i].transform.SetParent(null);
                 bottleControllerList[i].HelperBottle.ParentNum = FindParent(bottleControllerList.Count, i);
 
-                if (bottleControllerList[i].HelperBottle.ParentNum == 0)
-                    bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line1.transform);
-                else if (bottleControllerList[i].HelperBottle.ParentNum == 1)
-                    bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line2.transform);
+                switch (bottleControllerList[i].HelperBottle.ParentNum)
+                {
+                    case 0:
+                        bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line1.transform);
+                        break;
+                    case 1:
+                        bottleControllerList[i].transform.SetParent(_levelBottlesAligner.Line2.transform);
+                        break;
+                }
 
                 // new bottle positioning
                 bottleControllerList[i].transform.position = Vector3.zero;
@@ -77,9 +82,9 @@ namespace LevelScripts
             _levelBottlesAligner.AlignBottles();
 
             // set origin position of bottles
-            for (int i = 0; i < bottleControllerList.Count; i++)
+            foreach (var bottleController in bottleControllerList)
             {
-                bottleControllerList[i].SetOriginalPositionTo(bottleControllerList[i].transform.position);
+                bottleController.SetOriginalPositionTo(bottleController.transform.position);
             }
         }
         
