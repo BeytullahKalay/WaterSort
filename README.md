@@ -13,8 +13,8 @@ generator creating new level.For controlling level generator status i coded leve
 Since all these events take place in another thread, there is no load screen or interruption in the game flow. Dunctions that run on the other thread sometimes needed to be processed in the main thread, so I used [Dispatcher Desing Pattern](https://www.what-could-possibly-go-wrong.com/the-dispatcher-pattern/)
 
 ## In Game GIFs
-![gif1](/GIFs/1.gif)
-![gif2](/GIFs/2.gif)
-![gif3](/GIFs/3.gif)
-![gif4](/GIFs/4.gif)
-![gif5](/GIFs/5.gif)
+![gif1](Assets/GIFs/1.gif)
+![gif2](Assets/GIFs/2.gif)
+![gif3](Assets/GIFs/3.gif)
+![gif4](Assets/GIFs/4.gif)
+![gif5](Assets/GIFs/5.gif)
